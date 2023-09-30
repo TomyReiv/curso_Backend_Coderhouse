@@ -5,7 +5,7 @@
     "description": "Celular 5G",
     "price": 500,
     "thumbnail": "image",
-    "code": "abc0012",
+    "code": "abc2022",
     "stock": 50
   },
   {
@@ -14,16 +14,16 @@
     "description": "Celular 5G",
     "price": 500,
     "thumbnail": "image",
-    "code": "abc00112",
+    "code": "abc2",
     "stock": 50
   },
   {
     "id": 2,
-    "title": "Telefono",
+    "title": "Casa",
     "description": "Celular 5G",
     "price": 500,
     "thumbnail": "image",
-    "code": "abc001122",
+    "code": "abc223",
     "stock": 50
   },
   {
@@ -32,44 +32,7 @@
     "description": "Celular 5G",
     "price": 500,
     "thumbnail": "image",
-    "code": "abc0011122",
-    "stock": 50
-  },
-  {
-    "id": 4,
-    "title": "Telefono",
-    "description": "Celular 5G",
-    "price": 500,
-    "thumbnail": "image",
-    "code": "abc00152",
-    "stock": 50
-  },
-  {
-    "id": 5,
-    "title": "Telefono",
-    "description": "Celular 5G",
-    "price": 500,
-    "thumbnail": "image",
-    "code": "abc222",
-    "stock": 50
-  },
-  {
-    "id": 6,
-    "title": "Telefono",
-    "description": "Celular 5G",
-    "price": 500,
-    "thumbnail": "image",
-    "code": "abc2222",
-    "stock": 50
-  },
-  null,
-  {
-    "id": 7,
-    "title": "Telefono",
-    "description": "Celular 5G",
-    "price": 500,
-    "thumbnail": "image",
-    "code": "abc2022",
+    "code": "abc223",
     "stock": 50
   }
 ]

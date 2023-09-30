@@ -70,7 +70,7 @@ export class ProductManager {
         code,
         stock,
       };
-      
+
       this.products.push(newProduct);
 
       await this.pushFile()
@@ -151,6 +151,33 @@ export class ProductManager {
       console.log(error);
     }
   }
+
+  // Método para actualizar un producto por ID
+  async updateProduct(id, newData) {
+    try {
+      const fileExists = await this.existFile();
+      const fileContent = await this.readJson();
+
+      const productIndex = this.products.findIndex((product) => product.id === id);
+
+    if (productIndex === -1) {
+      return "Producto no encontrado"; 
+    }
+
+    this.products[productIndex] = {
+      ...this.products[productIndex],
+      ...newData,
+    };
+
+    await this.pushFile();
+
+    return "Producto actualizado exitosamente";
+    } catch (error) {
+      console.log('Error de actualizacion', error);
+    }
+    
+  }
+
 }
 
 const productManager = new ProductManager();

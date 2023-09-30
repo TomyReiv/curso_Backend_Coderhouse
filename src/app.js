@@ -54,6 +54,13 @@ app.delete("/:id", async (req, res) => {
   res.send(await productManager.daleteProductById(parseInt(id)));
 });
 
+app.put('/products/:id', async (req, res) => {
+  const productId = parseInt(req.params.id);
+  const newData = req.body;
+
+  res.status(201).json(await productManager.updateProduct(productId, newData));
+});
+
 app.listen(8080, () => {
   console.log("Server is running");
 });
