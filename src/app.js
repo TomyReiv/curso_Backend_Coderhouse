@@ -49,7 +49,7 @@ app.post("/products", async (req, res) => {
     );
 });
 
-app.get("/delete/:id", async (req, res) => {
+app.delete("/:id", async (req, res) => {
   const { id } = req.params;
   res.send(await productManager.daleteProductById(parseInt(id)));
 });
