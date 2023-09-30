@@ -31,7 +31,7 @@ export class ProductManager {
       // Elimina los elementos null de la matriz parsedProducts
       this.products = this.removeNulls(parsedProducts);
     } catch (error) {
-      console.log("El archivo no existe", error);
+      console.log("File not exist", error);
     }
   }
 
@@ -75,8 +75,8 @@ export class ProductManager {
 
       await this.pushFile()
         .then(() => {
-          console.log("Producto cargado exitosamente");
-          return "Producto cargado exitosamente";
+          console.log("Product was upload");
+          return "Product was upload";
         })
         .catch(() => {
           console.log(error);
@@ -92,7 +92,7 @@ export class ProductManager {
       const fileContent = await this.readJson();
 
       if (!fileExists) {
-        console.log("El archivo no existe.");
+        console.log("File not exist.");
         return [];
       }
       if (!isNaN(limit)) {
@@ -102,7 +102,7 @@ export class ProductManager {
         return this.products;
       }
     } catch (error) {
-      console.log("El archivo no existe", error);
+      console.log("File not exist.", error);
     }
   }
 
@@ -114,7 +114,7 @@ export class ProductManager {
       const fileContent = await this.readJson();
 
       if (!fileExists) {
-        console.log("El archivo no existe.");
+        console.log("File not exist.");
         return [];
       }
 
@@ -125,7 +125,7 @@ export class ProductManager {
         return "Not found";
       }
     } catch (error) {
-      console.log("El archivo no existe", error);
+      console.log("Not found", error);
     }
   }
 
@@ -161,7 +161,7 @@ export class ProductManager {
       const productIndex = this.products.findIndex((product) => product.id === id);
 
     if (productIndex === -1) {
-      return "Producto no encontrado"; 
+      return "Product not found"; 
     }
 
     this.products[productIndex] = {
@@ -171,9 +171,9 @@ export class ProductManager {
 
     await this.pushFile();
 
-    return "Producto actualizado exitosamente";
+    return "Product upgrated";
     } catch (error) {
-      console.log('Error de actualizacion', error);
+      console.log('Sistem error', error);
     }
     
   }
