@@ -1,137 +1,75 @@
 [
   {
+    "id": 0,
+    "title": "Telefono",
+    "description": "Celular 5G",
+    "price": 500,
+    "thumbnail": "image",
+    "code": "abc0012",
+    "stock": 50
+  },
+  {
     "id": 1,
-    "title": "producto prueba",
-    "description": "Este es un producto prueba",
-    "price": 200,
-    "thumbnail": "Sin imagen",
-    "code": "abc1230",
-    "stock": 25
+    "title": "Telefono",
+    "description": "Celular 5G",
+    "price": 500,
+    "thumbnail": "image",
+    "code": "abc00112",
+    "stock": 50
   },
   {
     "id": 2,
-    "title": "producto prueba",
-    "description": "Este es un producto prueba",
-    "price": 200,
-    "thumbnail": "Sin imagen",
-    "code": "abc1231",
-    "stock": 25
+    "title": "Telefono",
+    "description": "Celular 5G",
+    "price": 500,
+    "thumbnail": "image",
+    "code": "abc001122",
+    "stock": 50
   },
   {
     "id": 3,
-    "title": "producto prueba",
-    "description": "Este es un producto prueba",
-    "price": 200,
-    "thumbnail": "Sin imagen",
-    "code": "abc1232",
-    "stock": 25
+    "title": "Telefono",
+    "description": "Celular 5G",
+    "price": 500,
+    "thumbnail": "image",
+    "code": "abc0011122",
+    "stock": 50
   },
   {
     "id": 4,
-    "title": "producto prueba",
-    "description": "Este es un producto prueba",
-    "price": 200,
-    "thumbnail": "Sin imagen",
-    "code": "abc1233",
-    "stock": 25
+    "title": "Telefono",
+    "description": "Celular 5G",
+    "price": 500,
+    "thumbnail": "image",
+    "code": "abc00152",
+    "stock": 50
   },
   {
     "id": 5,
-    "title": "producto prueba",
-    "description": "Este es un producto prueba",
-    "price": 200,
-    "thumbnail": "Sin imagen",
-    "code": "abc1234",
-    "stock": 25
+    "title": "Telefono",
+    "description": "Celular 5G",
+    "price": 500,
+    "thumbnail": "image",
+    "code": "abc222",
+    "stock": 50
   },
   {
     "id": 6,
-    "title": "producto prueba",
-    "description": "Este es un producto prueba",
-    "price": 200,
-    "thumbnail": "Sin imagen",
-    "code": "abc1235",
-    "stock": 25
+    "title": "Telefono",
+    "description": "Celular 5G",
+    "price": 500,
+    "thumbnail": "image",
+    "code": "abc2222",
+    "stock": 50
   },
+  null,
   {
     "id": 7,
-    "title": "producto prueba",
-    "description": "Este es un producto prueba",
-    "price": 200,
-    "thumbnail": "Sin imagen",
-    "code": "abc1236",
-    "stock": 25
-  },
-  {
-    "id": 8,
-    "title": "producto prueba",
-    "description": "Este es un producto prueba",
-    "price": 200,
-    "thumbnail": "Sin imagen",
-    "code": "abc1237",
-    "stock": 25
-  },
-  {
-    "id": 9,
-    "title": "producto prueba",
-    "description": "Este es un producto prueba",
-    "price": 200,
-    "thumbnail": "Sin imagen",
-    "code": "abc1238",
-    "stock": 25
-  },
-  {
-    "id": 10,
-    "title": "producto prueba",
-    "description": "Este es un producto prueba",
-    "price": 200,
-    "thumbnail": "Sin imagen",
-    "code": "abc1239",
-    "stock": 25
-  },
-  {
-    "id": 11,
-    "title": "producto prueba",
-    "description": "Este es un producto prueba",
-    "price": 200,
-    "thumbnail": "Sin imagen",
-    "code": "abc12310",
-    "stock": 25
-  },
-  {
-    "id": 12,
-    "title": "producto prueba",
-    "description": "Este es un producto prueba",
-    "price": 200,
-    "thumbnail": "Sin imagen",
-    "code": "abc12311",
-    "stock": 25
-  },
-  {
-    "id": 13,
-    "title": "producto prueba",
-    "description": "Este es un producto prueba",
-    "price": 200,
-    "thumbnail": "Sin imagen",
-    "code": "abc12312",
-    "stock": 25
-  },
-  {
-    "id": 14,
-    "title": "producto prueba",
-    "description": "Este es un producto prueba",
-    "price": 200,
-    "thumbnail": "Sin imagen",
-    "code": "abc12313",
-    "stock": 25
-  },
-  {
-    "id": 15,
-    "title": "producto prueba",
-    "description": "Este es un producto prueba",
-    "price": 200,
-    "thumbnail": "Sin imagen",
-    "code": "abc12314",
-    "stock": 25
+    "title": "Telefono",
+    "description": "Celular 5G",
+    "price": 500,
+    "thumbnail": "image",
+    "code": "abc2022",
+    "stock": 50
   }
 ]

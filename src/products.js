@@ -1,5 +1,4 @@
-
-import { promises as fs } from 'fs';
+import { promises as fs } from "fs";
 
 export class ProductManager {
   constructor() {
@@ -20,11 +19,17 @@ export class ProductManager {
   }
 
   //Leo el archivo
+  removeNulls(array) {
+    return array.filter((item) => item !== null);
+  }
 
   async readJson() {
     try {
       const fileContent = await fs.readFile(this.path, "utf-8");
-      this.products = JSON.parse(fileContent);
+      const parsedProducts = JSON.parse(fileContent);
+
+      // Elimina los elementos null de la matriz parsedProducts
+      this.products = this.removeNulls(parsedProducts);
     } catch (error) {
       console.log("El archivo no existe", error);
     }
@@ -41,40 +46,42 @@ export class ProductManager {
     }
   }
 
-
   //Metodo de agregar contenido
 
-  addProduct(title, description, price, thumbnail, code, stock) {
+  async addProduct(title, description, price, thumbnail, code, stock) {
+    await this.readJson();
+
     if (!title || !description || !price || !thumbnail || !code || !stock) {
       console.log("All fields are necessary.");
       return "All fields are necessary.";
     }
 
-    if (this.products.some((product) => product.code === code)) {
+    if (this.existFile() && this.products.some((product) => product.code === code)) {
       console.log("Code already exists.");
       return "Code already exists.";
+    } else {
+
+      const newProduct = {
+        id: this.products.length++,
+        title,
+        description,
+        price,
+        thumbnail,
+        code,
+        stock,
+      };
+      
+      this.products.push(newProduct);
+
+      await this.pushFile()
+        .then(() => {
+          console.log("Producto cargado exitosamente");
+          return "Producto cargado exitosamente";
+        })
+        .catch(() => {
+          console.log(error);
+        });
     }
-
-    const newProduct = {
-      id: this.productIdCounter++,
-      title,
-      description,
-      price,
-      thumbnail,
-      code,
-      stock,
-    };
-
-    this.products.push(newProduct);
-
-    this.pushFile()
-      .then(() => {
-        console.log("Producto cargado exitosamente");
-        return "Producto cargado exitosamente";
-      })
-      .catch(() => {
-        console.log(error);
-      });
   }
 
   //Metodo de obtener el contenido
@@ -90,7 +97,7 @@ export class ProductManager {
       }
       if (!isNaN(limit)) {
         const products = this.products.slice(0, limit);
-         return products;
+        return products;
       } else {
         return this.products;
       }
@@ -99,11 +106,10 @@ export class ProductManager {
     }
   }
 
-   //Metodo de obtener el contenido por id
+  //Metodo de obtener el contenido por id
 
   async getProductById(id) {
     try {
-
       const fileExists = await this.existFile();
       const fileContent = await this.readJson();
 
@@ -123,11 +129,11 @@ export class ProductManager {
     }
   }
 
-   //Metodo de eliminar el contenido por id
+  //Metodo de eliminar el contenido por id
 
   async daleteProductById(id) {
     try {
-      const fileContent = await this.readJson()
+      const fileContent = await this.readJson();
       const productIndex = this.products.findIndex(
         (product) => product.id === id
       );
@@ -147,61 +153,4 @@ export class ProductManager {
   }
 }
 
- const productManager = new ProductManager();
-
-
- /*  for (let i = 0; i < 15; i++) {
-  productManager.addProduct(
-    "producto prueba",
-    "Este es un producto prueba",
-    200,
-    "Sin imagen",
-    `abc123${i}`,
-    25
-  );
-}   */
-
-// Ejemplo de uso
-
-/* 
-
-
-
-productManager.addProduct(
-  "producto prueba",
-  "Este es un producto prueba",
-  200,
-  "Sin imagen",
-  "abc124",
-  25
-);
-productManager.addProduct(
-  "producto prueba",
-  "Este es un producto prueba",
-  200,
-  "Sin imagen",
-  "abc125",
-  25
-);
-productManager.addProduct(
-  "producto prueba",
-  "Este es un producto prueba",
-  200,
-  "Sin imagen",
-  "abc126",
-  25
-);
-productManager.addProduct(
-  "producto prueba",
-  "Este es un producto prueba",
-  200,
-  "Sin imagen",
-  "abc127",
-  25
-); */
-/* 
-
-
-productManager.getProductById(2);
-
-productManager.daleteProductById(3); */
+const productManager = new ProductManager();
