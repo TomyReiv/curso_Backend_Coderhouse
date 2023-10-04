@@ -1,38 +1,124 @@
 [
   {
-    "id": 0,
+    "id": "fe02f0f3-bd84-478f-ae5a-2b8604e32c12",
     "title": "Telefono",
-    "description": "Celular 5G",
+    "description": "Celular 4G",
     "price": 500,
     "thumbnail": "image",
-    "code": "abc2022",
+    "code": "abc3333333",
     "stock": 50
   },
   {
-    "id": 1,
+    "id": "99454c54-b9a1-4892-9d0c-80392b0d50ef",
     "title": "Telefono",
-    "description": "Celular 5G",
+    "description": "Celular 4G",
     "price": 500,
     "thumbnail": "image",
-    "code": "abc2",
+    "code": "abc1",
     "stock": 50
   },
   {
-    "id": 2,
-    "title": "Casa",
-    "description": "Celular 5G",
+    "id": "cb55af53-01db-42f7-aba6-ab68f51c6798",
+    "title": "CASA2",
+    "description": "Celular 4G",
     "price": 500,
     "thumbnail": "image",
-    "code": "abc223",
+    "code": "abc12",
     "stock": 50
   },
   {
-    "id": 3,
-    "title": "Helicoptero",
-    "description": "Celular 5G",
+    "id": "cc77b353-d570-42c5-8642-fd2acfc05e67",
+    "title": "Telefono",
+    "description": "Celular 4G",
     "price": 500,
     "thumbnail": "image",
-    "code": "abc223",
+    "code": "abc132",
+    "stock": 50
+  },
+  {
+    "id": "5fe06c1a-80fb-4d60-980d-cda3b51b6a20",
+    "title": "Telefono",
+    "description": "Celular 4G",
+    "price": 500,
+    "thumbnail": [],
+    "code": "abc1332",
+    "stock": 50
+  },
+  {
+    "id": "42af576b-d672-4cb1-bc2a-22ec6b4fbfa9",
+    "title": "Telefono",
+    "description": "Celular 4G",
+    "price": 500,
+    "thumbnail": [
+      "image",
+      "image2"
+    ],
+    "code": "abc13222",
+    "stock": 50
+  },
+  {
+    "id": "6f75be42-77af-4871-971d-755e9cccf019",
+    "title": "Telefono",
+    "description": "Celular 4G",
+    "price": 500,
+    "thumbnail": [
+      "image",
+      "image2"
+    ],
+    "code": "abc130",
+    "status": true,
+    "stock": 50
+  },
+  {
+    "id": "4f27fbdc-81d5-40f8-8f2e-4636afec0597",
+    "title": "Telefono",
+    "description": "Celular 4G",
+    "price": 500,
+    "thumbnail": [
+      "image",
+      "image2"
+    ],
+    "code": "abc123",
+    "status": true,
+    "stock": 50
+  },
+  {
+    "id": "709a4cf5-30f1-4395-9e76-da502ed7bea1",
+    "title": "Telefono",
+    "description": "Celular 4G",
+    "price": 500,
+    "thumbnail": [
+      "image",
+      "image2"
+    ],
+    "code": "abc120",
+    "status": false,
+    "stock": 50
+  },
+  {
+    "id": "77911cf7-a7f5-43db-80de-3d0dd7b30735",
+    "title": "Telefono",
+    "description": "Celular 4G",
+    "price": 500,
+    "thumbnail": [
+      "image",
+      "image2"
+    ],
+    "code": "abc1202",
+    "status": false,
+    "stock": 50
+  },
+  {
+    "id": "0d58a0bf-f207-44a7-88eb-e884686c8690",
+    "title": "Auto",
+    "description": "Celular 4G",
+    "price": 500,
+    "thumbnail": [
+      "image",
+      "image2"
+    ],
+    "code": "abc12022",
+    "status": false,
     "stock": 50
   }
 ]

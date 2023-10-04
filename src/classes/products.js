@@ -1,10 +1,14 @@
 import { promises as fs } from "fs";
+import { v4 as uuidv4 } from 'uuid';
 
-export class ProductManager {
+uuidv4();
+
+
+
+class ProductManager {
   constructor() {
-    this.path = "./info.json";
+    this.path = "src/info.json";
     this.products = [];
-    this.productIdCounter = 1;
   }
 
   //Me aseguro que el archivo exista
@@ -48,7 +52,7 @@ export class ProductManager {
 
   //Metodo de agregar contenido
 
-  async addProduct(title, description, price, thumbnail, code, stock) {
+  async addProduct(title, description, price, thumbnail, code, status, stock) {
     await this.readJson();
 
     if (!title || !description || !price || !thumbnail || !code || !stock) {
@@ -62,12 +66,13 @@ export class ProductManager {
     } else {
 
       const newProduct = {
-        id: this.products.length++,
+        id: uuidv4(),
         title,
         description,
         price,
-        thumbnail,
+        thumbnail: Array.isArray(thumbnail) ? thumbnail : [thumbnail],
         code,
+        status,
         stock,
       };
 
@@ -180,4 +185,5 @@ export class ProductManager {
 
 }
 
-const productManager = new ProductManager();
+export default ProductManager;
+
