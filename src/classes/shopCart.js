@@ -73,16 +73,16 @@ class CartsManager {
       this.cart.push(existingCart);
     }
 
-
+    console.log(existingCart)
     let existingProduct = existingCart.cart.find(
-      (item) => item.pid === product.pid
-    );
+      (item) => item.pid === product);
+    
   
     if (existingProduct) {
       existingProduct.quantity += 1;
     } else {
-      product.quantity = 1;
-      existingCart.cart.push(product);
+      const newProduct = { pid: product, quantity: 1 };
+      existingCart.cart.push(newProduct);
     }
 
     await this.pushFile();

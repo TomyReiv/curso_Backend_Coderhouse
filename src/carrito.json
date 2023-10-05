@@ -56,7 +56,15 @@
     "cart": [
       {
         "pid": "8dc1c5a8-8b66-404e-aa4c-89eaab2de1b4",
+        "quantity": 3
+      },
+      {
+        "pid": "6ce3bcb0-dd50-4d11-8b85-fbd6e0e02073",
         "quantity": 1
+      },
+      {
+        "pid": "0ca5712d-0a9c-413e-ad0b-a051994210e0",
+        "quantity": 2
       }
     ]
   }

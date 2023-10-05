@@ -21,12 +21,11 @@ router.post("/cart", async (req, res) =>{
   }
 })
 
-router.post('/cart/product/:pid', async (req, res) => {
+router.post('/cart/:cid/product/:pid', async (req, res) => {
     try {
-      const pid = req.params;
-      const id = req.query.id;
-
-      const result = await cartManage.addProductToCart(id ?? uuidv4(), pid);
+      const { cid, pid } = req.params;
+      
+      const result = await cartManage.addProductToCart(cid, pid);
 
       res.status(201).json({ message: result });
     } catch (error) {
