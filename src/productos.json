@@ -1,0 +1,156 @@
+[
+  {
+    "id": "3c84a761-b443-4ee6-8d44-a165d34a68ec",
+    "title": "laptop",
+    "description": "Asus",
+    "price": 500,
+    "thumbnail": [
+      "image",
+      "image2"
+    ],
+    "code": "abc122222",
+    "status": false,
+    "stock": 50,
+    "category": "tecnology"
+  },
+  {
+    "id": "cae85c25-c7cb-4c70-bc90-7184e6a02fb4",
+    "title": "laptop",
+    "description": "Asus",
+    "price": 500,
+    "thumbnail": [
+      "image",
+      "image2"
+    ],
+    "code": "1",
+    "status": true,
+    "stock": 50,
+    "category": "tecnology"
+  },
+  {
+    "id": "a13ed6b7-06f8-41a5-85bb-7b6f6e847666",
+    "title": "laptop",
+    "description": "Asus",
+    "price": 500,
+    "thumbnail": [
+      "image",
+      "image2"
+    ],
+    "code": "2",
+    "status": true,
+    "stock": 50,
+    "category": "tecnology"
+  },
+  {
+    "id": "719285ec-8aba-4db0-9bd2-fa42bcb60292",
+    "title": "laptop",
+    "description": "Asus",
+    "price": 500,
+    "thumbnail": [
+      "image",
+      "image2"
+    ],
+    "code": "3",
+    "status": true,
+    "stock": 50,
+    "category": "tecnology"
+  },
+  {
+    "id": "2fd6cdce-b475-4cc6-b802-6f63fa2b8bca",
+    "title": "laptop",
+    "description": "Asus",
+    "price": 500,
+    "thumbnail": [
+      "image",
+      "image2"
+    ],
+    "code": "4",
+    "status": true,
+    "stock": 50,
+    "category": "tecnology"
+  },
+  {
+    "id": "0ca5712d-0a9c-413e-ad0b-a051994210e0",
+    "title": "laptop",
+    "description": "Asus",
+    "price": 500,
+    "thumbnail": [
+      "image",
+      "image2"
+    ],
+    "code": "5",
+    "status": true,
+    "stock": 50,
+    "category": "tecnology"
+  },
+  {
+    "id": "8dc1c5a8-8b66-404e-aa4c-89eaab2de1b4",
+    "title": "laptop",
+    "description": "Asus",
+    "price": 500,
+    "thumbnail": [
+      "image",
+      "image2"
+    ],
+    "code": "6",
+    "status": true,
+    "stock": 50,
+    "category": "tecnology"
+  },
+  {
+    "id": "6ce3bcb0-dd50-4d11-8b85-fbd6e0e02073",
+    "title": "laptop",
+    "description": "Asus",
+    "price": 500,
+    "thumbnail": [
+      "image",
+      "image2"
+    ],
+    "code": "7",
+    "status": true,
+    "stock": 50,
+    "category": "tecnology"
+  },
+  {
+    "id": "2c020c47-ca25-4c1e-b76a-b4233ac5abe7",
+    "title": "laptop",
+    "description": "Asus",
+    "price": 500,
+    "thumbnail": [
+      "image",
+      "image2"
+    ],
+    "code": "8",
+    "status": true,
+    "stock": 50,
+    "category": "tecnology"
+  },
+  {
+    "id": "bc3d1fb3-eecf-4278-abaf-4b1950d10c27",
+    "title": "laptop",
+    "description": "Asus",
+    "price": 500,
+    "thumbnail": [
+      "image",
+      "image2"
+    ],
+    "code": "9",
+    "status": true,
+    "stock": 50,
+    "category": "tecnology"
+  },
+  {
+    "id": "c1089fb8-c67d-4f20-ac9e-596b0fb0b62c",
+    "title": "laptop",
+    "description": "Asus",
+    "price": 500,
+    "thumbnail": [
+      "image",
+      "image2"
+    ],
+    "code": "10",
+    "status": true,
+    "stock": 50,
+    "category": "tecnology"
+  }
+]

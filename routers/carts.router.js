@@ -11,12 +11,10 @@ router.get("/cart/:id", async (req, res) => {
     res.send(await cartManage.getCartById(id));
 });
 
-router.post('/cart', async (req, res) => {
+router.post('/cart/product/:pid', async (req, res) => {
     try {
-      const body = req.body;
+      const pid = req.params;
       const id = req.query.id;
-  
-      const pid = body;
 
 
       const result = await cartManage.addProductToCart(id ?? uuidv4(), pid);

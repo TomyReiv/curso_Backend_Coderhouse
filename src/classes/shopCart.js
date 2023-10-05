@@ -2,7 +2,7 @@ import { promises as fs } from "fs";
 
 class CartsManager {
   constructor() {
-    this.path = "src/cart.json";
+    this.path = "src/carrito.json";
     this.cart = [];
   }
 

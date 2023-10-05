@@ -18,9 +18,9 @@ router.get("/products/:id", async (req, res) => {
 router.post("/products", async (req, res) => {
   const body = req.body;
 
-  const { title, description, price, thumbnail, code, status, stock } = body;
+  const { title, description, price, thumbnail, code, status, stock, category } = body;
 
-  if (!title || !description || !price || !thumbnail || !code || !stock) {
+  if (!title || !description || !price || !category || !code || !stock) {
     console.log("All fields are necessary.");
     return res.status(400).json({ message: "All fields are necessary." });
   }
@@ -33,6 +33,7 @@ router.post("/products", async (req, res) => {
     code,
     status,
     stock,
+    category
   };
   res
     .status(201)
@@ -44,7 +45,8 @@ router.post("/products", async (req, res) => {
         newProduct.thumbnail,
         newProduct.code,
         newProduct.status ?? true,
-        newProduct.stock
+        newProduct.stock,
+        newProduct.category
       )
     );
 });
@@ -57,6 +59,11 @@ router.delete("/products/delete/:id", async (req, res) => {
 router.put("/products/:id", async (req, res) => {
   const productId = req.params.id;
   const newData = req.body;
+
+  if(newData.id){
+    console.log("Id can't by chenged.");
+    return res.status(400).json({ message: "Id can't by chenged." });
+  }
 
   res.status(201).json(await productManager.updateProduct(productId, newData));
 });

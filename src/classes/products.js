@@ -7,7 +7,7 @@ uuidv4();
 
 class ProductManager {
   constructor() {
-    this.path = "src/info.json";
+    this.path = "src/productos.json";
     this.products = [];
   }
 
@@ -52,10 +52,10 @@ class ProductManager {
 
   //Metodo de agregar contenido
 
-  async addProduct(title, description, price, thumbnail, code, status, stock) {
+  async addProduct(title, description, price, thumbnail, code, status, stock, category) {
     await this.readJson();
 
-    if (!title || !description || !price || !thumbnail || !code || !stock) {
+    if (!title || !description || !price || !code || !stock || !category) {
       console.log("All fields are necessary.");
       return "All fields are necessary.";
     }
@@ -74,6 +74,7 @@ class ProductManager {
         code,
         status,
         stock,
+        category
       };
 
       this.products.push(newProduct);
