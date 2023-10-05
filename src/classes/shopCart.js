@@ -38,6 +38,22 @@ class CartsManager {
     }
   }
 
+  async creatCart(id){
+    await this.readJson();
+
+   const existingCart = {
+      id: id,
+      cart: [],
+    };
+    this.cart.push(existingCart);
+
+    await this.pushFile();
+
+    console.log("Cart created");
+    return "Cart created";
+
+  }
+
   //Agregar productos al carro
   async addProductToCart(cardId, product) {
     await this.readJson();
@@ -63,15 +79,12 @@ class CartsManager {
     );
   
     if (existingProduct) {
-      // Si el producto ya existe en el carrito, aumenta la cantidad
       existingProduct.quantity += 1;
     } else {
-      // Si el producto no existe en el carrito, agrégalo con cantidad 1
       product.quantity = 1;
       existingCart.cart.push(product);
     }
 
-    // Actualizar el archivo JSON
     await this.pushFile();
 
     console.log("Product added to cart");

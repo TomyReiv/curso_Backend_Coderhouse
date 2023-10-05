@@ -11,11 +11,20 @@ router.get("/cart/:id", async (req, res) => {
     res.send(await cartManage.getCartById(id));
 });
 
+router.post("/cart", async (req, res) =>{
+  try {
+    const result = await cartManage.creatCart(uuidv4());
+    res.status(201).json({ message: result });
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+})
+
 router.post('/cart/product/:pid', async (req, res) => {
     try {
       const pid = req.params;
       const id = req.query.id;
-
 
       const result = await cartManage.addProductToCart(id ?? uuidv4(), pid);
 
