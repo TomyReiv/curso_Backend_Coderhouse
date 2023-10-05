@@ -65,15 +65,6 @@ class CartsManager {
 
     let existingCart = this.cart.find((cart) => cart.id === cardId);
 
-    if (!existingCart) {
-      existingCart = {
-        id: cardId,
-        cart: [],
-      };
-      this.cart.push(existingCart);
-    }
-
-    console.log(existingCart)
     let existingProduct = existingCart.cart.find(
       (item) => item.pid === product);
     

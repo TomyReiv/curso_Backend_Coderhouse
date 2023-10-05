@@ -48,6 +48,10 @@
       {
         "pid": "8dc1c5a8-8b66-404e-aa4c-89eaab2de1b4",
         "quantity": 1
+      },
+      {
+        "pid": "2fd6cdce-b475-4cc6-b802-6f63fa2b8bca",
+        "quantity": 2
       }
     ]
   },
@@ -64,7 +68,11 @@
       },
       {
         "pid": "0ca5712d-0a9c-413e-ad0b-a051994210e0",
-        "quantity": 2
+        "quantity": 3
+      },
+      {
+        "pid": "2fd6cdce-b475-4cc6-b802-6f63fa2b8bca",
+        "quantity": 1
       }
     ]
   }
