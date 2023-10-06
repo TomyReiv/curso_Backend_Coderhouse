@@ -152,5 +152,19 @@
     "status": true,
     "stock": 50,
     "category": "tecnology"
+  },
+  {
+    "id": "aeccd6f9-466a-45ab-b7f4-561b7e141a7d",
+    "title": "laptop",
+    "description": "Asus",
+    "price": 500,
+    "thumbnail": [
+      "image",
+      "image2"
+    ],
+    "code": "11",
+    "status": true,
+    "stock": 50,
+    "category": "tecnology"
   }
 ]

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import cartsManage from "../src/classes/shopCart.js";
+import cartsManage from "../classes/shopCart.js";
 import { v4 as uuidv4 } from "uuid";
 
 const cartManage = new cartsManage();
