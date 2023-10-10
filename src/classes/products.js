@@ -1,8 +1,10 @@
 import { promises as fs } from "fs";
 import { v4 as uuidv4 } from 'uuid';
+import { utilsManager } from "./utils.js";
 
 uuidv4();
 
+const utils = new utilsManager();
 
 
 class ProductManager {
@@ -11,18 +13,6 @@ class ProductManager {
     this.products = [];
   }
 
-  //Me aseguro que el archivo exista
-
-  async existFile() {
-    try {
-      await fs.access(this.path);
-      return true;
-    } catch (error) {
-      return false;
-    }
-  }
-
-  //Leo el archivo
   removeNulls(array) {
     return array.filter((item) => item !== null);
   }
@@ -39,17 +29,6 @@ class ProductManager {
     }
   }
 
-  //Agrego el contenido
-
-  async pushFile() {
-    try {
-      const newContent = JSON.stringify(this.products, null, 2);
-      await fs.writeFile(this.path, newContent, "utf-8");
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   //Metodo de agregar contenido
 
   async addProduct(title, description, price, thumbnail, code, status, stock, category) {
@@ -60,7 +39,7 @@ class ProductManager {
       return "All fields are necessary.";
     }
 
-    if (this.existFile() && this.products.some((product) => product.code === code)) {
+    if (utils.existFile(this.path) && this.products.some((product) => product.code === code)) {
       console.log("Code already exists.");
       return "Code already exists.";
     } else {
@@ -79,7 +58,7 @@ class ProductManager {
 
       this.products.push(newProduct);
 
-      await this.pushFile()
+      await utils.pushFile(this.path, this.products)
         .then(() => {
           console.log("Product was upload");
           return "Product was upload";
@@ -94,7 +73,7 @@ class ProductManager {
 
   async getProducts(limit) {
     try {
-      const fileExists = await this.existFile();
+      const fileExists = await utils.existFile(this.path);
       const fileContent = await this.readJson();
 
       if (!fileExists) {
@@ -116,7 +95,7 @@ class ProductManager {
 
   async getProductById(id) {
     try {
-      const fileExists = await this.existFile();
+      const fileExists = await utils.existFile(this.path);
       const fileContent = await this.readJson();
 
       if (!fileExists) {
@@ -150,7 +129,7 @@ class ProductManager {
 
       this.products.splice(productIndex, 1);
 
-      await this.pushFile();
+      await utils.pushFile(this.path, this.products)
 
       return `Product with id ${id} has been deleted.`;
     } catch (error) {
@@ -161,7 +140,7 @@ class ProductManager {
   // Método para actualizar un producto por ID
   async updateProduct(id, newData) {
     try {
-      const fileExists = await this.existFile();
+      const fileExists = await utils.existFile(this.path);
       const fileContent = await this.readJson();
 
       const productIndex = this.products.findIndex((product) => product.id === id);
@@ -175,7 +154,7 @@ class ProductManager {
       ...newData,
     };
 
-    await this.pushFile();
+    await utils.pushFile(this.path, this.products)
 
     return "Product upgrated";
     } catch (error) {

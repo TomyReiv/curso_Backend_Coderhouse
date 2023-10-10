@@ -166,5 +166,19 @@
     "status": true,
     "stock": 50,
     "category": "tecnology"
+  },
+  {
+    "id": "831e486a-9c64-4bc6-85e1-a27e03b0b46b",
+    "title": "CASA3",
+    "description": "Asus",
+    "price": 500,
+    "thumbnail": [
+      "image",
+      "image2"
+    ],
+    "code": "111",
+    "status": true,
+    "stock": 50,
+    "category": "tecnology"
   }
 ]
