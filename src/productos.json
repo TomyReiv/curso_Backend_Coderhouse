@@ -169,7 +169,7 @@
   },
   {
     "id": "831e486a-9c64-4bc6-85e1-a27e03b0b46b",
-    "title": "CASA3",
+    "title": "CASA6",
     "description": "Asus",
     "price": 500,
     "thumbnail": [
@@ -180,5 +180,122 @@
     "status": true,
     "stock": 50,
     "category": "tecnology"
+  },
+  {
+    "id": "cff50f83-2777-4d1b-821a-42a91321d29d",
+    "title": "Auto",
+    "description": "Asus",
+    "price": 500,
+    "thumbnail": [
+      "image",
+      "image2"
+    ],
+    "code": "1112",
+    "status": true,
+    "stock": 50,
+    "category": "tecnology"
+  },
+  {
+    "id": "5b6dfde0-9ef8-4fb1-b0bb-e17e60fe8e83",
+    "title": "Auto",
+    "description": "Asus",
+    "price": 500,
+    "thumbnail": [
+      "image",
+      "image2"
+    ],
+    "code": "11122",
+    "status": true,
+    "stock": 50,
+    "category": "tecnology"
+  },
+  {
+    "id": "a42859d6-3d78-4c0e-93ff-57c20e037465",
+    "title": "Auto",
+    "description": "Asus",
+    "price": 500,
+    "thumbnail": [
+      "image",
+      "image2"
+    ],
+    "code": "111222",
+    "status": true,
+    "stock": 50,
+    "category": "tecnology"
+  },
+  {
+    "id": "e0468d7e-b6bd-4227-86a9-127559094cb3",
+    "title": "Auto",
+    "description": "Asus",
+    "price": 500,
+    "thumbnail": [
+      "image",
+      "image2"
+    ],
+    "code": "1112222",
+    "status": true,
+    "stock": 50,
+    "category": "tecnology"
+  },
+  {
+    "id": "0a61f606-e173-4e49-a1bd-6d5517fdb867",
+    "title": "Auto",
+    "description": "Asus",
+    "price": 500,
+    "thumbnail": [
+      "image",
+      "image2"
+    ],
+    "code": "11122222",
+    "status": true,
+    "stock": 50,
+    "category": "tecnology"
+  },
+  {
+    "id": "86c32caf-0685-4d65-ae68-5cb256d02692",
+    "title": "PLaca",
+    "description": "Asus",
+    "price": 500,
+    "thumbnail": [
+      "image",
+      "image2"
+    ],
+    "code": "121122222",
+    "status": true,
+    "stock": 50,
+    "category": "tecnology"
+  },
+  {
+    "id": "05383223-921a-4475-bbe9-f20fb57fa311",
+    "title": "casa",
+    "description": "Una casa",
+    "price": 2,
+    "thumbnail": [
+      "aa22"
+    ],
+    "code": 2,
+    "status": "Inmobiliaria"
+  },
+  {
+    "id": "6a9264c4-29ed-4f6f-a36f-432c50c07040",
+    "title": "casa",
+    "description": "Una casa",
+    "price": 500,
+    "thumbnail": [],
+    "code": "a22",
+    "status": true,
+    "stock": 5,
+    "category": "Inmobiliaria"
+  },
+  {
+    "id": "be741386-d1f1-4b5a-9c49-a25e049492f8",
+    "title": "Asus 4G",
+    "description": "Laptop",
+    "price": 400,
+    "thumbnail": [],
+    "code": "a123",
+    "status": true,
+    "stock": 3,
+    "category": "Tecnologia"
   }
 ]

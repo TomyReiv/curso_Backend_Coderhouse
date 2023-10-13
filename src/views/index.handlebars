@@ -1,0 +1,50 @@
+<form style="padding: 6rem;" id="form">
+
+  <!-- Grid -->
+  <div>
+
+    <!-- Markup example 1: input is inside label -->
+    <label for="title">
+      Nombre del producto
+      <input type="text" id="title" name="title" placeholder="Nombre del producto" required>
+    </label>
+
+    <label for="description">
+      Descripcion
+      <input type="text" id="description" name="description" placeholder="Descripcion" required>
+    </label>
+
+     <label for="price">
+      Precio
+      <input type="number" id="price" name="price" placeholder="Precio" required>
+    </label>
+
+     <label for="code">
+      Codigo
+      <input type="text" id="code" name="code" placeholder="Codigo" required>
+    </label>
+
+    <label for="stock">
+      Stock
+    <input type="number" id="stock" name="stock" placeholder="stock" required>
+
+    <label for="category">
+      Categoria
+    <input type="text" id="category" name="category" placeholder="category" required>
+    </label>
+
+  </div>
+
+
+  <button id="buttom" type="submit">Submit</button>
+
+</form>
+
+<article>
+    <p>Lista de productos:</p>
+    <ul id="productList"></ul>
+</article>
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/index.js"></script>
