@@ -4,7 +4,9 @@ import path from 'path';
 
 import cartRouter from "./routers/carts.router.js";
 import indexRouter from "./routers/index.router.js"
-import productRouter from "./routers/products.router.js";
+/* import productRouter from "./routers/products.router.js"; */
+import userRouter from "./routers/user.router.js";
+import productRouter from "./routers/productsDb.router.js";
 import { __dirname } from "./dirname.js";
 
 
@@ -19,7 +21,7 @@ app.set("view engine",'handlebars');
 
 
 app.use('/', indexRouter);
-app.use('/api', productRouter, cartRouter);
+app.use('/api', productRouter, cartRouter, userRouter);
 
 
 export default app;

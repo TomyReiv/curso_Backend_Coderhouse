@@ -3,6 +3,9 @@ import { Server } from "socket.io";
 import ProductManager from "./classes/products.js";
 
 import app from "./app.js";
+import { init } from "./db/mongodb.js";
+
+await init ();
 
 const productManager = new ProductManager();
 
