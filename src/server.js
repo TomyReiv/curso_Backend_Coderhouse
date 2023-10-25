@@ -4,12 +4,13 @@ import ProductManager from "./classes/products.js";
 
 import app from "./app.js";
 import { init } from "./db/mongodb.js";
+import productModel from "./models/product.model.js";
 
 await init ();
 
 const productManager = new ProductManager();
 
-const product = await productManager.getProducts();
+const product = await productModel.find();
 
 const serverHttp = http.createServer(app);
 const serverSocket = new Server(serverHttp);
@@ -29,16 +30,16 @@ serverSocket.on("connection", (socketClient) => {
     try {
       const product = JSON.parse(productJSON);
       const thumbnail = [];
-      const result = await productManager.addProduct(
-        product.title,
-        product.description,
-        product.price,
-        thumbnail,
-        product.code,
-        product.status,
-        product.stock,
-        product.category
-      );
+      const result = await productModel.create({
+        title:product.title,
+        description:product.description,
+        price:product.price,
+        thumbnail:thumbnail,
+        code:product.code,
+        status:product.status,
+        stock:product.stock,
+        category:product.category,
+      });
     } catch (error) {
       console.log(error);
     }

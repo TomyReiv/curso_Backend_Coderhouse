@@ -17,7 +17,7 @@
       description: description,
       price: parseFloat(price),
       code: code,
-      status: true,
+      status: "active",
       stock: parseFloat(stock),
       category: category,
     };
