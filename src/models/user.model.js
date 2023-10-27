@@ -1,6 +1,7 @@
 import { Schema } from "mongoose";
 import mongoose from "mongoose";
 
+
 const address = new Schema({
     street: {type: String, require: true},
     city: { type: String, required: true },

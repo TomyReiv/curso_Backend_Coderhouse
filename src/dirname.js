@@ -4,3 +4,10 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 
 export const __dirname = path.dirname(__filename);
+
+export default class Exception extends Error {
+    constructor(message, status) {
+        super(message);
+        this.statusCode = status;
+    }
+}
