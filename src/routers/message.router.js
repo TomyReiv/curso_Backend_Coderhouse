@@ -1,52 +1,52 @@
 import { Router } from "express";
-import productManager from "../dao/productManager.js";
+import messageManager from "../dao/messageManager.js";
 
 const router = Router();
 
-router.get("/products", async (req, res) => {
+router.get("/message", async (req, res) => {
   const { query = {} } = req;
-  const product = await productManager.get(query);
+  const product = await messageManager.get(query);
   res.status(200).json(product);
 });
 
-router.get("/products/:pid", async (req, res) => {
+router.get("/message/:cid", async (req, res) => {
   try {
-    const { pid } = req.params;
-    const product = await productManager.getById({ _id: pid });
-    if (!product) {
+    const { cid } = req.params;
+    const message = await messageManager.getById({ _id: cid });
+    if (!message) {
       return res.status(404).json({ message: "No user found" });
     }
-    res.status(200).json(product);
+    res.status(200).json(message);
   } catch (error) {
     res.status(error.statusCode || 500).json({ message: error.message });
   }
 });
 
-router.post("/products", async (req, res) => {
+router.post("/message", async (req, res) => {
   try {
     const { body } = req;
-    const result = await productManager.createProduct(body);
+    const result = await messageManager.create(body);
     res.status(201).json(result);
   } catch (error) {
     res.status(error.statusCode || 500).json({ message: error.message });
   }
 });
 
-router.put("/products/pid", async (req, res) => {
+router.put("/message/cid", async (req, res) => {
   try {
-    const { pid } = req.params;
+    const { cid } = req.params;
     const { body } = req;
-    const result = await productManager.updateById(pid, body);
+    const result = await messageManager.updateById(cid, body);
     res.status(201).json(result);
   } catch (error) {
     res.status(error.statusCode || 500).json({ message: error.message });
   }
 });
 
-router.delete("/products/:pid", async (req, res) => {
+router.delete("/message/:cid", async (req, res) => {
   try {
-    const { pid } = req.params;
-    const result = await productManager.deleteById(pid);
+    const { cid } = req.params;
+    const result = await messageManager.deleteById(cid);
     res.status(200).json(result);
   } catch (error) {
     res.status(error.statusCode || 500).json({ message: error.message });

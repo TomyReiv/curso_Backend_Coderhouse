@@ -3,17 +3,17 @@ import mongoose from "mongoose";
 
 
 const address = new Schema({
-    street: {type: String, require: true},
-    city: { type: String, required: true },
-    country: { type: String, required: true }
+    street: {type: String, required: true},
+    city: { type: String, requiredd: true },
+    country: { type: String, requiredd: true }
 });
 
 const userSchema = new Schema({
-    username: { type: String, require: true },
-    lastname: { type: String, require: true },
-    password: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    address: { type: address, required: true },
+    username: { type: String, required: true },
+    lastname: { type: String, required: true },
+    password: { type: String, requiredd: true },
+    email: { type: String, requiredd: true, unique: true },
+    address: { type: address, requiredd: true },
     status: { type: String, default: 'active', enum: ['active', 'inactive'] }
 }, {timestamps: true});
 
