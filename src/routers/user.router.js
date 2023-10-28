@@ -40,6 +40,31 @@ router.post("/users", async (req, res) => {
   }
 });
 
+router.post("/users/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await userManager.findUserByEmail(email);
+
+    if (!user) {
+      res.status(401).json({ message: "Nombre de usuario incorrecto" });
+      return;
+    }
+
+    const passwordMatch = bcrypt.compareSync(password, user.password);
+
+    if (!passwordMatch) {
+      res.status(401).json({ message: "Contraseña incorrecta" });
+      return;
+    }
+
+    res.status(200).json({ message: "Inicio de sesión exitoso" });
+  } catch (error) {
+    res.status(error.statusCode || 500).json({ message: error.message });
+  }
+});
+
+
 router.put("/users/uid", async (req, res) => {
   try {
     const { uid } = req.params;

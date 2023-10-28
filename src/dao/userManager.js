@@ -22,6 +22,11 @@ export default class userManager {
     console.log('Usuario creado');
     return user;
   }
+  static async findUserByEmail(email){
+    const user = await userModel.findOne({email});
+    if(!user) {throw new Exception ('No existe el usuario', 404)}
+    return user;
+  }
   static async updateById(uid, data) {
     const user = await userModel.findById(uid);
     if (!user) throw new Exception("El usuario no existe", 404);
