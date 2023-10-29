@@ -40,6 +40,18 @@
 
 </form>
 
+ <button id="open-dialog-button">Diálogo</button>
+  <div id="dialog" class="hidden">
+    <div id="dialog-content">
+      <button id="close-dialog-button">X</button>
+      <form id="formDialog">
+        <input type="button" id="message" value="Necesito ayuda">
+        <input type="submit" value="Enviar">
+      </form>
+    </div>
+    <div id="logMessage"></div>
+  </div>
+
 <article>
     <p>Lista de productos:</p>
     <ul id="productList"></ul>

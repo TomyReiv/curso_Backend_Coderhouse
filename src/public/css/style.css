@@ -1,0 +1,51 @@
+#open-dialog-button {
+  position: fixed;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  box-shadow: 10px 10px 19px 0px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 10px 10px 19px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 10px 10px 19px 0px rgba(0, 0, 0, 0.75);
+}
+
+#dialog {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  background-color: #01001d;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  max-height: 30rem;
+}
+
+p{
+  color: black;
+}
+
+#close-dialog-button {
+  border: none;
+  cursor: pointer;
+  width: 1rem;
+  height: 1rem;
+  text-align: center;
+  background-color: inherit;
+  color: #007bff;
+  padding: 0;
+}
+
+#dialog-content {
+  text-align: center;
+}
+
+.hidden {
+  display: none;
+}

@@ -1,25 +1,58 @@
-import { Server } from 'socket.io';
+import { Server } from "socket.io";
+import productModel from "./models/product.model.js";
+import messageManager from "./dao/messageManager.js";
 
 let io;
 
-let messages = [];
+export const initSocket = async (httpServer) => {
 
-export const init = (httpServer) =>{
-    io = new Server(httpServer);
+  const messages = await messageManager.get();
 
-    io.on('connection', (socketClient)=>{
-        console.log(`Socket conectado: ${socketClient.id}`);
+  io = new Server(httpServer);
 
-        socketClient.emit('notification', {messages});
-        socketClient.on('new-message', (data)=>{
-            const {username, text} = data;
-            messages.push({username, text});
-            io.emit('notification', {messages})
-        });
+  const product = await productModel.find();
 
-        socketClient.broadcast.emit('new-client');
+  io.on("connection", (socketClient) => {
+    console.log(`Socket conectado: ${socketClient.id}`);
 
+    socketClient.emit("notification", { messages });
+    socketClient.on("new-message", async (data) => {
+      try {
+        const { username, texto } = data;
+        const result = await messageManager.create(data);
+        io.emit("notification", { messages });
+      } catch (error) {
+        console.log(error);
+      }
     });
 
-    console.log('Server socket running');
+    socketClient.broadcast.emit("new-client");
+  });
+
+  io.on("connection", (socketClient) => {
+    console.log(`cliente conectado: ${socketClient.id}`);
+
+    socketClient.emit("products", product);
+
+    socketClient.on("new-product", async (productJSON) => {
+      try {
+        const product = JSON.parse(productJSON);
+        const thumbnail = [];
+        const result = await productModel.create({
+          title: product.title,
+          description: product.description,
+          price: product.price,
+          thumbnail: thumbnail,
+          code: product.code,
+          status: product.status,
+          stock: product.stock,
+          category: product.category,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  });
+
+  console.log("Server socket running");
 };

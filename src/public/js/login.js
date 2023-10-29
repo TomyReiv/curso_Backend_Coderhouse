@@ -4,8 +4,8 @@ function form() {
     e.preventDefault();
 
     const email = document.getElementById("email").value;
+    const username = document.getElementById('username').value
     const password = document.getElementById("password").value;
-    console.log(JSON.stringify( {email, password} ));
 
     if (email === "" && password === "") {
      return alert("Please fill all fields!");
@@ -19,11 +19,10 @@ function form() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data.message);
+        console.log(data);
         if (data.message === 'Inicio de sesión exitoso') {
-          console.log(data.success)
-          alert("Todo ok");
-          window.location.href = "/realTimeProducts"; 
+          localStorage.setItem('user', username);
+           window.location.href = "/realTimeProducts"; 
         } else {
           alert("Credenciales incorrectas. Por favor, inténtalo de nuevo.");
         }

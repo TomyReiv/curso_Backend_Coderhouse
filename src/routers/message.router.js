@@ -9,10 +9,10 @@ router.get("/message", async (req, res) => {
   res.status(200).json(product);
 });
 
-router.get("/message/:cid", async (req, res) => {
+router.get("/message/:mid", async (req, res) => {
   try {
-    const { cid } = req.params;
-    const message = await messageManager.getById({ _id: cid });
+    const { mid } = req.params;
+    const message = await messageManager.getById({ _id: mid });
     if (!message) {
       return res.status(404).json({ message: "No user found" });
     }
@@ -32,21 +32,21 @@ router.post("/message", async (req, res) => {
   }
 });
 
-router.put("/message/cid", async (req, res) => {
+router.put("/message/mid", async (req, res) => {
   try {
-    const { cid } = req.params;
+    const { mid } = req.params;
     const { body } = req;
-    const result = await messageManager.updateById(cid, body);
+    const result = await messageManager.updateById(mid, body);
     res.status(201).json(result);
   } catch (error) {
     res.status(error.statusCode || 500).json({ message: error.message });
   }
 });
 
-router.delete("/message/:cid", async (req, res) => {
+router.delete("/message/:mid", async (req, res) => {
   try {
-    const { cid } = req.params;
-    const result = await messageManager.deleteById(cid);
+    const { mid } = req.params;
+    const result = await messageManager.deleteById(mid);
     res.status(200).json(result);
   } catch (error) {
     res.status(error.statusCode || 500).json({ message: error.message });

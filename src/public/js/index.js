@@ -1,9 +1,17 @@
 (function () {
   const socket = io();
 
+  const openDialogButton = document.getElementById("open-dialog-button");
+  const closeDialogButton = document.getElementById("close-dialog-button");
+  const dialog = document.getElementById("dialog");
+  const logMessage = document.getElementById("logMessage");
+  const username = localStorage.getItem("user");
+  const formDialog = document.getElementById("formDialog");
+
   const form = document.getElementById("form");
+
   form.addEventListener("submit", (e) => {
-    e.preventDefault();
+    e.preventDefault(); 
 
     const title = document.getElementById("title").value;
     const description = document.getElementById("description").value;
@@ -24,10 +32,10 @@
 
     const productJSON = JSON.stringify(product);
 
-    socket.emit('new-product', productJSON);
+    socket.emit("new-product", productJSON);
     form.reset();
     title.focus();
-  });
+  }); //form global
 
   socket.on("products", (products) => {
     const productList = document.getElementById("productList");
@@ -40,4 +48,37 @@
       productList.appendChild(listItem);
     });
   });
+
+
+
+  function updateLogMessage(messages) {
+    logMessage.innerText = "";
+    messages.forEach((msg) => {
+      const p = document.createElement("p");
+      p.innerText = `${msg.username}: ${msg.message}`;
+      logMessage.appendChild(p);
+    }); 
+  }
+
+  openDialogButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    dialog.classList.remove("hidden");
+  });
+  closeDialogButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    dialog.classList.add("hidden");
+  });
+
+  formDialog.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const message = document.getElementById("message").value;
+    socket.emit("new-message", { username, message });
+    formDialog.reset();
+  });
+
+  socket.on("notification", ({ messages }) => {
+    updateLogMessage(messages);
+  });
+
+ 
 })();

@@ -7,8 +7,8 @@ export default class messageManager {
     return message;
   }
 
-  static async getById(uid) {
-    const message = await messageModel.findById(uid);
+  static async getById(mid) {
+    const message = await messageModel.findById(mid);
     if(!message) {throw new Exception ('No existe el Mensaje', 404)}
     return message;
   }
@@ -17,18 +17,18 @@ export default class messageManager {
     console.log('Mensaje creado');
     return message;
   }
-  static async updateById(uid, data) {
-    const message = await messageModel.findById(uid);
+  static async updateById(mid, data) {
+    const message = await messageModel.findById(mid);
     if (!message) throw new Exception("El Mensaje no existe", 404);
-    const criterio = {_id: uid};
+    const criterio = {_id: mid};
     const operation = {$set: data}
     await messageModel.updateOne(criterio, operation);
     console.log('Mensaje actualizado');
   }
-  static async deleteById(uid) {
-    const message = await messageModel.findById(uid);
+  static async deleteById(mid) {
+    const message = await messageModel.findById(mid);
     if (!message) throw new Exception("El Mensaje no existe", 404);
-    const criterio = {_id: uid};
+    const criterio = {_id: mid};
     await messageModel.deleteOne(criterio);
     console.log('Mensaje eliminado');
   }
