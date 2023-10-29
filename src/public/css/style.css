@@ -1,7 +1,7 @@
 #open-dialog-button {
   position: fixed;
-  width: 5rem;
-  height: 5rem;
+  width: 3em;
+  height: 3em;
   border-radius: 50%;
   bottom: 20px;
   right: 20px;
@@ -25,11 +25,13 @@
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   padding: 20px;
   max-height: 30rem;
+  width: 27rem;
 }
 
 p{
   color: black;
 }
+
 
 #close-dialog-button {
   border: none;
@@ -48,4 +50,8 @@ p{
 
 .hidden {
   display: none;
+}
+#formDialog{
+  width: 90%;
+  margin: auto;
 }

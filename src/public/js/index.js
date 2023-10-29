@@ -11,7 +11,7 @@
   const form = document.getElementById("form");
 
   form.addEventListener("submit", (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
 
     const title = document.getElementById("title").value;
     const description = document.getElementById("description").value;
@@ -34,21 +34,10 @@
 
     socket.emit("new-product", productJSON);
     form.reset();
-    title.focus();
+
+    fetchProduct();
+
   }); //form global
-
-  socket.on("products", (products) => {
-    const productList = document.getElementById("productList");
-    productList.innerHTML = "";
-    products.forEach((product, index) => {
-      const listItem = document.createElement("li");
-      listItem.textContent = `Producto ${index + 1}: ${
-        product.title
-      }, Precio: ${product.price}`;
-      productList.appendChild(listItem);
-    });
-  });
-
 
 
   function updateLogMessage(messages) {
@@ -57,7 +46,7 @@
       const p = document.createElement("p");
       p.innerText = `${msg.username}: ${msg.message}`;
       logMessage.appendChild(p);
-    }); 
+    });
   }
 
   openDialogButton.addEventListener("click", (e) => {
@@ -79,6 +68,24 @@
   socket.on("notification", ({ messages }) => {
     updateLogMessage(messages);
   });
-
- 
 })();
+
+function fetchProduct() {
+  fetch("http://localhost:8080/api/products")
+    .then((response) => response.json())
+    .then((data) => {
+      const productList = document.getElementById("productList");
+      productList.innerHTML = "";
+      data.forEach((product, index) => {
+        const listItem = document.createElement("li");
+        listItem.textContent = `Producto ${index + 1}: ${
+          product.title
+        }, Precio: ${product.price}`;
+        productList.appendChild(listItem);
+      });
+    })
+    .catch((error) => {
+      console.error("Error al procesar la solicitud:", error);
+    });
+}
+fetchProduct();

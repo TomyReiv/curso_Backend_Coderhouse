@@ -6,13 +6,14 @@ let io;
 
 export const initSocket = async (httpServer) => {
 
-  const messages = await messageManager.get();
 
   io = new Server(httpServer);
 
-  const product = await productModel.find();
 
-  io.on("connection", (socketClient) => {
+
+  io.on("connection", async (socketClient) => {
+
+    const messages = await messageManager.get();
     console.log(`Socket conectado: ${socketClient.id}`);
 
     socketClient.emit("notification", { messages });
@@ -29,7 +30,10 @@ export const initSocket = async (httpServer) => {
     socketClient.broadcast.emit("new-client");
   });
 
-  io.on("connection", (socketClient) => {
+  io.on("connection", async (socketClient) => {
+
+    const product = await productModel.find();
+
     console.log(`cliente conectado: ${socketClient.id}`);
 
     socketClient.emit("products", product);
