@@ -44,11 +44,12 @@ export const initSocket = async (httpServer) => {
       try {
         const product = JSON.parse(productJSON);
         const thumbnail = [];
+        console.log(product.thumbnail);
         const result = await productModel.create({
           title: product.title,
           description: product.description,
           price: product.price,
-          thumbnail: thumbnail,
+          thumbnail: product.thumbnail,
           code: product.code,
           status: product.status,
           stock: product.stock,

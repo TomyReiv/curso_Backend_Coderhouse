@@ -20,7 +20,7 @@
 
   </ul>
 </nav>
-<form style="padding: 6rem;" id="form">
+<form style="padding: 6rem;" id="form" enctype="multipart/form-data">
 
   <!-- Grid -->
   <div>
@@ -48,13 +48,18 @@
 
     <label for="stock">
       Stock
-    <input type="number" id="stock" name="stock" placeholder="stock" required>
+      <input type="number" id="stock" name="stock" placeholder="stock" required>
+    </label>
 
     <label for="category">
       Categoria
     <input type="text" id="category" name="category" placeholder="category" required>
     </label>
 
+    <label for="file">
+      Imagen
+      <input type="file" name="file" id="file" placeholder="Agregue una imagen">
+    </label>
   </div>
 
 

@@ -1,5 +1,6 @@
 import { Router } from "express";
 import productManager from "../dao/productManager.js";
+import { uploader } from "../utils.js";
 
 const router = Router();
 
@@ -22,9 +23,15 @@ router.get("/products/:pid", async (req, res) => {
   }
 });
 
-router.post("/products", async (req, res) => {
+router.post("/products", uploader.single('file'), async (req, res) => {
   try {
-    const { body } = req;
+    const { body, file } = req;
+    if (file) {
+      body.thumbnail = {
+        filename: file.filename, 
+        path: file.path,
+      };
+    }
     const result = await productManager.createProduct(body);
     res.status(201).json(result);
   } catch (error) {

@@ -1,9 +1,8 @@
 (function () {
+  const uid = localStorage.getItem("uid");
 
-  const uid = localStorage.getItem('uid');
-
-  if(!uid){
-    window.location.href = '/login';
+  if (!uid) {
+    window.location.href = "/login";
   }
 
   const socket = io();
@@ -17,10 +16,9 @@
   const exit = document.getElementById("exit");
   const form = document.getElementById("form");
 
-  exit.addEventListener('click', ()=>{
-    localStorage.removeItem('user'),
-    localStorage.removeItem('uid');
-  })
+  exit.addEventListener("click", () => {
+    localStorage.removeItem("user"), localStorage.removeItem("uid");
+  });
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -32,23 +30,38 @@
     const stock = document.getElementById("stock").value;
     const category = document.getElementById("category").value;
 
-    const product = {
-      title: title,
-      description: description,
-      price: parseFloat(price),
-      code: code,
-      status: "active",
-      stock: parseFloat(stock),
-      category: category,
-    };
+    const formData = new FormData();
 
-    const productJSON = JSON.stringify(product);
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("price", price);
+    formData.append("code", code);
+    formData.append("stock", stock);
+    formData.append("category", category);
 
-    socket.emit("new-product", productJSON);
+    // Obtén el archivo seleccionado
+    const fileInput = document.getElementById("file");
+    const file = fileInput.files[0];
+
+    if (file) {
+      formData.append("file", file);
+    }
+
+    fetch("http://localhost:8080/api/products", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if(data.title) alert('Producto creado exitosamente');
+      })
+      .catch((error) => {
+        console.error("Error al procesar la solicitud:", error);
+      });
+
     form.reset();
 
     fetchProduct();
-
   }); //form global
 
   function updateLogMessage(messages) {
@@ -59,7 +72,7 @@
       p.innerText = `${msg.username}: ${msg.message}`;
       newMessages.appendChild(p);
     });
-  } 
+  }
 
   openDialogButton.addEventListener("click", (e) => {
     e.preventDefault();
@@ -79,9 +92,7 @@
 
   socket.on("notification", ({ messagesGlobal }) => {
     updateLogMessage(messagesGlobal);
-  }); 
-
-
+  });
 })();
 
 function fetchProduct() {
@@ -104,21 +115,21 @@ function fetchProduct() {
 }
 fetchProduct();
 
-function fetchMessage(){
+function fetchMessage() {
   const logMessage = document.getElementById("logMessage");
   fetch("http://localhost:8080/api/message")
-  .then((response) => response.json())
-  .then((messages) => {
-    logMessage.innerText = "";
-    const msgSlice = messages.slice(-2);
-    msgSlice.forEach((msg) => {
-      const p = document.createElement("p");
-      p.innerText = `${msg.username}: ${msg.message}`;
-      logMessage.appendChild(p);
+    .then((response) => response.json())
+    .then((messages) => {
+      logMessage.innerText = "";
+      const msgSlice = messages.slice(-2);
+      msgSlice.forEach((msg) => {
+        const p = document.createElement("p");
+        p.innerText = `${msg.username}: ${msg.message}`;
+        logMessage.appendChild(p);
+      });
+    })
+    .catch((error) => {
+      console.error("Error al procesar la solicitud:", error);
     });
-  })
-  .catch((error) => {
-    console.error("Error al procesar la solicitud:", error);
-  });
 }
- fetchMessage() 
+fetchMessage();
