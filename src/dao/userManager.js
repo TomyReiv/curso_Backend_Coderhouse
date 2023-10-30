@@ -1,5 +1,5 @@
 import userModel from "../models/user.model.js";
-import Exception from "../dirname.js";
+import Exception from "../utils.js";
 
 export default class userManager {
   static async get(query = {}) {

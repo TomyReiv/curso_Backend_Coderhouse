@@ -1,14 +1,26 @@
 (function () {
+
+  const uid = localStorage.getItem('uid');
+
+  if(!uid){
+    window.location.href = '/login';
+  }
+
   const socket = io();
 
   const openDialogButton = document.getElementById("open-dialog-button");
   const closeDialogButton = document.getElementById("close-dialog-button");
   const dialog = document.getElementById("dialog");
-/*   const logMessage = document.getElementById("logMessage"); */
+  const newMessages = document.getElementById("newMessages");
   const username = localStorage.getItem("user");
   const formDialog = document.getElementById("formDialog");
-
+  const exit = document.getElementById("exit");
   const form = document.getElementById("form");
+
+  exit.addEventListener('click', ()=>{
+    localStorage.removeItem('user'),
+    localStorage.removeItem('uid');
+  })
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -39,15 +51,15 @@
 
   }); //form global
 
-/* 
   function updateLogMessage(messages) {
-    logMessage.innerText = "";
-    messages.forEach((msg) => {
+    newMessages.innerText = "";
+    const messagesSlice = messages.slice(-4);
+    messagesSlice.forEach((msg) => {
       const p = document.createElement("p");
       p.innerText = `${msg.username}: ${msg.message}`;
-      logMessage.appendChild(p);
+      newMessages.appendChild(p);
     });
-  } */
+  } 
 
   openDialogButton.addEventListener("click", (e) => {
     e.preventDefault();
@@ -63,12 +75,13 @@
     const message = document.getElementById("message").value;
     socket.emit("new-message", { username, message });
     formDialog.reset();
-    fetchMessage()
   });
 
- /*  socket.on("notification", ({ messages }) => {
-    updateLogMessage(messages);
-  }); */
+  socket.on("notification", ({ messagesGlobal }) => {
+    updateLogMessage(messagesGlobal);
+  }); 
+
+
 })();
 
 function fetchProduct() {
@@ -97,7 +110,7 @@ function fetchMessage(){
   .then((response) => response.json())
   .then((messages) => {
     logMessage.innerText = "";
-    const msgSlice = messages.slice(-5);
+    const msgSlice = messages.slice(-2);
     msgSlice.forEach((msg) => {
       const p = document.createElement("p");
       p.innerText = `${msg.username}: ${msg.message}`;
@@ -108,4 +121,4 @@ function fetchMessage(){
     console.error("Error al procesar la solicitud:", error);
   });
 }
-fetchMessage()
+ fetchMessage() 

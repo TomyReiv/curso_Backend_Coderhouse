@@ -1,5 +1,5 @@
 import productModel from "../models/product.model.js";
-import Exception from "../dirname.js";
+import Exception from "../utils.js";
 
 export default class productManager {
   static async get(query = {}) {

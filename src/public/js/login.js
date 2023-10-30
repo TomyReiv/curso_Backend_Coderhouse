@@ -19,10 +19,11 @@ function form() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        if (data.message === 'Inicio de sesión exitoso') {
+        console.log(data.username);
+        if (data.username) {
           localStorage.setItem('user', username);
-           window.location.href = "/realTimeProducts"; 
+          localStorage.setItem('uid', data._id);
+          window.location.href = "/realTimeProducts"; 
         } else {
           alert("Credenciales incorrectas. Por favor, inténtalo de nuevo.");
         }

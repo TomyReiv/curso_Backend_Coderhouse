@@ -1,5 +1,5 @@
 import cartModel from "../models/cart.model.js";
-import Exception from "../dirname.js";
+import Exception from "../utils.js";
 
 export default class cartManager {
   static async get() {

@@ -9,6 +9,7 @@ export const initSocket = async (httpServer) => {
 
   io = new Server(httpServer);
 
+  let messagesGlobal = [];
 
 
   io.on("connection", async (socketClient) => {
@@ -16,12 +17,13 @@ export const initSocket = async (httpServer) => {
     const messages = await messageManager.get();
     console.log(`Socket conectado: ${socketClient.id}`);
 
-    socketClient.emit("notification", { messages });
+    socketClient.emit("notification", { messagesGlobal });
     socketClient.on("new-message", async (data) => {
       try {
-        const { username, texto } = data;
+        const { username, message } = data;
         const result = await messageManager.create(data);
-        io.emit("notification", { messages });
+        messagesGlobal.push({username, message});
+        io.emit("notification", { messagesGlobal });
       } catch (error) {
         console.log(error);
       }

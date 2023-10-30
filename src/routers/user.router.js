@@ -58,7 +58,7 @@ router.post("/users/login", async (req, res) => {
       return;
     }
 
-    res.status(200).json({ message: "Inicio de sesión exitoso" });
+    res.status(200).json(user);
   } catch (error) {
     res.status(error.statusCode || 500).json({ message: error.message });
   }

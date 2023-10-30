@@ -9,7 +9,7 @@ import indexRouter from "./routers/index.router.js"
 import userRouter from "./routers/user.router.js";
 import productRouter from "./routers/productsDb.router.js";
 import messageRouter from "./routers/message.router.js";
-import { __dirname } from "./dirname.js";
+import { __dirname } from "./utils.js";
 
 
 const app = express();
