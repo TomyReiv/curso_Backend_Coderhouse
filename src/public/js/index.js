@@ -4,7 +4,7 @@
   const openDialogButton = document.getElementById("open-dialog-button");
   const closeDialogButton = document.getElementById("close-dialog-button");
   const dialog = document.getElementById("dialog");
-  const logMessage = document.getElementById("logMessage");
+/*   const logMessage = document.getElementById("logMessage"); */
   const username = localStorage.getItem("user");
   const formDialog = document.getElementById("formDialog");
 
@@ -39,7 +39,7 @@
 
   }); //form global
 
-
+/* 
   function updateLogMessage(messages) {
     logMessage.innerText = "";
     messages.forEach((msg) => {
@@ -47,7 +47,7 @@
       p.innerText = `${msg.username}: ${msg.message}`;
       logMessage.appendChild(p);
     });
-  }
+  } */
 
   openDialogButton.addEventListener("click", (e) => {
     e.preventDefault();
@@ -63,11 +63,12 @@
     const message = document.getElementById("message").value;
     socket.emit("new-message", { username, message });
     formDialog.reset();
+    fetchMessage()
   });
 
-  socket.on("notification", ({ messages }) => {
+ /*  socket.on("notification", ({ messages }) => {
     updateLogMessage(messages);
-  });
+  }); */
 })();
 
 function fetchProduct() {
@@ -89,3 +90,22 @@ function fetchProduct() {
     });
 }
 fetchProduct();
+
+function fetchMessage(){
+  const logMessage = document.getElementById("logMessage");
+  fetch("http://localhost:8080/api/message")
+  .then((response) => response.json())
+  .then((messages) => {
+    logMessage.innerText = "";
+    const msgSlice = messages.slice(-5);
+    msgSlice.forEach((msg) => {
+      const p = document.createElement("p");
+      p.innerText = `${msg.username}: ${msg.message}`;
+      logMessage.appendChild(p);
+    });
+  })
+  .catch((error) => {
+    console.error("Error al procesar la solicitud:", error);
+  });
+}
+fetchMessage()

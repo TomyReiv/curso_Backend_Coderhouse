@@ -8,6 +8,7 @@ import indexRouter from "./routers/index.router.js"
 /* import productRouter from "./routers/products.router.js"; */
 import userRouter from "./routers/user.router.js";
 import productRouter from "./routers/productsDb.router.js";
+import messageRouter from "./routers/message.router.js";
 import { __dirname } from "./dirname.js";
 
 
@@ -22,7 +23,7 @@ app.set("view engine",'handlebars');
 
 
 app.use('/', indexRouter);
-app.use('/api', productRouter, cartRouter, userRouter);
+app.use('/api', productRouter, cartRouter, userRouter, messageRouter);
 
 
 export default app;

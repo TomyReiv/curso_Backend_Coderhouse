@@ -55,3 +55,18 @@ p{
   width: 90%;
   margin: auto;
 }
+
+.productList{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+.prod_parraf{
+  text-align: center;
+}
+.nav{
+  position: fixed;
+  width: 100%;
+  padding: 0.6rem;
+  background-color: #0a093b;
+}
