@@ -100,14 +100,60 @@ function fetchProduct() {
     .then((response) => response.json())
     .then((data) => {
       const productList = document.getElementById("productList");
+      const imgCont = document.getElementById('cart-list')
       productList.innerHTML = "";
-      data.forEach((product, index) => {
+     /*  data.forEach((product, index) => {
         const listItem = document.createElement("li");
-        listItem.textContent = `Producto ${index + 1}: ${
-          product.title
-        }, Precio: ${product.price}`;
+        listItem.textContent = `Producto ${index + 1}: ${product.title}, Precio: ${product.price}`;
+      
+        const imgList = document.createElement('img');
+        imgList.src = `./img/${product.thumbnail[0].filename}`;
+      
+        imgList.style.width = "100px";
+      
+        imgCont.appendChild(imgList);
         productList.appendChild(listItem);
+      }); */
+
+
+      data.forEach((product, index) => {
+        const card = document.createElement("div");
+        card.classList.add("product-card");
+      
+        const img = document.createElement("img");
+        img.src = `./img/${product.thumbnail[0].filename}`;
+      
+        const productName = document.createElement("h2");
+        productName.textContent = product.title;
+      
+        const productPrice = document.createElement("p");
+        productPrice.textContent = `Precio: ${product.price}`;
+      
+        const productDescription = document.createElement("p");
+        productDescription.textContent = product.description;
+      
+        const editButton = document.createElement("button");
+        editButton.textContent = "Editar";
+        editButton.addEventListener("click", () => {
+          console.log('editado');
+        });
+      
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Eliminar";
+        deleteButton.addEventListener("click", () => {
+          console.log('eliminado');
+        });
+      
+        card.appendChild(img);
+        card.appendChild(productName);
+        card.appendChild(productPrice);
+        card.appendChild(productDescription);
+        card.appendChild(editButton);
+        card.appendChild(deleteButton);
+      
+        document.getElementById("productList").appendChild(card);
       });
+
     })
     .catch((error) => {
       console.error("Error al procesar la solicitud:", error);
