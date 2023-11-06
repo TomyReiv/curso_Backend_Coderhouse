@@ -7,25 +7,31 @@ export default class cartManager {
     return carts;
   }
 
-  static async getById(uid) {
-    const cart = await cartModel.findById(uid);
+  static async getById(cid) {
+    const cart = await cartModel.findById(cid);
     if (!cart) {
       throw new Exception("No existe el Carrito", 404);
     }
     return cart;
   }
+
   static async create(cartData) {
-    const { userId, items:{pid, quantity} } = cartData;
+    const { userId, items: [{ pid, quantity }] } = cartData;
     const cartExist = await cartModel.findOne({ userId });
+
     if (cartExist) {
-      const existingItem = cartExist.items.pid;
-      if (existingItem === pid) {
+      const existingItem = cartExist.items.find(item => item.pid === pid);
+  
+      if (existingItem) {
         await cartModel.findOneAndUpdate(
           { userId, "items.pid": pid },
-          { $inc: { "items.quantity": 1 } }
+          { $inc: { "items.$.quantity": quantity || 1 } }
         );
         console.log("Cantidad actualizada en el carrito");
-        return;
+      } else {
+        cartExist.items.push({ pid, quantity: quantity });
+        await cartExist.save();
+        console.log("Producto agregado al carrito");
       }
     } else {
       const cart = await cartModel.create(cartData);

@@ -1,0 +1,25 @@
+<div class="login-container" style="width: 50%; margin:auto">
+  <h2 style="margin-top: 1rem; text-align: center;">Iniciar Sesión</h2>
+  <form class="login-form" id="form">
+    <input type="text" id="username" name="username" placeholder="Nombre" />
+    <input type="text" id="lastname" name="lastname" placeholder="Apellido" />
+    <input type="email" id="email" name="email" placeholder="Email" required />
+    <div>
+      <label for="address">Address</label>
+      <input type="text" id="street" name="street" placeholder="Calle"/>
+      <input type="text" id="city" name="city" placeholder="Ciudad"/>
+      <input type="text" id="country" name="country" placeholder="Pais"/>
+    </div>
+
+    <input
+      type="password"
+      id="password"
+      name="contrasena"
+      placeholder="Contraseña"
+      required
+    />
+    <input type="submit" id="submit" value="Iniciar Sesión" />
+  </form>
+</div>
+
+<script src="/js/register.js"></script>

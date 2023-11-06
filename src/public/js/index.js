@@ -53,15 +53,16 @@
     })
       .then((response) => response.json())
       .then((data) => {
-        if(data.title) alert('Producto creado exitosamente');
+        if (data.title) alert("Producto creado exitosamente");
+       
       })
       .catch((error) => {
         console.error("Error al procesar la solicitud:", error);
       });
 
     form.reset();
-
     fetchProduct();
+   
   }); //form global
 
   function updateLogMessage(messages) {
@@ -93,73 +94,93 @@
   socket.on("notification", ({ messagesGlobal }) => {
     updateLogMessage(messagesGlobal);
   });
-})();
+})(); //Fin de la funcion global
 
 function fetchProduct() {
-  fetch("http://localhost:8080/api/products")
+  const page = document.getElementById("currentPage");
+  let pageNumber = parseInt(page.innerHTML, 10);
+
+  function loadPage(pageNumber) {
+  fetch(`http://localhost:8080/api/products?page=${pageNumber}&limit=6`)
     .then((response) => response.json())
     .then((data) => {
       const productList = document.getElementById("productList");
-      const imgCont = document.getElementById('cart-list')
+      const imgCont = document.getElementById("cart-list");
       productList.innerHTML = "";
-     /*  data.forEach((product, index) => {
-        const listItem = document.createElement("li");
-        listItem.textContent = `Producto ${index + 1}: ${product.title}, Precio: ${product.price}`;
-      
-        const imgList = document.createElement('img');
-        imgList.src = `./img/${product.thumbnail[0].filename}`;
-      
-        imgList.style.width = "100px";
-      
-        imgCont.appendChild(imgList);
-        productList.appendChild(listItem);
-      }); */
+      page.innerHTML = "";
 
+       page.textContent = data.page;
 
-      data.forEach((product, index) => {
+        if (data.nextPage) {
+          const nextButton = document.getElementById("next-but");
+          nextButton.addEventListener("click", () => {
+            pageNumber = data.nextPage; 
+            loadPage(pageNumber); 
+          });
+        }
+
+        if (data.prevPage) {
+          const prevButton = document.getElementById("prev-but");
+          prevButton.addEventListener("click", () => {
+            pageNumber = data.prevPage; 
+            loadPage(pageNumber); 
+          });
+        }
+
+      data.payload.forEach((product, index) => {
         const card = document.createElement("div");
         card.classList.add("product-card");
-      
+
         const img = document.createElement("img");
         img.src = `./img/${product.thumbnail[0].filename}`;
-      
+
         const productName = document.createElement("h2");
         productName.textContent = product.title;
-      
+
         const productPrice = document.createElement("p");
         productPrice.textContent = `Precio: ${product.price}`;
-      
+
         const productDescription = document.createElement("p");
         productDescription.textContent = product.description;
-      
+
         const editButton = document.createElement("button");
         editButton.textContent = "Editar";
         editButton.addEventListener("click", () => {
-          console.log('editado');
+          console.log("editado");
         });
-      
+
         const deleteButton = document.createElement("button");
         deleteButton.textContent = "Eliminar";
         deleteButton.addEventListener("click", () => {
-          console.log('eliminado');
+          fetch(`http://localhost:8080/api/products/${product._id}`),{
+            method: "DELETE",
+          } .then((response) => response.json())
+          .then((data) => {
+            alert('Producto eliminado');
+            fetchProduct();
+          })
+          .catch((error) => {
+            console.error("Error al procesar la solicitud:", error);
+          });
         });
-      
+
         card.appendChild(img);
         card.appendChild(productName);
         card.appendChild(productPrice);
         card.appendChild(productDescription);
         card.appendChild(editButton);
         card.appendChild(deleteButton);
-      
+
         document.getElementById("productList").appendChild(card);
       });
-
     })
     .catch((error) => {
       console.error("Error al procesar la solicitud:", error);
     });
-}
-fetchProduct();
+  }
+  loadPage(pageNumber);
+} // Fin del fecth para traer productos
+
 
 function fetchMessage() {
   const logMessage = document.getElementById("logMessage");
@@ -178,4 +199,7 @@ function fetchMessage() {
       console.error("Error al procesar la solicitud:", error);
     });
 }
+
+//LLamados de funciones
 fetchMessage();
+fetchProduct();

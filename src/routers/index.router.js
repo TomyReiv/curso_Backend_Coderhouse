@@ -1,14 +1,24 @@
 import { Router } from "express";
-import messageManager from "../dao/messageManager.js";
 
 const router = Router();
 
-router.get('/realTimeProducts', (req, res) =>{
-
-    res.render('index', {title: 'Demo', style:'style.css'});
+router.get("/realTimeProducts", (req, res) => {
+  res.render("index", { title: "Cargas", style: "style.css" });
 });
 
-router.get('/login', (req, res) =>{
-    res.render('login');
+router.get("/login", (req, res) => {
+  res.render("login", {title: "Login"});
+});
+
+router.get("/", (req, res) => {
+  res.render("home", {title: "Home", style: "home.css" });
+});
+
+router.get("/cart", (req, res) => {
+  res.render("cart", {title: "Carrito", style: "carrito.css" });
+});
+
+router.get("/producto/:pid", (req, res) => {
+    res.render("producto", {title: "Producto"});
 });
 export default router;

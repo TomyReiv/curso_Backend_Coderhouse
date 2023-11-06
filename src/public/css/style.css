@@ -105,3 +105,34 @@ p{
   margin: 10px 5px;
   padding: 5px 10px;
 }
+
+/* Paginador */
+
+.pagination {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 10%;
+  margin: auto;
+}
+
+.but-cont{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.pag-button {
+  padding: 5px 5px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.page-number {
+  display: inline-block;
+  margin: 10px;
+  font-weight: bold;
+  font-size: 18px;
+}

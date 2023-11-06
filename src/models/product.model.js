@@ -1,5 +1,6 @@
 import { Schema } from "mongoose";
 import mongoose from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 
 const productSchema = new Schema({
@@ -13,4 +14,5 @@ const productSchema = new Schema({
     category: { type: String, required: true }
 }, {timestamps: true});
 
+productSchema.plugin(mongoosePaginate);
 export default mongoose.model('Product', productSchema);

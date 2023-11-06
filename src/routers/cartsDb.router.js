@@ -1,5 +1,6 @@
 import { Router } from "express";
 import cartManager from "../dao/cartManagers.js";
+import cartModel from "../models/cart.model.js";
 
 const router = Router();
 
@@ -32,7 +33,7 @@ router.post("/cart", async (req, res) => {
   }
 });
 
-router.put("/cart/cid", async (req, res) => {
+router.put("/cart/:cid", async (req, res) => {
   try {
     const { cid } = req.params;
     const { body } = req;
@@ -43,6 +44,36 @@ router.put("/cart/cid", async (req, res) => {
   }
 });
 
+router.put("/carts/:cid/products/:pid", async (req, res) => {
+  try {
+    const { cid, pid } = req.params;
+    const { body } = req;
+    const cart = await cartManager.getById(cid);
+
+    if (!cart) {
+      return res.status(404).json({ message: "El carrito no existe" });
+    }
+
+    const productFind = cart.items.find((item) => item.pid === pid);
+
+    if (!productFind) {
+      return res
+        .status(404)
+        .json({ message: "El producto no está en el carrito" });
+    }
+
+    await cartModel.findOneAndUpdate(
+      { _id: cid, "items.pid": pid },
+      { $set: { "items.$.quantity": body.quantity } }
+    );
+
+    return res.status(200).json({ message: "Cantidad del producto actualizada en el carrito" });
+
+  } catch (error) {
+    return res.status(500).json({ message: "Error al actualizar la cantidad del producto en el carrito" });
+  }
+});
+
 router.delete("/cart/:cid", async (req, res) => {
   try {
     const { cid } = req.params;
@@ -50,6 +81,35 @@ router.delete("/cart/:cid", async (req, res) => {
     res.status(200).json(result);
   } catch (error) {
     res.status(error.statusCode || 500).json({ message: error.message });
+  }
+});
+
+router.delete("/cart/:cid/product/:pid", async (req, res) => {
+  try {
+    const { cid, pid } = req.params;
+
+    const cart = await cartManager.getById(cid);
+
+    if (!cart) {
+      return res.status(404).json({ message: "El carrito no existe" });
+    }
+
+    const productIndex = cart.items.findIndex((item) => item.pid === pid);
+
+    if (productIndex === -1) {
+      return res
+        .status(404)
+        .json({ message: "El producto no está en el carrito" });
+    }
+
+    cart.items.splice(productIndex, 1);
+    await cart.save();
+
+    return res.status(200).json({ message: "Producto eliminado del carrito" });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Error al eliminar el producto del carrito" });
   }
 });
 
