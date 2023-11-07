@@ -45,7 +45,7 @@ form.addEventListener("submit", (e) => {
     userId: uid,
     items: [cartProductData],
   };
-  console.log(JSON.stringify(cartData));
+
 try {
   fetch("http://localhost:8080/api/cart", {
     method: "post",
@@ -54,7 +54,7 @@ try {
     },
     body: JSON.stringify(cartData),
   })
-    .then((response) => {console.log(response.json()); })
+    .then((response) => response.json())
     .then((data) => {
       alert('Producto cargado exitosamente')
     })
@@ -66,3 +66,8 @@ try {
 }
   form.reset()
 });
+
+const home = document.getElementById('home')
+home.addEventListener('click', ()=>{
+  window.location.href='/';
+})

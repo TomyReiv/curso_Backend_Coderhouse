@@ -2,12 +2,14 @@ import { Router } from "express";
 import cartManager from "../dao/cartManagers.js";
 import cartModel from "../models/cart.model.js";
 
+
 const router = Router();
 
 router.get("/cart", async (req, res) => {
   const { query = {} } = req;
-  const product = await cartManager.get(query);
-  res.status(200).json(product);
+
+  const cart = await cartManager.get(query);
+  res.status(200).json(cart);
 });
 
 router.get("/cart/:cid", async (req, res) => {
@@ -54,7 +56,10 @@ router.put("/carts/:cid/products/:pid", async (req, res) => {
       return res.status(404).json({ message: "El carrito no existe" });
     }
 
-    const productFind = cart.items.find((item) => item.pid === pid);
+    const productFind = cart.items.find((item) => {
+      const id = item.pid._id.toString();
+      return id === pid;
+    });
 
     if (!productFind) {
       return res
@@ -67,10 +72,13 @@ router.put("/carts/:cid/products/:pid", async (req, res) => {
       { $set: { "items.$.quantity": body.quantity } }
     );
 
-    return res.status(200).json({ message: "Cantidad del producto actualizada en el carrito" });
-
+    return res
+      .status(200)
+      .json({ message: "Cantidad del producto actualizada en el carrito" });
   } catch (error) {
-    return res.status(500).json({ message: "Error al actualizar la cantidad del producto en el carrito" });
+    return res.status(500).json({
+      message: "Error al actualizar la cantidad del producto en el carrito",
+    });
   }
 });
 
@@ -94,7 +102,10 @@ router.delete("/cart/:cid/product/:pid", async (req, res) => {
       return res.status(404).json({ message: "El carrito no existe" });
     }
 
-    const productIndex = cart.items.findIndex((item) => item.pid === pid);
+    const productIndex = cart.items.findIndex((item) => {
+      const id = item.pid._id.toString();
+      return id === pid;
+    });
 
     if (productIndex === -1) {
       return res
