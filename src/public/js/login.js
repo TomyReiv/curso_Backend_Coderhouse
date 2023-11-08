@@ -4,11 +4,11 @@ function form() {
     e.preventDefault();
 
     const email = document.getElementById("email").value;
-    const username = document.getElementById('username').value
+    const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
 
     if (email === "" && password === "") {
-     return alert("Please fill all fields!");
+      return alert("Please fill all fields!");
     }
     fetch("http://localhost:8080/api/users/login", {
       method: "POST",
@@ -19,11 +19,16 @@ function form() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data.username);
+      
+        if (data.email === "ravetomas@gmail.com") {
+          localStorage.setItem("user", username);
+          localStorage.setItem("uid", data._id);
+         return window.location.href = "/realTimeProducts";
+        }
         if (data.username) {
-          localStorage.setItem('user', username);
-          localStorage.setItem('uid', data._id);
-          window.location.href = "/"; 
+          localStorage.setItem("user", username);
+          localStorage.setItem("uid", data._id);
+          return window.location.href = "/";
         } else {
           alert("Credenciales incorrectas. Por favor, inténtalo de nuevo.");
         }
@@ -33,5 +38,5 @@ function form() {
         alert("Error al iniciar sesión. Inténtalo de nuevo más tarde.");
       });
   });
-};
+}
 form();

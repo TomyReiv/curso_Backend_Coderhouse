@@ -25,4 +25,8 @@ router.get("/cart", (req, res) => {
 router.get("/producto/:pid", (req, res) => {
     res.render("producto", {title: "Producto"});
 });
+
+router.get("/edit/:pid", (req, res) => {
+  res.render("edit", {title: "Editar"});
+});
 export default router;

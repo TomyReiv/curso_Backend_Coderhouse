@@ -54,15 +54,14 @@
       .then((response) => response.json())
       .then((data) => {
         if (data.title) alert("Producto creado exitosamente");
-       
+        location.reload();
       })
       .catch((error) => {
         console.error("Error al procesar la solicitud:", error);
       });
 
+
     form.reset();
-    fetchProduct();
-   
   }); //form global
 
   function updateLogMessage(messages) {
@@ -101,86 +100,87 @@ function fetchProduct() {
   let pageNumber = parseInt(page.innerHTML, 10);
 
   function loadPage(pageNumber) {
-  fetch(`http://localhost:8080/api/products?page=${pageNumber}&limit=6`)
-    .then((response) => response.json())
-    .then((data) => {
-      const productList = document.getElementById("productList");
-      const imgCont = document.getElementById("cart-list");
-      productList.innerHTML = "";
-      page.innerHTML = "";
+    fetch(`http://localhost:8080/api/products?page=${pageNumber}&limit=6`)
+      .then((response) => response.json())
+      .then((data) => {
+        const productList = document.getElementById("productList");
+        const imgCont = document.getElementById("cart-list");
+        productList.innerHTML = "";
+        page.innerHTML = "";
 
-       page.textContent = data.page;
+        page.textContent = data.page;
 
         if (data.nextPage) {
           const nextButton = document.getElementById("next-but");
           nextButton.addEventListener("click", () => {
-            pageNumber = data.nextPage; 
-            loadPage(pageNumber); 
+            pageNumber = data.nextPage;
+            loadPage(pageNumber);
           });
         }
 
         if (data.prevPage) {
           const prevButton = document.getElementById("prev-but");
           prevButton.addEventListener("click", () => {
-            pageNumber = data.prevPage; 
-            loadPage(pageNumber); 
+            pageNumber = data.prevPage;
+            loadPage(pageNumber);
           });
         }
 
-      data.payload.forEach((product, index) => {
-        const card = document.createElement("div");
-        card.classList.add("product-card");
+        data.payload.forEach((product, index) => {
+          const card = document.createElement("div");
+          card.classList.add("product-card");
 
-        const img = document.createElement("img");
-        img.src = `./img/${product.thumbnail[0].filename}`;
+          const img = document.createElement("img");
+          img.src = `./img/${product.thumbnail[0].filename}`;
 
-        const productName = document.createElement("h2");
-        productName.textContent = product.title;
+          const productName = document.createElement("h2");
+          productName.textContent = product.title;
 
-        const productPrice = document.createElement("p");
-        productPrice.textContent = `Precio: ${product.price}`;
+          const productPrice = document.createElement("p");
+          productPrice.textContent = `Precio: ${product.price}`;
 
-        const productDescription = document.createElement("p");
-        productDescription.textContent = product.description;
+          const productDescription = document.createElement("p");
+          productDescription.textContent = product.description;
 
-        const editButton = document.createElement("button");
-        editButton.textContent = "Editar";
-        editButton.addEventListener("click", () => {
-          console.log("editado");
-        });
-
-        const deleteButton = document.createElement("button");
-        deleteButton.textContent = "Eliminar";
-        deleteButton.addEventListener("click", () => {
-          fetch(`http://localhost:8080/api/products/${product._id}`),{
-            method: "DELETE",
-          } .then((response) => response.json())
-          .then((data) => {
-            alert('Producto eliminado');
-            fetchProduct();
-          })
-          .catch((error) => {
-            console.error("Error al procesar la solicitud:", error);
+          const editButton = document.createElement("button");
+          editButton.textContent = "Editar";
+          editButton.addEventListener("click", () => {
+            window.location.href = `/edit/${product._id}`;
           });
+
+          const deleteButton = document.createElement("button");
+          deleteButton.textContent = "Eliminar";
+          deleteButton.addEventListener("click", () => {
+            fetch(`http://localhost:8080/api/products/${product._id}`, {
+              method: "DELETE",
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                console.log(data);
+                alert("Producto eliminado");
+                fetchProduct();
+              })
+              .catch((error) => {
+                console.error("Error al procesar la solicitud:", error);
+              });
+          });
+
+          card.appendChild(img);
+          card.appendChild(productName);
+          card.appendChild(productPrice);
+          card.appendChild(productDescription);
+          card.appendChild(editButton);
+          card.appendChild(deleteButton);
+
+          document.getElementById("productList").appendChild(card);
         });
-
-        card.appendChild(img);
-        card.appendChild(productName);
-        card.appendChild(productPrice);
-        card.appendChild(productDescription);
-        card.appendChild(editButton);
-        card.appendChild(deleteButton);
-
-        document.getElementById("productList").appendChild(card);
+      })
+      .catch((error) => {
+        console.error("Error al procesar la solicitud:", error);
       });
-    })
-    .catch((error) => {
-      console.error("Error al procesar la solicitud:", error);
-    });
   }
   loadPage(pageNumber);
 } // Fin del fecth para traer productos
-
 
 function fetchMessage() {
   const logMessage = document.getElementById("logMessage");

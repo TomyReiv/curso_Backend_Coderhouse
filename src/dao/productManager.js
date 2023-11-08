@@ -84,6 +84,7 @@ export default class productManager {
     if (!product) throw new Exception("El producto no existe", 404);
     const criterio = { _id: pid };
     await productModel.deleteOne(criterio);
-    console.log("Usuario eliminado");
+    console.log("Producto aliminado");
+    return {message: 'Producto eliminado'};
   }
 }

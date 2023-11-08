@@ -65,7 +65,10 @@ try {
   console.log(error);
 }
   form.reset()
-});
+})
+.catch((error)=>{
+  console.log(error);
+})
 
 const home = document.getElementById('home')
 home.addEventListener('click', ()=>{
