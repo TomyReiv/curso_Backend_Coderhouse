@@ -57,6 +57,7 @@ router.post("/users/login", async (req, res) => {
       res.status(401).json({ message: "Contraseña incorrecta" });
       return;
     }
+    req.session._id = user._id.toString();
 
     res.status(200).json(user);
   } catch (error) {

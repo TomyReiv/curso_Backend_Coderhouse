@@ -14,6 +14,10 @@ router.get("/", (req, res) => {
   res.render("home", {title: "Home", style: "home.css" });
 });
 
+router.get("/register", (req, res) => {
+  res.render("register", {title: "Register", style: "register.css" });
+});
+
 router.get("/cart", (req, res) => {
   res.render("cart", {title: "Carrito", style: "carrito.css" });
 });

@@ -23,7 +23,7 @@ function form() {
         if (data.username) {
           localStorage.setItem('user', username);
           localStorage.setItem('uid', data._id);
-          window.location.href = "/realTimeProducts"; 
+          window.location.href = "/"; 
         } else {
           alert("Credenciales incorrectas. Por favor, inténtalo de nuevo.");
         }
