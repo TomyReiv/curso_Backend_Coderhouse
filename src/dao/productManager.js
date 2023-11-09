@@ -77,7 +77,8 @@ export default class productManager {
     const criterio = { _id: pid };
     const operation = { $set: data };
     await productModel.updateOne(criterio, operation);
-    console.log("Usuario actualizado");
+    console.log('Producto actualizado');
+    return {message: 'Producto actualizado'};
   }
   static async deleteById(pid) {
     const product = await productModel.findById(pid);

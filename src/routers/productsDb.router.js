@@ -39,7 +39,7 @@ router.post("/products", uploader.single('file'), async (req, res) => {
   }
 });
 
-router.put("/products/pid", async (req, res) => {
+router.put("/products/:pid", async (req, res) => {
   try {
     const { pid } = req.params;
     const { body } = req;
