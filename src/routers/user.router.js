@@ -35,6 +35,7 @@ router.post("/users",  userValidator, handleValidationErrors, async (req, res) =
       password: hash,
     });
     const result = await userManager.createUser(newUser);
+    
     res.status(201).json(result);
   } catch (error) {
     res.status(error.statusCode || 500).json({ message: error.message });
