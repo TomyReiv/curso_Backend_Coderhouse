@@ -9,7 +9,13 @@ export const addressValidator = [
 export const userValidator = [
   body("username").notEmpty().withMessage("Username is required"),
   body("lastname").notEmpty().withMessage("Lastname is required"),
-  body("password").notEmpty().withMessage("Password is required"),
+  body("password")
+    .notEmpty()
+    .withMessage("Password is required")
+    .isLength({ min: 6 })
+    .withMessage("Password should be at least 6 characters")
+    .matches(/[\W_]/)
+    .withMessage("Password should contain at least one special character"),
   body("email")
     .isEmail()
     .withMessage("Invalid email format")

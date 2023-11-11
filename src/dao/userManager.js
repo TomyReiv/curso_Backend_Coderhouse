@@ -20,7 +20,7 @@ export default class userManager {
   static async createUser(userData) {
     const user = await userModel.create(userData);
     console.log('Usuario creado');
-    return user;
+    return {message: 'Usuario creado'};
   }
   static async findUserByEmail(email){
     const user = await userModel.findOne({email});

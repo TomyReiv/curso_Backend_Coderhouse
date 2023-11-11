@@ -22,7 +22,7 @@ form.addEventListener("submit", (e) => {
       street: street.value,
     },
   };
-  console.log(JSON.stringify(data));
+
   fetch("http://localhost:8080/api/users", {
     method: "POST",
     headers: {
@@ -32,16 +32,23 @@ form.addEventListener("submit", (e) => {
   })
     .then((response) => response.json())
     .then((data) => {
-      if (data.username) {
-        alert("Usuario creado");
+      console.log(data);
+      if (data.errors && data.errors.length > 0) {
+        const firstError = data.errors[0];
+        alert(`Error in ${firstError.location}: ${firstError.msg}`);
+      }
+      
+      if (data.message) {
+        alert(data.message);
         localStorage.setItem("user", username);
         localStorage.setItem("uid", data._id);
         window.location.href = "/";
+        form.reset();
       }
     })
     .catch((error) => {
       console.error("Error al procesar la solicitud:", error);
     });
 
-  form.reset();
+  
 });
