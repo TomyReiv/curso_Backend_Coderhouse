@@ -2,6 +2,7 @@ import { Router } from "express";
 import UserModel from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import userManager from "../dao/userManager.js";
+import {userValidator, addressValidator, handleValidationErrors} from "../middleware/users.validators.js";
 
 
 const router = Router();
@@ -25,7 +26,7 @@ router.get("/users/:uid", async (req, res) => {
   }
 });
 
-router.post("/users", async (req, res) => {
+router.post("/users",  userValidator, handleValidationErrors, async (req, res) => {
   try {
     const { password, ...userData } = req.body;
     const hash = await bcrypt.hash(password, 10);
@@ -47,19 +48,24 @@ router.post("/users/login", async (req, res) => {
     const user = await userManager.findUserByEmail(email);
 
     if (!user) {
-      res.status(401).json({ message: "Nombre de usuario incorrecto" });
+      res.status(401).json({ message: "Correo o contraseña invalidos" });
       return;
     }
 
     const passwordMatch = bcrypt.compareSync(password, user.password);
 
     if (!passwordMatch) {
-      res.status(401).json({ message: "Contraseña incorrecta" });
+      res.status(401).json({ message: "Correo o contraseña invalidos" });
       return;
     }
-    req.session._id = user._id.toString();
-
+    const { _id, username, lastname} = user;
+    if(email === 'ravetomas@gmail.com') {
+      req.session.user = {_id, username, lastname, email, isAdmin: true};
+    }else{
+      req.session.user = {_id, username, lastname, email, isAdmin: false};
+    }
     res.status(200).json(user);
+
   } catch (error) {
     res.status(error.statusCode || 500).json({ message: error.message });
   }
@@ -86,5 +92,9 @@ router.delete("/users/:uid", async (req, res) => {
     res.status(error.statusCode || 500).json({ message: error.message });
   }
 });
-
+router.get("/logout", (req, res)=>{
+  req.session.destroy((error)=>{
+    res.redirect("/login");
+  });
+});
 export default router;

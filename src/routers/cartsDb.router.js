@@ -12,6 +12,12 @@ router.get("/cart", async (req, res) => {
   res.status(200).json(cart);
 });
 
+router.get("/cartUser", async (req, res) => {
+  const userId = req.session.user._id;
+  const cart = await cartManager.get({userId});
+  res.status(200).json(cart);
+});
+
 router.get("/cart/:cid", async (req, res) => {
   try {
     const { cid } = req.params;

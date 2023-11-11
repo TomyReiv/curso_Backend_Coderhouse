@@ -1,6 +1,6 @@
 const uid = localStorage.getItem("uid");
 
-if (!uid) window.location.href = "/login";
+/* if (!uid) window.location.href = "/login"; */
 
 function fetchProduct() {
   const page = document.getElementById("currentPage");

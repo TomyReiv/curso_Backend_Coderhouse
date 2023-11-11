@@ -1,10 +1,6 @@
 (function () {
   const uid = localStorage.getItem("uid");
 
-  if (!uid) {
-    window.location.href = "/login";
-  }
-
   const socket = io();
 
   const openDialogButton = document.getElementById("open-dialog-button");
@@ -13,12 +9,9 @@
   const newMessages = document.getElementById("newMessages");
   const username = localStorage.getItem("user");
   const formDialog = document.getElementById("formDialog");
-  const exit = document.getElementById("exit");
+
   const form = document.getElementById("form");
 
-  exit.addEventListener("click", () => {
-    localStorage.removeItem("user"), localStorage.removeItem("uid");
-  });
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();

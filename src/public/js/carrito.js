@@ -3,9 +3,10 @@ const ul = document.getElementById("cartItems");
 let total = 0;
 const cartTotal = document.getElementById("cartTotal");
 
-fetch(`http://localhost:8080/api/cart?userId=${uid}`)
+fetch(`http://localhost:8080/api/cartUser`)
   .then((response) => response.json())
   .then((data) => {
+
     data[0].items.forEach((element) => {
       let li = document.createElement("li");
       let img = document.createElement("img");

@@ -12,6 +12,7 @@ import productRouter from "./routers/productsDb.router.js";
 import messageRouter from "./routers/message.router.js";
 import { __dirname } from "./utils.js";
 import expressSession from "express-session";
+import MongoStore from "connect-mongo";
 
 
 const app = express();
@@ -21,7 +22,12 @@ app.use(express.static(path.join(__dirname, '/public')));
 app.use(expressSession({
     secret: process.env.secret,
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
+    store: MongoStore.create({
+        mongoUrl: process.env.DB_HOST,
+        mongoOptions: {},
+        ttl: 172800
+    })
 }));
 
 app.engine('handlebars', handlebars.engine());

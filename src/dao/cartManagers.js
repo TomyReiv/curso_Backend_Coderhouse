@@ -7,6 +7,11 @@ export default class cartManager {
     return carts;
   }
 
+  static async getOne(query) {
+    const carts = await cartModel.findOne(query).populate("items.pid");
+    return carts;
+  }
+
   static async getById(cid) {
     const cart = await cartModel.findById(cid).populate("items.pid");
     if (!cart) {

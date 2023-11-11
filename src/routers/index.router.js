@@ -1,32 +1,45 @@
 import { Router } from "express";
+import {
+  privateRouter,
+  publicRouter,
+  adminValidator
+} from "../middleware/session.validator.js";
+import cartManagers from "../dao/cartManagers.js";
+
 
 const router = Router();
 
-router.get("/realTimeProducts", (req, res) => {
+router.get("/realTimeProducts", privateRouter, adminValidator, (req, res) => {
   res.render("index", { title: "Cargas", style: "style.css" });
 });
 
-router.get("/login", (req, res) => {
-  res.render("login", {title: "Login"});
+router.get("/login", publicRouter, (req, res) => {
+  res.render("login", { title: "Login" });
 });
 
-router.get("/", (req, res) => {
-  res.render("home", {title: "Home", style: "home.css" });
+router.get("/", privateRouter, (req, res) => {
+  const user = req.session.user.username;
+  res.render("home", { title: "Home", user, style: "home.css" });
 });
 
-router.get("/register", (req, res) => {
-  res.render("register", {title: "Register", style: "register.css" });
+router.get("/register", publicRouter, (req, res) => {
+  res.render("register", { title: "Register", style: "register.css" });
 });
 
-router.get("/cart", (req, res) => {
-  res.render("cart", {title: "Carrito", style: "carrito.css" });
+router.get("/cart", privateRouter, async (req, res) => {
+  /* const userId = req.session.user._id;
+  const cart = await cartManagers.getOne({userId});
+  const items = cart.items.map(items => items.toJSON());
+ */
+  res.render("cart", {title: "Carrito", style: "carrito.css"});
 });
 
-router.get("/producto/:pid", (req, res) => {
-    res.render("producto", {title: "Producto"});
+router.get("/producto/:pid", privateRouter, (req, res) => {
+  res.render("producto", { title: "Producto" });
 });
 
-router.get("/edit/:pid", (req, res) => {
-  res.render("edit", {title: "Editar"});
+router.get("/edit/:pid", privateRouter, (req, res) => {
+  res.render("edit", { title: "Editar" });
 });
+
 export default router;
