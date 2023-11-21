@@ -17,9 +17,14 @@ function form() {
       },
       body: JSON.stringify({ email, password }),
     })
-      .then((response) => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Error de red: ${response.status}`);
+      }
+      return response.json();
+      })
       .then((data) => {
-      
+        console.log(data);
         if (data.email === "ravetomas@gmail.com") {
           localStorage.setItem("user", username);
           localStorage.setItem("uid", data._id);

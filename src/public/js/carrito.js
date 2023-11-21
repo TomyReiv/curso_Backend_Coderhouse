@@ -6,7 +6,7 @@ const cartTotal = document.getElementById("cartTotal");
 fetch(`http://localhost:8080/api/cartUser`)
   .then((response) => response.json())
   .then((data) => {
-
+    console.log(data);
     data[0].items.forEach((element) => {
       let li = document.createElement("li");
       let img = document.createElement("img");
@@ -53,3 +53,7 @@ const home = document.getElementById("home");
 home.addEventListener("click", () => {
   window.location.href = "/";
 });
+const logout = document.getElementById('logout').addEventListener('click', ()=>{
+  localStorage.removeItem('uid');
+  localStorage.removeItem('user');
+})

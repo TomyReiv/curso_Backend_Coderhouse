@@ -2,6 +2,7 @@ import express from "express";
 import handlebars from 'express-handlebars';
 import path from 'path';
 import dotenv from "dotenv";
+import passport from "passport";
 
 dotenv.config();
 
@@ -13,6 +14,7 @@ import messageRouter from "./routers/message.router.js";
 import { __dirname } from "./utils.js";
 import expressSession from "express-session";
 import MongoStore from "connect-mongo";
+import {init as initPassport} from "./middleware/passport.config.js"
 
 
 const app = express();
@@ -34,6 +36,9 @@ app.engine('handlebars', handlebars.engine());
 app.set('views', path.join(__dirname, 'views'));
 app.set("view engine",'handlebars');
 
+initPassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', indexRouter);
 app.use('/api', productRouter, cartRouter, userRouter, messageRouter);

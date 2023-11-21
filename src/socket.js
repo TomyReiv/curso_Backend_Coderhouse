@@ -21,7 +21,7 @@ export const initSocket = async (httpServer) => {
     socketClient.on("new-message", async (data) => {
       try {
         const { username, message } = data;
-        const result = await messageManager.create(data);
+        /* const result = await messageManager.create(data); */
         messagesGlobal.push({username, message});
         io.emit("notification", { messagesGlobal });
       } catch (error) {

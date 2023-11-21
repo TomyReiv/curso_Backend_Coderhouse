@@ -30,14 +30,21 @@ form.addEventListener("submit", (e) => {
     },
     body: JSON.stringify(data),
   })
-    .then((response) => response.json())
+    .then(response => {
+      console.log(response);
+      if (response.status != 200) {
+        alert('Error en el registro o usuario existente.');
+        throw new Error(`Error de red: ${response.status}`);
+      }
+      return response.json();
+    })
     .then((data) => {
       console.log(data);
       if (data.errors && data.errors.length > 0) {
         const firstError = data.errors[0];
         alert(`Error in ${firstError.location}: ${firstError.msg}`);
       }
-      
+
       if (data.message) {
         alert(data.message);
         localStorage.setItem("user", username);
@@ -49,6 +56,4 @@ form.addEventListener("submit", (e) => {
     .catch((error) => {
       console.error("Error al procesar la solicitud:", error);
     });
-
-  
 });

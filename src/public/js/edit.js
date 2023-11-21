@@ -70,3 +70,8 @@ console.log(JSON.stringify(editData));
       console.error("Error al procesar la solicitud:", error);
     });
 });
+
+const logout = document.getElementById('logout').addEventListener('click', ()=>{
+  localStorage.removeItem('uid');
+  localStorage.removeItem('user');
+})

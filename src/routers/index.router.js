@@ -19,7 +19,8 @@ router.get("/login", publicRouter, (req, res) => {
 
 router.get("/", privateRouter, (req, res) => {
   const user = req.session.user.username;
-  res.render("home", { title: "Home", user, style: "home.css" });
+  const uid = req.session.user._id.trim();
+  res.render("home", { title: "Home", user, uid, style: "home.css" });
 });
 
 router.get("/register", publicRouter, (req, res) => {
@@ -27,10 +28,6 @@ router.get("/register", publicRouter, (req, res) => {
 });
 
 router.get("/cart", privateRouter, async (req, res) => {
-  /* const userId = req.session.user._id;
-  const cart = await cartManagers.getOne({userId});
-  const items = cart.items.map(items => items.toJSON());
- */
   res.render("cart", {title: "Carrito", style: "carrito.css"});
 });
 

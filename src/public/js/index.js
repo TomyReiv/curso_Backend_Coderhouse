@@ -196,3 +196,8 @@ function fetchMessage() {
 //LLamados de funciones
 fetchMessage();
 fetchProduct();
+
+const logout = document.getElementById('logout').addEventListener('click', ()=>{
+  localStorage.removeItem('uid');
+  localStorage.removeItem('user');
+})

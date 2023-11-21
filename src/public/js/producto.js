@@ -1,4 +1,4 @@
-const uid = localStorage.getItem("uid");
+const uid = localStorage.getItem("uid").trim();
 
 /* if (!uid) window.location.href = "/login"; */
 
@@ -37,12 +37,12 @@ form.addEventListener("submit", (e) => {
   const value = document.getElementById("valor").value;
 
   const cartProductData = {
-    pid: id,
+    pid: id.trim(),
     quantity: parseInt(value, 10),
   };
 
   const cartData = {
-    userId: uid,
+    userId: uid.trim(),
     items: [cartProductData],
   };
 
@@ -73,4 +73,9 @@ try {
 const home = document.getElementById('home')
 home.addEventListener('click', ()=>{
   window.location.href='/';
+})
+
+const logout = document.getElementById('logout').addEventListener('click', ()=>{
+  localStorage.removeItem('uid');
+  localStorage.removeItem('user');
 })
