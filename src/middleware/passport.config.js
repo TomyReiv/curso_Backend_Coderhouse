@@ -4,6 +4,7 @@ import  GithubStrategy from "passport-github2";
 import { createHash, isValidPassword } from "../utils.js";
 import userModel from "../models/user.model.js";
 import dotenv from "dotenv";
+import fetch from "node-fetch";
 
 dotenv.config();
 
@@ -77,7 +78,17 @@ export const init = () => {
       githubOpts,
       async (accessToken, refreshToken, profile, done) => {
         try {
-          const email = profile._json.email;
+          let email = profile._json.email;
+          if(!email){
+            let data = await fetch('https://api.github.com/user/public_emails', {
+              headers:{
+                Authorization: `token ${accessToken}`
+              },
+            });
+            data = await data.json();
+            const target = data.find((item)=>item.primary && item.verified && item.visibility === 'public');
+            email = target.email;
+          }
           let user = await userModel.findOne({ email });
           if (user) {
             return done(null, user);

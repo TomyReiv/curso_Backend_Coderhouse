@@ -7,6 +7,7 @@ import {
 import { isValidPassword } from "../utils.js";
 import passport from "passport";
 import mongoose from "mongoose";
+import { tokenGenerator } from "../utils.js";
 
 const router = Router();
 
@@ -68,7 +69,12 @@ router.post(
       req.session.user = { _id, username, lastname, email, isAdmin: false };
     }
     const user = req.user;
-    res.status(200).json(user);
+    const userToken = await userManager.findUserByEmail(email);
+    const token = tokenGenerator(userToken)
+    res.cookie('accessToken', token, {
+      maxAge: 60*60*24,
+      httpOnly: true
+    }).status(200).json(user);
   }
 );
 
