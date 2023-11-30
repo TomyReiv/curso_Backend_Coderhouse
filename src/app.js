@@ -1,10 +1,10 @@
 import express from "express";
 import handlebars from 'express-handlebars';
 import path from 'path';
-import dotenv from "dotenv";
+/* import dotenv from "dotenv"; */
 import passport from "passport";
-
-dotenv.config();
+import { config } from "./config.js";
+/* dotenv.config(); */
 
 import cartRouter from "./routers/cartsDb.router.js";
 import indexRouter from "./routers/index.router.js"
@@ -24,11 +24,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '/public')));
 app.use(expressSession({
-    secret: process.env.secret,
+    secret: config.SERVER_SECRET,
     resave: true,
     saveUninitialized: true,
     store: MongoStore.create({
-        mongoUrl: process.env.DB_HOST,
+        mongoUrl: config.DB_HOST,
         mongoOptions: {},
         ttl: 172800
     })

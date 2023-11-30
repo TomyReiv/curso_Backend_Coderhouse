@@ -7,6 +7,8 @@ export const privateRouter = (req, res, next) => {
 
 export const publicRouter = (req, res, next) => {
   if (req.session.user) {
+    const tokenCookie = req.cookies.token;
+    console.log(tokenCookie);
     return res.redirect("/");
   }
   next();

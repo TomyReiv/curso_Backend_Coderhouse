@@ -3,12 +3,13 @@ import multer from 'multer';
 import { fileURLToPath } from 'url';
 import bcrypt, { genSaltSync } from "bcrypt";
 import Jwt from 'jsonwebtoken';
-import dotenv from "dotenv";
+/* import dotenv from "dotenv"; */
 import userModel from "./models/user.model.js";
+import { config } from "./config.js";
 
-dotenv.config();
+/* dotenv.config(); */
 
-const JWT_SECRET = process.env.JwtSecret;
+const JWT_SECRET = config.JwtSecret;
 
 const __filename = fileURLToPath(import.meta.url);
 

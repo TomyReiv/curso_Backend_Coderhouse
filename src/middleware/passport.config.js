@@ -3,19 +3,20 @@ import { Strategy as LocalStrategy } from "passport-local";
 import  GithubStrategy from "passport-github2";
 import { createHash, isValidPassword } from "../utils.js";
 import userModel from "../models/user.model.js";
-import dotenv from "dotenv";
+/* import dotenv from "dotenv"; */
 import fetch from "node-fetch";
+import { config } from "../config.js";
 
-dotenv.config();
+/* dotenv.config(); */
 
 const opts = {
   usernameField: "email",
   passReqToCallback: true,
 };
 const githubOpts = {
-  clientID: process.env.ClientID,
-  clientSecret: process.env.clientSecret,
-  callbackURL: process.env.callback
+  clientID: config.ClientID,
+  clientSecret: config.clientSecret,
+  callbackURL: config.callback
 };
 
 export const init = () => {
