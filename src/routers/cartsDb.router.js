@@ -1,6 +1,8 @@
 import { Router } from "express";
 import cartManager from "../dao/cartManagers.js";
 import cartModel from "../models/cart.model.js";
+import { config } from "../config.js";
+import Jwt from 'jsonwebtoken';
 
 
 const router = Router();
@@ -13,7 +15,14 @@ router.get("/cart", async (req, res) => {
 });
 
 router.get("/cartUser", async (req, res) => {
-  const userId = req.session.user._id;
+  /* const userId = req.session.user._id; */
+  const token = req.signedCookies['accessToken']
+
+  Jwt.verify(token, config.JwtSecret, async (error, payload)=>{
+    if(error) res.status(403).json({message:'No authorized'});
+    req.user = payload
+})
+  const userId = req.user.id.trim();
   const cart = await cartManager.get({userId});
   res.status(200).json(cart);
 });

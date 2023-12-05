@@ -2,14 +2,19 @@ import { Router } from "express";
 import {
   privateRouter,
   publicRouter,
-  adminValidator
+  adminValidator,
+  authPolicies
 } from "../middleware/session.validator.js";
 import cartManagers from "../dao/cartManagers.js";
+import passport from "passport";
+import { config } from "../config.js";
+import Jwt from 'jsonwebtoken';
+import userModel from "../models/user.model.js";
 
 
 const router = Router();
 
-router.get("/realTimeProducts", privateRouter, adminValidator, (req, res) => {
+router.get("/realTimeProducts", authPolicies(['admin']), passport.authenticate('jwt', {session:false}),  (req, res) => {
   res.render("index", { title: "Cargas", style: "style.css" });
 });
 
@@ -17,9 +22,16 @@ router.get("/login", publicRouter, (req, res) => {
   res.render("login", { title: "Login" });
 });
 
-router.get("/", privateRouter, (req, res) => {
-  const user = req.session.user.username;
-  const uid = req.session.user._id.trim();
+router.get("/", authPolicies(['user', 'admin']), passport.authenticate('jwt', {session:false}),  (req, res) => {
+ 
+  const token = req.signedCookies['accessToken']
+
+  Jwt.verify(token, config.JwtSecret, async (error, payload)=>{
+    if(error) res.status(403).json({message:'No authorized'});
+    req.user = payload
+})
+  const user = req.user.username;
+  const uid = req.user.id;
   res.render("home", { title: "Home", user, uid, style: "home.css" });
 });
 

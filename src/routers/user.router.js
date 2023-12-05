@@ -2,12 +2,13 @@ import { Router } from "express";
 import userManager from "../dao/userManager.js";
 import {
   userValidator,
-  handleValidationErrors,
+  handleValidationErrors
 } from "../middleware/users.validators.js";
 import { isValidPassword } from "../utils.js";
 import passport from "passport";
 import mongoose from "mongoose";
 import { tokenGenerator } from "../utils.js";
+
 
 const router = Router();
 
@@ -62,18 +63,18 @@ router.post(
   async (req, res) => {
     const email = req.user.email;
     const { _id, username, lastname} = req.user;
-    /* const id = req.user._id.toString().trim(); */
-    if (email === "ravetomas@gmail.com") {
+   /*  if (email === "ravetomas@gmail.com") {
       req.session.user = { _id, username, lastname, email, isAdmin: true };
     } else {
       req.session.user = { _id, username, lastname, email, isAdmin: false };
-    }
+    } */
     const user = req.user;
     const userToken = await userManager.findUserByEmail(email);
     const token = tokenGenerator(userToken)
     res.cookie('accessToken', token, {
-      maxAge: 60*60*24,
-      httpOnly: true
+      maxAge: 60*60*24*1000,
+      httpOnly: true,
+      signed: true
     }).status(200).json(user);
   }
 );
@@ -82,9 +83,14 @@ router.get("/users/github", passport.authenticate('github', {scope: ['user:email
 
 router.get("/users/github/cb", passport.authenticate('github', { failureRedirect: "/login" }), (req, res)=>{
   const { _id, username, lastname, email } = req.user;
-/*   const id = req.user._id.toString().trim(); */
-  req.session.user = { _id, username, lastname, email, isAdmin: false };
-  res.redirect('/');
+/*   req.session.user = { _id, username, lastname, email, rol }; */
+  const token = tokenGenerator(req.user)
+  res.cookie('accessToken', token, {
+    maxAge: 60*60*24,
+    httpOnly: true,
+    signed: true
+  })
+  .redirect('/');
 });
 
 /* router.post("/users/login", async (req, res) => {
@@ -140,8 +146,6 @@ router.delete("/users/:uid", async (req, res) => {
   }
 });
 router.get("/logout", (req, res) => {
-  req.session.destroy((error) => {
-    res.redirect("/login");
-  });
+  res.cookie('accessToken', '', { maxAge: -1 }).redirect("/login");
 });
 export default router;

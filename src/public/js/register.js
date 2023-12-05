@@ -49,7 +49,7 @@ form.addEventListener("submit", (e) => {
         alert(data.message);
         localStorage.setItem("user", username);
         localStorage.setItem("uid", data._id);
-        window.location.href = "/";
+        window.location.href = "/login";
         form.reset();
       }
     })

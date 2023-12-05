@@ -21,7 +21,7 @@ import cookieParser from "cookie-parser";
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
+app.use(cookieParser(config.SERVER_SECRET));
 app.use(express.static(path.join(__dirname, '/public')));
 app.use(expressSession({
     secret: config.SERVER_SECRET,

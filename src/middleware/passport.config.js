@@ -1,13 +1,30 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
+import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 import  GithubStrategy from "passport-github2";
 import { createHash, isValidPassword } from "../utils.js";
 import userModel from "../models/user.model.js";
 /* import dotenv from "dotenv"; */
 import fetch from "node-fetch";
 import { config } from "../config.js";
+import cartModel from "../models/cart.model.js";
+
+
 
 /* dotenv.config(); */
+
+function cookieExtractor(req){
+  let token = null;
+  if(req && req.signedCookies){
+    token = req.signedCookies['accessToken']
+  }
+  return token;
+};
+
+const optsJwt = {
+  jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
+  secretOrKey: config.JwtSecret,
+};
 
 const opts = {
   usernameField: "email",
@@ -20,6 +37,16 @@ const githubOpts = {
 };
 
 export const init = () => {
+
+  passport.use('jwt', new JwtStrategy(optsJwt, (payload, done)=>{
+    try {
+      return done(null, payload)
+    } catch (error) {
+      console.log(error);
+    }
+    
+  }))
+
   passport.use(
     "register",
     new LocalStrategy(opts, async (req, email, password, done) => {
@@ -29,11 +56,19 @@ export const init = () => {
       }
       try {
         const { password, ...body } = req.body;
+        let rol = 'user';
+        email === "ravetomas@gmail.com" ? rol = 'admin' : rol = 'user';
 
         const newUser = await userModel.create({
           ...req.body,
+          rol,
           password: createHash(password),
         });
+
+        const cartNew = await cartModel.create({userId:newUser._id})
+        const cart = cartNew._id;
+        const uid = newUser._id;
+        const cartUser = await userModel.findByIdAndUpdate(uid, {$set:{ 'cart': cart } });
 
         done(null, newUser);
       } catch (error) {
@@ -87,6 +122,7 @@ export const init = () => {
               },
             });
             data = await data.json();
+            console.log('data:' ,data);
             const target = data.find((item)=>item.primary && item.verified && item.visibility === 'public');
             email = target.email;
           }
@@ -108,6 +144,12 @@ export const init = () => {
             provider: "github",
           };
           const newUser = await userModel.create(user);
+
+          const cartNew = await cartModel.create({userId:newUser._id})
+          const cart = cartNew._id;
+          const uid = newUser._id;
+          const cartUser = await userModel.findByIdAndUpdate(uid, {$set:{ 'cart': cart } });
+
           done(null, newUser);
         } catch (error) {
           console.error("Error en la estrategia GitHub:", error);
@@ -128,4 +170,7 @@ export const init = () => {
       done(error, null);
     }
   });
+
+
+
 };
