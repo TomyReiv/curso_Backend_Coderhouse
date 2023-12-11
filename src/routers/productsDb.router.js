@@ -1,62 +1,71 @@
 import { Router } from "express";
-import productManager from "../dao/productManager.js";
+import productController from "../controllers/product.controller.js";
 import { uploader } from "../utils.js";
 
 const router = Router();
 
-router.get("/products", async (req, res) => {
-  const { query = {} } = req;
-  const product = await productManager.get(query);
-  res.status(200).json(product);
+router.get("/products", async (req, res, next) => {
+  try {
+    const { query = {} } = req;
+    const product = await productController.get(query);
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(error.statusCode || 500).json({ message: error.message });
+    next(error);
+  }
 });
 
-router.get("/products/:pid", async (req, res) => {
+router.get("/products/:pid", async (req, res, next) => {
   try {
     const { pid } = req.params;
-    const product = await productManager.getById({ _id: pid });
+    const product = await productController.getById({ _id: pid });
     if (!product) {
       return res.status(404).json({ message: "No user found" });
     }
     res.status(200).json(product);
   } catch (error) {
     res.status(error.statusCode || 500).json({ message: error.message });
+    next(error);
   }
 });
 
-router.post("/products", uploader.single('file'), async (req, res) => {
+router.post("/products", uploader.single("file"), async (req, res, next) => {
   try {
     const { body, file } = req;
     if (file) {
       body.thumbnail = {
-        filename: file.filename, 
+        filename: file.filename,
         path: file.path,
       };
     }
-    const result = await productManager.createProduct(body);
+    const result = await productController.createProduct(body);
     res.status(201).json(result);
   } catch (error) {
     res.status(error.statusCode || 500).json({ message: error.message });
+    next(error);
   }
 });
 
-router.put("/products/:pid", async (req, res) => {
+router.put("/products/:pid", async (req, res, next) => {
   try {
     const { pid } = req.params;
     const { body } = req;
-    const result = await productManager.updateById(pid, body);
+    const result = await productController.updateById(pid, body);
     res.status(201).json(result);
   } catch (error) {
     res.status(error.statusCode || 500).json({ message: error.message });
+    next(error);
   }
 });
 
-router.delete("/products/:pid", async (req, res) => {
+router.delete("/products/:pid", async (req, res, next) => {
   try {
     const { pid } = req.params;
-    const result = await productManager.deleteById(pid);
+    const result = await productController.deleteById(pid);
     res.status(200).json(result);
   } catch (error) {
     res.status(error.statusCode || 500).json({ message: error.message });
+    next(error);
   }
 });
 

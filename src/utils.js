@@ -1,13 +1,11 @@
-import path from 'path';
-import multer from 'multer';
-import { fileURLToPath } from 'url';
 import bcrypt, { genSaltSync } from "bcrypt";
-import Jwt from 'jsonwebtoken';
-/* import dotenv from "dotenv"; */
-import userModel from "./models/user.model.js";
 import { config } from "./config.js";
+import { fileURLToPath } from 'url';
+import Jwt from 'jsonwebtoken';
+import multer from 'multer';
+import path from 'path';
+import userModel from "./models/user.model.js";
 
-/* dotenv.config(); */
 
 const JWT_SECRET = config.JwtSecret;
 

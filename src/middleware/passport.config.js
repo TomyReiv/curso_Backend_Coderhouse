@@ -3,15 +3,14 @@ import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 import  GithubStrategy from "passport-github2";
 import { createHash, isValidPassword } from "../utils.js";
-import userModel from "../models/user.model.js";
-/* import dotenv from "dotenv"; */
 import fetch from "node-fetch";
+
 import { config } from "../config.js";
+
+import userModel from "../models/user.model.js";
 import cartModel from "../models/cart.model.js";
 
 
-
-/* dotenv.config(); */
 
 function cookieExtractor(req){
   let token = null;
@@ -66,9 +65,8 @@ export const init = () => {
         });
 
         const cartNew = await cartModel.create({userId:newUser._id})
-        const cart = cartNew._id;
         const uid = newUser._id;
-        const cartUser = await userModel.findByIdAndUpdate(uid, {$set:{ 'cart': cart } });
+        const cartUser = await userModel.findByIdAndUpdate(uid, {$set:{ 'cart': cartNew._id } });
 
         done(null, newUser);
       } catch (error) {
@@ -94,12 +92,6 @@ export const init = () => {
         if (!passwordMatch) {
           return done(new Error("Usuario o contraseña invalidos"));
         }
-        /*   const { _id, username, lastname} = user;
-            if(email === 'ravetomas@gmail.com') {
-            req.session.user = {_id, username, lastname, email, isAdmin: true};
-            }else{
-            req.session.user = {_id, username, lastname, email, isAdmin: false};
-            } */
 
         done(null, user);
       } catch (error) {
@@ -122,8 +114,8 @@ export const init = () => {
               },
             });
             data = await data.json();
-            console.log('data:' ,data);
-            const target = data.find((item)=>item.primary && item.verified && item.visibility === 'public');
+           
+            const target = data.find(item=>item.primary && item.verified && item.visibility === 'public');
             email = target.email;
           }
           let user = await userModel.findOne({ email });
@@ -134,7 +126,7 @@ export const init = () => {
             username: profile._json.name,
             lastname: "",
             password: "",
-            email: profile._json.email,
+            email: email,
             address: {
               street: "",
               city: "",
@@ -146,9 +138,8 @@ export const init = () => {
           const newUser = await userModel.create(user);
 
           const cartNew = await cartModel.create({userId:newUser._id})
-          const cart = cartNew._id;
           const uid = newUser._id;
-          const cartUser = await userModel.findByIdAndUpdate(uid, {$set:{ 'cart': cart } });
+          const cartUser = await userModel.findByIdAndUpdate(uid, {$set:{ 'cart': cartNew._id } });
 
           done(null, newUser);
         } catch (error) {

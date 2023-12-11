@@ -2,90 +2,51 @@ import productModel from "../models/product.model.js";
 import Exception from "../utils.js";
 
 export default class productManager {
-  static async get(query = {}) {
+  
+  static async get(filter, options) {
     try {
-      const {
-        limit = 10,
-        page = 1,
-        sortField = "price",
-        sortOrder,
-        ...criteria
-      } = query;
-
-      const filter = {};
-
-      if (criteria._id) filter._id = criteria._id;
-      if (criteria.title) filter.title = criteria.title;
-      if (criteria.description) filter.description = criteria.description;
-      if (criteria.price) filter.price = criteria.price;
-      if (criteria.code) filter.code = criteria.code;
-      if (criteria.category) filter.category = criteria.category;
-      if (criteria.stock) filter.stock = criteria.stock;
-
-      const options = {
-        page: parseInt(page, 10),
-        limit: parseInt(limit, 10),
-      };
-
-      if (sortField) {
-        options.sort = { [sortField]: sortOrder };
-      }
-
-      const products = await productModel.paginate(filter, options);
-
-      const response = {
-        status: "success",
-        payload: products.docs,
-        totalPages: products.totalPages,
-        prevPage: products.prevPage,
-        nextPage: products.nextPage,
-        page: products.page,
-        hasPrevPage: products.hasPrevPage,
-        hasNextPage: products.hasNextPage,
-        prevLink: products.hasPrevPage
-          ? `/products?page=${products.prevPage}`
-          : null,
-        nextLink: products.hasNextPage
-          ? `/products?page=${products.nextPage}`
-          : null,
-      };
-
+      const response = await productModel.paginate(filter, options);
       return response;
     } catch (error) {
-      return {
-        status: "error",
-        message: error.message,
-      };
+      throw new Exception(error.message, error.status);
     }
   }
 
   static async getById(pid) {
-    const product = await productModel.findById(pid);
-    if (!product) {
-      throw new Exception("No existe el producto", 404);
+    try {
+      const product = await productModel.findById(pid);
+      return product;
+    } catch (error) {
+      throw new Exception(error.message, error.status);
     }
-    return product;
   }
   static async createProduct(product) {
-    const Product = await productModel.create(product);
-    console.log("Producto creado");
-    return Product;
+    try {
+      const Product = await productModel.create(product);
+      console.log("Producto creado");
+      return Product;
+    } catch (error) {
+      throw new Exception(error.message, error.status);
+    }
   }
-  static async updateById(pid, data) {
-    const product = await productModel.findById(pid);
-    if (!product) throw new Exception("El producto no existe", 404);
-    const criterio = { _id: pid };
-    const operation = { $set: data };
-    await productModel.updateOne(criterio, operation);
-    console.log('Producto actualizado');
-    return {message: 'Producto actualizado'};
+
+  static async updateOne(pid, data) {
+    try {
+      const response = await productModel.updateOne({pid}, {data});
+      console.log("Producto actualizado");
+      return { message: "Producto actualizado" };
+    } catch (error) {
+      throw new Exception(error.message, error.status);
+    }
   }
+
   static async deleteById(pid) {
-    const product = await productModel.findById(pid);
-    if (!product) throw new Exception("El producto no existe", 404);
-    const criterio = { _id: pid };
-    await productModel.deleteOne(criterio);
-    console.log("Producto aliminado");
-    return {message: 'Producto eliminado'};
+    try {
+      const response = await productModel.deleteOne({_id:pid});
+      console.log("Producto aliminado");
+      return { message: "Producto eliminado" };
+    } catch (error) {
+      throw new Exception(error.message, error.status);
+    }
   }
 }

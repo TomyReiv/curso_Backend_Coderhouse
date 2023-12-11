@@ -5,11 +5,9 @@ import {
   adminValidator,
   authPolicies
 } from "../middleware/session.validator.js";
-import cartManagers from "../dao/cartManagers.js";
 import passport from "passport";
 import { config } from "../config.js";
 import Jwt from 'jsonwebtoken';
-import userModel from "../models/user.model.js";
 
 
 const router = Router();
