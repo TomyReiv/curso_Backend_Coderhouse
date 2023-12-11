@@ -1,6 +1,5 @@
-import { Server } from "socket.io";
 import productModel from "./models/product.model.js";
-import messageManager from "./dao/messageManager.js";
+import { Server } from "socket.io";
 
 let io;
 
@@ -14,7 +13,7 @@ export const initSocket = async (httpServer) => {
 
   io.on("connection", async (socketClient) => {
 
-    const messages = await messageManager.get();
+   /*  const messages = await messageManager.get(); */
     console.log(`Socket conectado: ${socketClient.id}`);
 
     socketClient.emit("notification", { messagesGlobal });

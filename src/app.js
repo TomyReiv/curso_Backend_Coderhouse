@@ -1,24 +1,26 @@
+import cookieParser from "cookie-parser";
+import cors from "cors";
 import express from "express";
+import expressSession from "express-session";
 import handlebars from 'express-handlebars';
-import path from 'path';
-/* import dotenv from "dotenv"; */
+import MongoStore from "connect-mongo";
 import passport from "passport";
-import { config } from "./config.js";
-/* dotenv.config(); */
+import path from 'path';
 
 import cartRouter from "./routers/cartsDb.router.js";
+import { config } from "./config.js";
 import indexRouter from "./routers/index.router.js"
-import userRouter from "./routers/user.router.js";
-import productRouter from "./routers/productsDb.router.js";
-import messageRouter from "./routers/message.router.js";
-import { __dirname } from "./utils.js";
-import expressSession from "express-session";
-import MongoStore from "connect-mongo";
 import {init as initPassport} from "./middleware/passport.config.js"
-import cookieParser from "cookie-parser";
+import messageRouter from "./routers/message.router.js";
+import productRouter from "./routers/productsDb.router.js";
+import userRouter from "./routers/user.router.js";
+import { __dirname } from "./utils.js";
 
 
 const app = express();
+
+app.use(cors());
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(config.SERVER_SECRET));

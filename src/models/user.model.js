@@ -10,7 +10,7 @@ const address = new Schema({
 });
 
 const cartSubSchema = new Schema({
-    cart: { type: mongoose.Schema.Types.ObjectId, ref: 'Cart' }
+    cart: { type: Schema.Types.ObjectId, ref: 'Cart' }
 })
 
 const userSchema = new Schema({

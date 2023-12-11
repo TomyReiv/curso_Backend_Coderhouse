@@ -16,9 +16,7 @@ export const publicRouter = (req, res, next) => {
 };
 
 export const adminValidator = (req, res, next) => {
-  /*  if (req.session.user.isAdmin === false) {
-    return res.redirect("/");
-  }  */
+
   const token = req.signedCookies["accessToken"];
 
   Jwt.verify(token, config.JwtSecret, async (error, payload) => {
@@ -32,18 +30,26 @@ export const adminValidator = (req, res, next) => {
 };
 
 export const authPolicies = (roles) => (req, res, next) => {
-  if (roles.includes("admin")) {
-    return next();
+  try {
+    
+    if (roles.includes("admin")) {
+      return next();
+    }
+    if (roles.includes("user")) {
+      return next();
+    }
+
+    const { rol } = req.user;
+    if (!roles.includes(rol)) {
+      return res
+        .status(403)
+        .redirect("/login")
+        .json({ message: "No tienes permiso" })  
+    }
+ 
+    next();
+  } catch (error) {
+    next(error);
   }
-  if (roles.includes("user")) {
-    return next();
-  }
-  const { rol } = req.user;
-  if (!roles.includes(rol)) {
-    return res
-      .status(403)
-      .json({ message: "No tienes permiso" })
-      .redirect("/login");
-  }
-  next();
+  
 };

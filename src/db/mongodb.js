@@ -1,12 +1,13 @@
 import mongoose from "mongoose";
-import dotenv from "dotenv";
+/* import dotenv from "dotenv"; */
+import {config} from "../config.js"
 
-dotenv.config();
+/* dotenv.config(); */
 
 
 export const init = async () =>{
     try {
-        const URL = process.env.DB_HOST 
+        const URL = config.DB_HOST 
         await mongoose.connect(URL);
         console.log('Conectado a la db correctamente');
     } catch (error) {
