@@ -10,7 +10,8 @@ const address = new Schema({
 });
 
 const cartSubSchema = new Schema({
-    cart: { type: Schema.Types.ObjectId, ref: 'Cart' }
+    "_id": false,
+    cart: { type: mongoose.Schema.Types.ObjectId, ref: 'Cart' },
 })
 
 const userSchema = new Schema({
@@ -21,7 +22,7 @@ const userSchema = new Schema({
     address: { type: address },
     status: { type: String, default: 'active', enum: ['active', 'inactive'] },
     rol: { type: String, default: 'user', enum: ['admin', 'user']  },
-    cart: { type: cartSubSchema, default: null },
+    cart: { type: mongoose.Schema.Types.ObjectId, default: null},
     provider: {type: String}
 }, {timestamps: true});
 

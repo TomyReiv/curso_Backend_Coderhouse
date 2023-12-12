@@ -34,22 +34,6 @@ router.get("/users/:uid", async (req, res, next) => {
   }
 });
 
-/* router.post("/users",  userValidator, handleValidationErrors, async (req, res) => {
-  try {
-    const {password, ...body } = req.body;
-
-    const newUser = new UserModel({
-      ...body,
-      password: createHash(password),
-    });
-    const result = await userController.createUser(newUser);
-
-    res.status(201).json(result);
-  } catch (error) {
-    res.status(error.statusCode || 500).json({ message: error.message });
-  }
-}); */
-
 router.post(
   "/users",
   userValidator,
@@ -78,6 +62,7 @@ router.post(
       const user = req.user;
       const userToken = await userController.findUserByEmail(email);
       const token = tokenGenerator(userToken);
+
       res
         .cookie("accessToken", token, {
           maxAge: 60 * 60 * 24 * 1000,
@@ -119,37 +104,6 @@ router.get(
   }
 );
 
-/* router.post("/users/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    
-
-    const user = await userController.findUserByEmail(email);
-
-    if (!user) {
-      res.status(401).json({ message: "Correo o contraseña invalidos" });
-      return;
-    }
-
-    const passwordMatch = isValidPassword(password, user);
-    console.log(passwordMatch);
-    if (!passwordMatch) {
-      res.status(401).json({ message: "Correo o contraseña invalidos" });
-      return;
-    }
-    const { _id, username, lastname} = user;
-    if(email === 'ravetomas@gmail.com') {
-      req.session.user = {_id, username, lastname, email, isAdmin: true};
-    }else{
-      req.session.user = {_id, username, lastname, email, isAdmin: false};
-    }
-    res.status(200).json(user);
-
-  } catch (error) {
-
-    res.status(error.statusCode || 500).json({ message: error.message });
-  }
-}); */
 
 router.put("/users/uid", async (req, res, next) => {
   try {

@@ -1,7 +1,7 @@
-const uidStor = document.getElementById("uid").textContent;
+/* const uidStor = document.getElementById("uid").textContent;
 localStorage.setItem("uid", uidStor);
 const user = document.getElementById("user").textContent;
-localStorage.setItem("user", user);
+localStorage.setItem("user", user); */
 const uid = localStorage.getItem("uid").trim();
 const username = localStorage.getItem("user");
 
@@ -74,7 +74,6 @@ function fetchProduct() {
               userId: uid.trim(),
               items: [cartProductData],
             };
-            console.log(cartData);
             try {
               fetch("http://localhost:8080/api/cart", {
                 method: "post",
@@ -86,8 +85,7 @@ function fetchProduct() {
                 .then((response) => response.json())
                 .then((data) => {
                   console.log(data);
-                  console.log(data.message);
-                  alert("Producto cargado exitosamente");
+                  alert(data.message);
                 })
                 .catch((error) => {
                   console.log("Error", error);

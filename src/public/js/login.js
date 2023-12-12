@@ -17,23 +17,23 @@ function form() {
       },
       body: JSON.stringify({ email, password }),
     })
-      .then(response => {
+      .then((response) => {
         if (!response.ok) {
           throw new Error(`Error de red: ${response.status}`);
-      }
-      return response.json();
+        }
+        return response.json();
       })
       .then((data) => {
-        console.log(data);
+        console.log(data._id);
         if (data.email === "ravetomas@gmail.com") {
           localStorage.setItem("user", username);
           localStorage.setItem("uid", data._id);
-         return window.location.href = "/realTimeProducts";
+          return (window.location.href = "/realTimeProducts");
         }
         if (data.username) {
           localStorage.setItem("user", username);
           localStorage.setItem("uid", data._id);
-          return window.location.href = "/";
+          return (window.location.href = "/");
         } else {
           alert("Credenciales incorrectas. Por favor, inténtalo de nuevo.");
         }

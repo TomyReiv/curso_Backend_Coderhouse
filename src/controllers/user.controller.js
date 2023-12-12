@@ -38,7 +38,7 @@ export default class userController {
   }
   static async findUserByEmail(email) {
     try {
-      const user = await userManager.findUserByEmail({ email });
+      const user = await userManager.findUserByEmail({email});
       if (!user) {
         throw new Exception("No existe el usuario", 404);
       }

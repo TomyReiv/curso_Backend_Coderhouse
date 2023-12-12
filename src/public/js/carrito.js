@@ -6,7 +6,6 @@ const cartTotal = document.getElementById("cartTotal");
 fetch(`http://localhost:8080/api/cartUser`)
   .then((response) => response.json())
   .then((data) => {
-    console.log(data);
     data[0].items.forEach((element) => {
       let li = document.createElement("li");
       let img = document.createElement("img");
@@ -30,7 +29,6 @@ fetch(`http://localhost:8080/api/cartUser`)
         })
           .then((response) => response.json())
           .then((data) => {
-            console.log(data);
             alert(data.message);
             location.reload();
           })

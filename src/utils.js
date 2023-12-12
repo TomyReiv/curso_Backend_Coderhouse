@@ -39,17 +39,12 @@ export const isValidPassword = (password, user) => bcrypt.compareSync(password, 
 
 export const tokenGenerator = (user) =>{
     const { _id, username, lastname, email, rol } = user;
-   /*  if(email === 'ravetomas@gmail.com') {
-       user.rol = 'admin';
-    }else{
-        user.rol = 'user';
-    } */
     const payload = {
         id: _id,
-        username,
-        lastname,
-        email,
-        rol
+        username: username,
+        lastname: lastname,
+        email: email,
+        rol: rol
     };
     const token = Jwt.sign(payload, JWT_SECRET, {expiresIn: '24h'});
     return token;

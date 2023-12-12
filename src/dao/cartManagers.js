@@ -37,8 +37,6 @@ export default class cartManager {
 
   static async updateById(uid, data) {
     try {
-      const criterio = { _id: uid };
-      const operation = { $set: data };
       await cartModel.updateOne(criterio, operation);
       console.log("Carrito actualizado");
     } catch (error) {
@@ -55,14 +53,14 @@ export default class cartManager {
     }
   }
 
-  static async findOneAndUpdate(pid, data) {
+  static async findOneAndUpdate(userId, pid, data) {
     try {
       await cartModel.findOneAndUpdate(
         { userId, "items.pid": pid },
         { $inc: { "items.$.quantity": data || 1 } }
       );
       console.log("Cantidad actualizada en el carrito");
-      return existingItem;
+      return {message: 'Cantidad actualizada en el carrito'};
     } catch (error) {
       throw new Exception(error.message, error.status);
     }
