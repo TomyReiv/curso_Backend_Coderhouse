@@ -1,7 +1,7 @@
-/* const uidStor = document.getElementById("uid").textContent;
+ const uidStor = document.getElementById("uid").textContent;
 localStorage.setItem("uid", uidStor);
 const user = document.getElementById("user").textContent;
-localStorage.setItem("user", user); */
+localStorage.setItem("user", user); 
 const uid = localStorage.getItem("uid").trim();
 const username = localStorage.getItem("user");
 

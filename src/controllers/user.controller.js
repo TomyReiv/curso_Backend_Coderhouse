@@ -61,11 +61,11 @@ export default class userController {
   }
   static async deleteById(uid) {
     try {
-      const user = await userManager.findById(uid);
+      const user = await userManager.getById(uid);
       if (!user) throw new Exception("El usuario no existe", 404);
       const criterio = { _id: uid };
-      await userManager.deleteOne(criterio);
-      console.log("Usuario eliminado");
+      const result = await userManager.deleteOne(criterio);
+      return result.message;
     } catch (error) {
       throw new Exception(error.message, error.status);
     }

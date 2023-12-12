@@ -6,6 +6,7 @@ import {
 } from "../middleware/users.validators.js";
 import passport from "passport";
 import { tokenGenerator } from "../utils.js";
+import {deleteCartUser} from "../middleware/daleteCascade.js"
 
 const router = Router();
 
@@ -117,7 +118,7 @@ router.put("/users/uid", async (req, res, next) => {
   }
 });
 
-router.delete("/users/:uid", async (req, res, next) => {
+router.delete("/users/:uid", deleteCartUser, async (req, res, next) => {
   try {
     const { uid } = req.params;
     const result = await userController.deleteById(uid);

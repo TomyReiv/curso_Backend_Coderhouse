@@ -37,7 +37,7 @@ export default class cartManager {
 
   static async updateById(uid, data) {
     try {
-      await cartModel.updateOne(criterio, operation);
+      await cartModel.updateOne(uid, data);
       console.log("Carrito actualizado");
     } catch (error) {
       throw new Exception(error.message, error.status);
@@ -60,7 +60,7 @@ export default class cartManager {
         { $inc: { "items.$.quantity": data || 1 } }
       );
       console.log("Cantidad actualizada en el carrito");
-      return {message: 'Cantidad actualizada en el carrito'};
+      return { message: "Cantidad actualizada en el carrito" };
     } catch (error) {
       throw new Exception(error.message, error.status);
     }
@@ -69,7 +69,7 @@ export default class cartManager {
   static async deleteOne(criterio) {
     try {
       const cart = await cartModel.deleteOne(criterio);
-      console.log("Carrito eliminado");
+      return {message: 'Carrito eliminado'}
     } catch (error) {
       throw new Exception(error.message, error.status);
     }
@@ -77,8 +77,18 @@ export default class cartManager {
 
   static async deleteById(cid) {
     try {
-      await cartModel.deleteOne(criterio);
+      await cartModel.deleteOne(cid);
       console.log("Carrito eliminado");
+      return { message: "Carrito eliminado" };
+    } catch (error) {
+      throw new Exception(error.message, error.status);
+    }
+  }
+
+  static async findByIdAndUpdate(id, query) {
+    try {
+      await cartModel.findByIdAndUpdate(id, query);
+      return { message: "Cantidad actualizada en el carrito" };
     } catch (error) {
       throw new Exception(error.message, error.status);
     }

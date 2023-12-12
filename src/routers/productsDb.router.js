@@ -1,6 +1,7 @@
 import { Router } from "express";
 import productController from "../controllers/product.controller.js";
 import { uploader } from "../utils.js";
+import {deleteProductCart} from "../middleware/daleteCascade.js"
 
 const router = Router();
 
@@ -58,7 +59,7 @@ router.put("/products/:pid", async (req, res, next) => {
   }
 });
 
-router.delete("/products/:pid", async (req, res, next) => {
+router.delete("/products/:pid", deleteProductCart, async (req, res, next) => {
   try {
     const { pid } = req.params;
     const result = await productController.deleteById(pid);

@@ -14,6 +14,7 @@ export default class userManager {
   static async getById(uid) {
     try {
       const user = await userModel.findById(uid);
+      return user
     } catch (error) {
       throw new Exception(error.message, error.status);
     }

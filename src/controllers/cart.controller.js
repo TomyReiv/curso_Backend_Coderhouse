@@ -53,17 +53,17 @@ export default class cartController {
         if (existingItem) {
           await cartManager.findOneAndUpdate(userId, pid, quantity);
           console.log("Cantidad actualizada en el carrito");
-          return {message: 'Cantidad actualizada en el carrito'};
+          return { message: "Cantidad actualizada en el carrito" };
         } else {
           cartExist.items.push({ pid, quantity: quantity });
           await cartExist.save();
           console.log("Producto agregado al carrito");
-          return {message: 'Producto agregado al carrito'};
+          return { message: "Producto agregado al carrito" };
         }
       } else {
         const cart = await cartManager.create(cartData);
         console.log("Carrito creado");
-        return {message: 'Carrito creado'};
+        return { message: "Carrito creado" };
         /* return cart; */
       }
     } catch (error) {
@@ -105,5 +105,25 @@ export default class cartController {
     } catch (error) {
       throw new Exception(error.message, error.status);
     }
+  }
+
+  static async findByIdAndUpdate(cid, data) {
+    try {
+     const response =  await cartManager.findByIdAndUpdate(cid, data);
+      console.log(response.message);
+      return response.message;
+    } catch (error) {
+      throw new Exception(error.message, error.status);
+    }
+  }
+
+  static async deleteOne(criterio){
+    try {
+      const result = await cartManager.deleteOne(criterio)
+      return result.message;
+    } catch (error) {
+      throw new Exception(error.message, error.status);
+    }
+    
   }
 }
