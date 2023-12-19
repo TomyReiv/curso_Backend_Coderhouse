@@ -71,7 +71,7 @@ router.post(
           signed: true,
         })
         .status(200)
-        .json(user);
+        .json(userToken);
     } catch (error) {
       res.status(error.statusCode || 500).json({ message: error.message });
       next(error);

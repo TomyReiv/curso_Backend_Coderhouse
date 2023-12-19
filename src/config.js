@@ -3,6 +3,7 @@ import dotenv from "dotenv";
  dotenv.config();
 
 export const config = {
+  PORT: process.env.PORT || 8080,
   DB_HOST: process.env.DB_HOST,
   SERVER_SECRET: process.env.SERVER_SECRET,
   JwtSecret: process.env.JWT_SECRET,
