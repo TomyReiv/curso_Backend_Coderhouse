@@ -32,7 +32,7 @@ export default class productManager {
 
   static async updateOne(pid, data) {
     try {
-      const response = await productModel.updateOne({pid}, {data});
+      const response = await productModel.updateOne(pid, data);
       console.log("Producto actualizado");
       return { message: "Producto actualizado" };
     } catch (error) {
