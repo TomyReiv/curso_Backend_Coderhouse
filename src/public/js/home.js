@@ -55,7 +55,7 @@ function fetchProduct() {
           productName.textContent = product.title;
 
           const productPrice = document.createElement("p");
-          productPrice.textContent = `Precio: ${product.price}`;
+          productPrice.textContent = `Precio: ${product.price} Stock: ${product.stock}`;
 
           const productDescription = document.createElement("p");
           productDescription.textContent = product.description;

@@ -15,41 +15,24 @@ export const publicRouter = (req, res, next) => {
   next();
 };
 
-export const adminValidator = (req, res, next) => {
-
-  const token = req.signedCookies["accessToken"];
-
-  Jwt.verify(token, config.JwtSecret, async (error, payload) => {
-    if (error) res.status(403).json({ message: "No authorized" });
-    req.user = payload;
-  });
-  if(req.user.rol === 'user'){
-    return res.redirect("/");
-  }
-  next();
-};
 
 export const authPolicies = (roles) => (req, res, next) => {
   try {
     
-    if (roles.includes("admin")) {
-      return next();
-    }
-    if (roles.includes("user")) {
-      return next();
-    }
+    if(!req.user.rol) res.redirect("/login");
 
     const { rol } = req.user;
-    if (!roles.includes(rol)) {
-      return res
-        .status(403)
-        .redirect("/login")
-        .json({ message: "No tienes permiso" })  
+
+    if (roles.includes("admin") && rol !== "admin") {
+      return res.status(403).json({ message: "No tienes permiso para acceder a esta página" });
     }
- 
+
+    if (roles.includes("user") && rol !== "user") {
+      return res.status(403).json({ message: "No tienes permiso para acceder a esta página" });
+    }
+
     next();
   } catch (error) {
     next(error);
   }
-  
 };

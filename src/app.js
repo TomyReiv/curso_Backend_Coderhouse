@@ -48,6 +48,7 @@ app.use(passport.session());
 app.use("/", indexRouter);
 app.use("/api", productRouter, cartRouter, userRouter, messageRouter);
 
+
 /* app.use((error, req, res, next) => {
   const message = `Ah ocurrido un error inesperado: ${error.message}`;
   console.log(message);

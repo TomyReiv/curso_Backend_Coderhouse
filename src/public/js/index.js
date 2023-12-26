@@ -1,14 +1,9 @@
 (function () {
   const uid = localStorage.getItem("uid");
 
-  const socket = io();
-
-  const openDialogButton = document.getElementById("open-dialog-button");
-  const closeDialogButton = document.getElementById("close-dialog-button");
-  const dialog = document.getElementById("dialog");
   const newMessages = document.getElementById("newMessages");
   const username = localStorage.getItem("user");
-  const formDialog = document.getElementById("formDialog");
+
 
   const form = document.getElementById("form");
 
@@ -57,35 +52,6 @@
     form.reset();
   }); //form global
 
-  function updateLogMessage(messages) {
-    newMessages.innerText = "";
-    const messagesSlice = messages.slice(-4);
-    messagesSlice.forEach((msg) => {
-      const p = document.createElement("p");
-      p.innerText = `${msg.username}: ${msg.message}`;
-      newMessages.appendChild(p);
-    });
-  }
-
-  openDialogButton.addEventListener("click", (e) => {
-    e.preventDefault();
-    dialog.classList.remove("hidden");
-  });
-  closeDialogButton.addEventListener("click", (e) => {
-    e.preventDefault();
-    dialog.classList.add("hidden");
-  });
-
-  formDialog.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const message = document.getElementById("message").value;
-    socket.emit("new-message", { username, message });
-    formDialog.reset();
-  });
-
-  socket.on("notification", ({ messagesGlobal }) => {
-    updateLogMessage(messagesGlobal);
-  });
 })(); //Fin de la funcion global
 
 function fetchProduct() {
@@ -175,26 +141,6 @@ function fetchProduct() {
   loadPage(pageNumber);
 } // Fin del fecth para traer productos
 
-function fetchMessage() {
-  const logMessage = document.getElementById("logMessage");
-  fetch("http://localhost:8080/api/message")
-    .then((response) => response.json())
-    .then((messages) => {
-      logMessage.innerText = "";
-      const msgSlice = messages.slice(-2);
-      msgSlice.forEach((msg) => {
-        const p = document.createElement("p");
-        p.innerText = `${msg.username}: ${msg.message}`;
-        logMessage.appendChild(p);
-      });
-    })
-    .catch((error) => {
-      console.error("Error al procesar la solicitud:", error);
-    });
-}
-
-//LLamados de funciones
-fetchMessage();
 fetchProduct();
 
 const logout = document.getElementById('logout').addEventListener('click', ()=>{

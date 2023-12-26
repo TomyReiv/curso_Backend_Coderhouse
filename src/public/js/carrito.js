@@ -1,7 +1,10 @@
 const uid = localStorage.getItem("uid");
 const ul = document.getElementById("cartItems");
 let total = 0;
+let cid;
 const cartTotal = document.getElementById("cartTotal");
+const buy = document.getElementById("buy");
+const spinner = document.getElementById('spinner');
 
 fetch(`http://localhost:8080/api/cartUser`)
   .then((response) => response.json())
@@ -22,9 +25,11 @@ fetch(`http://localhost:8080/api/cartUser`)
       ul.appendChild(li);
       ul.appendChild(img);
 
+      cid = data[0]._id;
+
       button.addEventListener("click", () => {
         const pid = element.pid._id; // Obtén el _id del elemento actual
-        fetch(`http://localhost:8080/api/cart/${data[0]._id}/product/${pid}`, {
+        fetch(`http://localhost:8080/api/cart/${cid}/product/${pid}`, {
           method: "DELETE",
         })
           .then((response) => response.json())
@@ -51,7 +56,26 @@ const home = document.getElementById("home");
 home.addEventListener("click", () => {
   window.location.href = "/";
 });
-const logout = document.getElementById('logout').addEventListener('click', ()=>{
-  localStorage.removeItem('uid');
-  localStorage.removeItem('user');
-})
+const logout = document
+  .getElementById("logout")
+  .addEventListener("click", () => {
+    localStorage.removeItem("uid");
+    localStorage.removeItem("user");
+  });
+
+buy.addEventListener("click", () => {
+  buy.innerHTML = '';
+  spinner.hidden = false;
+
+  fetch(`http://localhost:8080/api/cart/${cid}/purchase`, {
+    method: "POST",
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      alert(data.message);
+      location.reload();
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+});

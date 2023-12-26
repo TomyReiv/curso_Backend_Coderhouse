@@ -35,9 +35,9 @@ export default class cartManager {
     }
   }
 
-  static async updateById(uid, data) {
+  static async updateById(cid, data) {
     try {
-      await cartModel.updateOne(uid, data);
+      await cartModel.updateOne(cid, data);
       console.log("Carrito actualizado");
     } catch (error) {
       throw new Exception(error.message, error.status);

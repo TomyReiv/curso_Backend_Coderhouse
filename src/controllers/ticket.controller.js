@@ -25,17 +25,42 @@ export default class ticketController {
 
       const uid = cart.userId;
       const user = await userService.getUserById(uid);
+      const createdTickets = [];
 
       for (const item of cart.items) {
         const product = await productService.getProductById(item.pid._id);
 
-        if (item.quantity > product.stock) {
-          return { message: `No hay stock suficiente de ${product.title}` };
-        } else {
+        if (item.quantity <= product.stock)  {
+
           const stock = product.stock - item.quantity;
           await productService.updateProductById(item.pid._id, { stock });
+
+          createdTickets.push({
+            productId: item.pid._id,
+            title: product.title,
+            quantity: item.quantity,
+            amoun: item.quantity * product.price,
+          })
+
+          const cart = await cartService.getCartById(cid);
+          const productIndex = cart.items.findIndex((item) => {
+            const id = item.pid._id.toString();
+            return id === product._id;
+          });
+      
+          cart.items.splice(productIndex, 1);
+          await cart.save();
+
+        } else {
+          console.log( `No hay stock suficiente de ${product.title}`)
         }
       }
+
+      if (createdTickets.length === 0) {
+        return { message: "Todos los artículos tienen stock insuficiente" };
+      }
+
+      const totalAmount = createdTickets.reduce((total, ticket) => total + ticket.amoun, 0);
 
       const purchaser = user.email;
       const purchase_datetime = new Date();
@@ -44,12 +69,12 @@ export default class ticketController {
       const ticketBody = {
         code,
         purchase_datetime,
-        amoun: data.amoun,
+        amoun: totalAmount,
         purchaser,
       };
 
       const ticket = await ticketService.create(ticketBody);
-      return ticket.message;
+      return { message: "Compra realizada" };
     } catch (error) {
       throw new Exception(error.message, error.status);
     }

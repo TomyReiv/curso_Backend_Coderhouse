@@ -2,7 +2,6 @@ import { Router } from "express";
 import {
   privateRouter,
   publicRouter,
-  adminValidator,
   authPolicies
 } from "../middleware/session.validator.js";
 import passport from "passport";
@@ -12,7 +11,7 @@ import Jwt from 'jsonwebtoken';
 
 const router = Router();
 
-router.get("/realTimeProducts", authPolicies(['admin']), passport.authenticate('jwt', {session:false}),  (req, res) => {
+router.get("/realTimeProducts", privateRouter, authPolicies(['admin']), passport.authenticate('jwt', {session:false}),  (req, res) => {
   res.render("index", { title: "Cargas", style: "style.css" });
 });
 
@@ -20,7 +19,7 @@ router.get("/login", publicRouter, (req, res) => {
   res.render("login", { title: "Login" });
 });
 
-router.get("/", authPolicies(['user', 'admin']), passport.authenticate('jwt', {session:false}),  (req, res) => {
+router.get("/", privateRouter, authPolicies(['user']), passport.authenticate('jwt', {session:false}),  (req, res) => {
  
   const token = req.signedCookies['accessToken']
 

@@ -59,7 +59,7 @@ router.post(
     try {
       const email = req.user.email;
       const { _id, username, lastname } = req.user;
-
+  
       const user = req.user;
       const userToken = await userController.findUserByEmail(email);
       const token = tokenGenerator(userToken);
@@ -87,6 +87,32 @@ router.get(
 router.get(
   "/users/github/cb",
   passport.authenticate("github", { failureRedirect: "/login" }),
+  (req, res, next) => {
+    try {
+      const { _id, username, lastname, email } = req.user;
+      const token = tokenGenerator(req.user);
+      res
+        .cookie("accessToken", token, {
+          maxAge: 60 * 60 * 24,
+          httpOnly: true,
+          signed: true,
+        })
+        .redirect("/");
+    } catch (error) {
+      res.status(error.statusCode || 500).json({ message: error.message });
+      next(error);
+    }
+  }
+);
+// Rutas de google
+router.get(
+  "/users/google",
+  passport.authenticate("google", { scope: ['profile', 'email'] })
+);
+
+router.get(
+  "/users/google/cb",
+  passport.authenticate("google", { failureRedirect: "/login" }),
   (req, res, next) => {
     try {
       const { _id, username, lastname, email } = req.user;

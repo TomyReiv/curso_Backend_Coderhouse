@@ -2,6 +2,7 @@ import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 import GithubStrategy from "passport-github2";
+import GoogleStrategy from "passport-google-oauth20";
 import { createHash, isValidPassword } from "../utils.js";
 import fetch from "node-fetch";
 
@@ -31,6 +32,12 @@ const githubOpts = {
   clientID: config.ClientID,
   clientSecret: config.clientSecret,
   callbackURL: config.callback,
+};
+
+const googleOpts = {
+  clientID: config.API_CLIENTE_GOOGLE,
+  clientSecret: config.google_secret,
+  callbackURL: config.callback_google,
 };
 
 export const init = () => {
@@ -68,9 +75,8 @@ export const init = () => {
         const uid = newUser._id.toString();
         const cartUser = await userModel.updateOne(
           { _id: uid },
-          { $set: { 'cart': cartNew._id } }
+          { $set: { cart: cartNew._id } }
         );
-
 
         done(null, newUser);
       } catch (error) {
@@ -152,14 +158,56 @@ export const init = () => {
           const uid = newUser._id.toString();
           const cartUser = await userModel.updateOne(
             { _id: uid },
-            { $set: { 'cart': cartNew._id } }
+            { $set: { cart: cartNew._id } }
           );
-  
 
           done(null, newUser);
         } catch (error) {
           console.error("Error en la estrategia GitHub:", error);
           done(error);
+        }
+      }
+    )
+  );
+
+  passport.use(
+    "google",
+    new GoogleStrategy(
+      googleOpts,
+      async (accessToken, refreshToken, profile, done) => {
+        try {
+          let email;
+          console.log(profile);
+          if (profile._json.email) {
+            email = profile._json.email;
+          } else {
+            email = profile.email;
+          }
+          let user = await userModel.findOne({ email });
+          if (user) {
+            return done(null, user);
+          }
+          user = {
+            first_name: profile._json.given_name,
+            last_name: profile._json.given_name,
+            email,
+            age: "",
+            password: "",
+            provider: "Google",
+          };
+          const newUser = await userModel.create(user);
+
+          const cartNew = await cartModel.create({ userId: newUser._id });
+
+          const uid = newUser._id.toString();
+          const cartUser = await userModel.updateOne(
+            { _id: uid },
+            { $set: { cart: cartNew._id } }
+          );
+          
+          done(null, newUser);
+        } catch (error) {
+          console.log("Google error passport config", error.message);
         }
       }
     )

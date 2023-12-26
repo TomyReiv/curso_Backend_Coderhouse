@@ -24,15 +24,16 @@ function form() {
         return response.json();
       })
       .then((data) => {
-        console.log(data._id);
+        console.log(data.id);
+        console.log(data);
         if (data.email === "ravetomas@gmail.com") {
           localStorage.setItem("user", username);
-          localStorage.setItem("uid", data._id);
+          localStorage.setItem("uid", data.id);
           return (window.location.href = "/realTimeProducts");
         }
         if (data.username) {
           localStorage.setItem("user", username);
-          localStorage.setItem("uid", data._id);
+          localStorage.setItem("uid", data.id);
           return (window.location.href = "/");
         } else {
           alert("Credenciales incorrectas. Por favor, inténtalo de nuevo.");

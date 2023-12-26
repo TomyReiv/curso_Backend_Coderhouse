@@ -78,11 +78,8 @@ router.put("/carts/:cid/products/:pid", async (req, res, next) => {
   try {
     const { cid, pid } = req.params;
     const { body } = req;
+    
     const cart = await cartController.getById(cid);
-
-    if (!cart) {
-      return res.status(404).json({ message: "El carrito no existe" });
-    }
 
     const productFind = cart.items.find((item) => {
       const id = item.pid._id.toString();
@@ -126,10 +123,6 @@ router.delete("/cart/:cid/product/:pid", async (req, res, next) => {
 
     const cart = await cartController.getById(cid);
 
-    if (!cart) {
-      return res.status(404).json({ message: "El carrito no existe" });
-    }
-
     const productIndex = cart.items.findIndex((item) => {
       const id = item.pid._id.toString();
       return id === pid;
@@ -157,6 +150,7 @@ router.post("/cart/:cid/purchase", async (req, res, next) =>{
     const { cid } = req.params;
 
     const result = await ticketController.create(cid, body);
+    console.log('Rsult',result);
     res.status(201).json(result);
   } catch (error) {
     res.status(error.statusCode || 500).json({ message: error.message });
