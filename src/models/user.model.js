@@ -20,7 +20,7 @@ const userSchema = new Schema({
     password: { type: String },
     email: { type: String, requiredd: true, unique: true, index: true },
     address: { type: address },
-    status: { type: String, default: 'active', enum: ['active', 'inactive'] },
+    status: { type: String, default: 'inactive', enum: ['active', 'inactive'] },
     rol: { type: String, default: 'user', enum: ['admin', 'user']  },
     cart: { type: mongoose.Schema.Types.ObjectId, default: null},
     provider: {type: String}

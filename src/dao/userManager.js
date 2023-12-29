@@ -41,7 +41,7 @@ export default class userManager {
 
   static async updateById(uid, data) {
     try {
-      await userModel.updateById(uid, data);
+      await userModel.updateOne(uid, data);
       return { message: "Usuario actualizado" };
     } catch (error) {
       throw new Exception(error.message, error.status);

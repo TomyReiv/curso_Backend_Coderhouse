@@ -6,7 +6,9 @@ import handlebars from "express-handlebars";
 import MongoStore from "connect-mongo";
 import passport from "passport";
 import path from "path";
+/* import authRouter from "./routers/auth.router.js"; */
 
+import emailRouter from "./routers/email.router.js";
 import cartRouter from "./routers/cartsDb.router.js";
 import { config } from "./config.js";
 import indexRouter from "./routers/index.router.js";
@@ -45,7 +47,7 @@ initPassport();
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use("/", indexRouter);
+app.use("/", indexRouter, /* authRouter */emailRouter);
 app.use("/api", productRouter, cartRouter, userRouter, messageRouter);
 
 

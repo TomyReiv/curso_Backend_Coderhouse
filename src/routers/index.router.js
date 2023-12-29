@@ -40,6 +40,14 @@ router.get("/cart", privateRouter, async (req, res) => {
   res.render("cart", {title: "Carrito", style: "carrito.css"});
 });
 
+router.get("/newPass/:uid", async (req, res) => {
+  res.render("newPass", {title: "New Password", style: "register.css"});
+});
+
+router.get("/recoverPass", async (req, res) => {
+  res.render("recoverPass", {title: "Recover Password", style: "register.css"});
+});
+
 router.get("/producto/:pid", privateRouter, (req, res) => {
   res.render("producto", { title: "Producto" });
 });

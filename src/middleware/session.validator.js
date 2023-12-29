@@ -19,7 +19,9 @@ export const publicRouter = (req, res, next) => {
 export const authPolicies = (roles) => (req, res, next) => {
   try {
     
-    if(!req.user.rol) res.redirect("/login");
+    if (!req.user || !req.user.rol) {
+      return res.status(401).redirect('/login');
+    }
 
     const { rol } = req.user;
 

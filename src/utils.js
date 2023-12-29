@@ -37,7 +37,7 @@ export const createHash = (password) => bcrypt.hashSync(password, bcrypt.genSalt
 
 export const isValidPassword = (password, user) => bcrypt.compareSync(password, user.password);
 
-export const tokenGenerator = (user) =>{
+export const tokenGenerator = (user, date) =>{
     const { _id, username, lastname, email, rol } = user;
     const payload = {
         id: _id,
@@ -46,7 +46,7 @@ export const tokenGenerator = (user) =>{
         email: email,
         rol: rol
     };
-    const token = Jwt.sign(payload, JWT_SECRET, {expiresIn: '24h'});
+    const token = Jwt.sign(payload, JWT_SECRET, {expiresIn: date});
     return token;
 };
 

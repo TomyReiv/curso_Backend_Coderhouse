@@ -51,8 +51,23 @@ export default class userService {
       if (!user) throw new Exception("El usuario no existe", 404);
 
       const criterio = { _id: uid };
+      console.log('criterio service: ', criterio);
       const operation = { $set: data };
 
+      await userManager.updateById(criterio, operation);
+      console.log("Usuario actualizado");
+    } catch (error) {
+      throw new Exception(error.message, error.status);
+    }
+  }
+
+  static async updatePassword(uid, data) {
+    try {
+      const user = await userManager.getById(uid);
+      if (!user) throw new Exception("El usuario no existe", 404);
+      const criterio = { _id: uid };
+      const operation = { $set: {'password': data} };
+      
       await userManager.updateById(criterio, operation);
       console.log("Usuario actualizado");
     } catch (error) {

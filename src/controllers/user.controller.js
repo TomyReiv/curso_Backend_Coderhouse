@@ -113,7 +113,19 @@ export default class userController {
 
   static async updateById(uid, data) {
     try {
+      console.log('uid controllers: ', uid);
+      console.log('data controllers: ', data);
+
       await userService.updateById(uid, data);
+      console.log("Usuario actualizado");
+    } catch (error) {
+      throw new Exception(error.message, error.status);
+    }
+  }
+
+  static async updatePassword(uid, data) {
+    try {
+      await userService.updatePassword(uid, data);
       console.log("Usuario actualizado");
     } catch (error) {
       throw new Exception(error.message, error.status);

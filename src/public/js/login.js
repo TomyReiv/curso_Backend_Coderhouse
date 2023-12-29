@@ -24,8 +24,6 @@ function form() {
         return response.json();
       })
       .then((data) => {
-        console.log(data.id);
-        console.log(data);
         if (data.email === "ravetomas@gmail.com") {
           localStorage.setItem("user", username);
           localStorage.setItem("uid", data.id);

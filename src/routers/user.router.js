@@ -3,10 +3,12 @@ import userController from "../controllers/user.controller.js";
 import {
   userValidator,
   handleValidationErrors,
+  passwordValidator
 } from "../middleware/users.validators.js";
 import passport from "passport";
 import { tokenGenerator } from "../utils.js";
-import {deleteCartUser} from "../middleware/daleteCascade.js"
+import { deleteCartUser } from "../middleware/daleteCascade.js";
+import { createHash, isValidPassword } from "../utils.js";
 
 const router = Router();
 
@@ -59,10 +61,10 @@ router.post(
     try {
       const email = req.user.email;
       const { _id, username, lastname } = req.user;
-  
+
       const user = req.user;
       const userToken = await userController.findUserByEmail(email);
-      const token = tokenGenerator(userToken);
+      const token = tokenGenerator(userToken, "24h");
 
       res
         .cookie("accessToken", token, {
@@ -104,43 +106,18 @@ router.get(
     }
   }
 );
-// Rutas de google
-router.get(
-  "/users/google",
-  passport.authenticate("google", { scope: ['profile', 'email'] })
-);
 
-router.get(
-  "/users/google/cb",
-  passport.authenticate("google", { failureRedirect: "/login" }),
-  (req, res, next) => {
-    try {
-      const { _id, username, lastname, email } = req.user;
-      const token = tokenGenerator(req.user);
-      res
-        .cookie("accessToken", token, {
-          maxAge: 60 * 60 * 24,
-          httpOnly: true,
-          signed: true,
-        })
-        .redirect("/");
-    } catch (error) {
-      res.status(error.statusCode || 500).json({ message: error.message });
-      next(error);
-    }
-  }
-);
-
-
-router.put("/users/uid", async (req, res, next) => {
+router.put("/users/:uid", passwordValidator, async (req, res, next) => {
   try {
     const { uid } = req.params;
     const { body } = req;
-    const result = await userController.updateById(uid, body);
-    res.status(201).json(result);
+    const password = createHash(body.password);
+
+    const result = await userController.updatePassword(uid, password);
+    res.status(201).json({message: 'Actualizado exitosamente'});
   } catch (error) {
     res.status(error.statusCode || 500).json({ message: error.message });
-    next(error)
+    next(error);
   }
 });
 
@@ -151,7 +128,7 @@ router.delete("/users/:uid", deleteCartUser, async (req, res, next) => {
     res.status(200).json(result);
   } catch (error) {
     res.status(error.statusCode || 500).json({ message: error.message });
-    next(error)
+    next(error);
   }
 });
 router.get("/logout", (req, res, next) => {
@@ -159,8 +136,7 @@ router.get("/logout", (req, res, next) => {
     res.cookie("accessToken", "", { maxAge: -1 }).redirect("/login");
   } catch (error) {
     res.status(error.statusCode || 500).json({ message: error.message });
-    next(error)
+    next(error);
   }
-  
 });
 export default router;

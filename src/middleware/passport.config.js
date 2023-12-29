@@ -35,9 +35,11 @@ const githubOpts = {
 };
 
 const googleOpts = {
-  clientID: config.API_CLIENTE_GOOGLE,
-  clientSecret: config.google_secret,
+  clientID: config.clientID,
+  clientSecret: config.clientSecret,
   callbackURL: config.callback_google,
+  scope: [ 'profile' ],
+  state: true
 };
 
 export const init = () => {
@@ -176,9 +178,9 @@ export const init = () => {
       googleOpts,
       async (accessToken, refreshToken, profile, done) => {
         try {
-          let email;
+          /* let email; */
           console.log(profile);
-          if (profile._json.email) {
+         /*  if (profile._json.email) {
             email = profile._json.email;
           } else {
             email = profile.email;
@@ -203,9 +205,9 @@ export const init = () => {
           const cartUser = await userModel.updateOne(
             { _id: uid },
             { $set: { cart: cartNew._id } }
-          );
+          ); */
           
-          done(null, newUser);
+          done(null);
         } catch (error) {
           console.log("Google error passport config", error.message);
         }

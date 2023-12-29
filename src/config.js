@@ -15,6 +15,9 @@ export const config = {
   clientSecret: process.env.clientSecret,
   //coneccion con google
   callback_google: process.env.callback_google,
-  API_CLIENTE_GOOGLE: process.env.API_CLIENTE_GOOGLE,
-  google_secret: process.env.google_secret
+  clientID: process.env.clientID,
+  clientSecret: process.env.clientSecret,
+  //coneccion con gmail
+  GMAIL_USER: process.env.GMAIL_USER,
+  GMAIL_PASS: process.env.GMAIL_PASS
 };
