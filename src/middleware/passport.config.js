@@ -2,7 +2,6 @@ import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 import GithubStrategy from "passport-github2";
-import GoogleStrategy from "passport-google-oauth20";
 import { createHash, isValidPassword } from "../utils.js";
 import fetch from "node-fetch";
 

@@ -92,7 +92,6 @@ router.get(
   async (req, res, next) => {
     try {
      const { _id, username, lastname, email } = req.user;
-      console.log('github req: ', req.user);
       const token = tokenGenerator(req.user, "24h");
       res
         .cookie("accessToken", token, {
@@ -101,22 +100,6 @@ router.get(
           signed: true,
         })
         .redirect("/"); 
-
-     /*  const email = req.user.email;
-      console.log('github req: ', email);
-      const { _id, username, lastname } = req.user;
-      console.log('github req: ', req.user);
-      const userToken = await userController.findUserByEmail(email);
-      const token = tokenGenerator(userToken, "24h");
-
-      res
-        .cookie("accessToken", token, {
-          maxAge: 60 * 60 * 24 * 1000,
-          httpOnly: true,
-          signed: true,
-        })
-        .status(200)
-        .json(userToken); */
     } catch (error) {
       res.status(error.statusCode || 500).json({ message: error.message });
       next(error);

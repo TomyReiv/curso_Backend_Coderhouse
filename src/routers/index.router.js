@@ -29,7 +29,7 @@ router.get("/", privateRouter, authPolicies(['user']), passport.authenticate('jw
 })
   const user = req.user.username;
   const uid = req.user.id;
-  console.log('index: ', req.user);
+
   res.render("home", { title: "Home", user, uid, style: "home.css" });
 });
 
