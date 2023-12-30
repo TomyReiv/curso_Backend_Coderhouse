@@ -47,7 +47,7 @@ initPassport();
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use("/", indexRouter, /* authRouter */emailRouter);
+app.use("/", indexRouter, emailRouter);
 app.use("/api", productRouter, cartRouter, userRouter, messageRouter);
 
 

@@ -3,7 +3,7 @@ import userController from "../controllers/user.controller.js";
 import {
   userValidator,
   handleValidationErrors,
-  passwordValidator
+  passwordValidator,
 } from "../middleware/users.validators.js";
 import passport from "passport";
 import { tokenGenerator } from "../utils.js";
@@ -62,10 +62,10 @@ router.post(
       const email = req.user.email;
       const { _id, username, lastname } = req.user;
 
-      const user = req.user;
       const userToken = await userController.findUserByEmail(email);
+      console.log('login: ', userToken);
       const token = tokenGenerator(userToken, "24h");
-
+      console.log('login token: ', token);
       res
         .cookie("accessToken", token, {
           maxAge: 60 * 60 * 24 * 1000,
@@ -89,17 +89,34 @@ router.get(
 router.get(
   "/users/github/cb",
   passport.authenticate("github", { failureRedirect: "/login" }),
-  (req, res, next) => {
+  async (req, res, next) => {
     try {
-      const { _id, username, lastname, email } = req.user;
-      const token = tokenGenerator(req.user);
+     const { _id, username, lastname, email } = req.user;
+      console.log('github req: ', req.user);
+      const token = tokenGenerator(req.user, "24h");
       res
         .cookie("accessToken", token, {
           maxAge: 60 * 60 * 24,
           httpOnly: true,
           signed: true,
         })
-        .redirect("/");
+        .redirect("/"); 
+
+     /*  const email = req.user.email;
+      console.log('github req: ', email);
+      const { _id, username, lastname } = req.user;
+      console.log('github req: ', req.user);
+      const userToken = await userController.findUserByEmail(email);
+      const token = tokenGenerator(userToken, "24h");
+
+      res
+        .cookie("accessToken", token, {
+          maxAge: 60 * 60 * 24 * 1000,
+          httpOnly: true,
+          signed: true,
+        })
+        .status(200)
+        .json(userToken); */
     } catch (error) {
       res.status(error.statusCode || 500).json({ message: error.message });
       next(error);
@@ -114,7 +131,7 @@ router.put("/users/:uid", passwordValidator, async (req, res, next) => {
     const password = createHash(body.password);
 
     const result = await userController.updatePassword(uid, password);
-    res.status(201).json({message: 'Actualizado exitosamente'});
+    res.status(201).json({ message: "Actualizado exitosamente" });
   } catch (error) {
     res.status(error.statusCode || 500).json({ message: error.message });
     next(error);

@@ -38,9 +38,9 @@ export const createHash = (password) => bcrypt.hashSync(password, bcrypt.genSalt
 export const isValidPassword = (password, user) => bcrypt.compareSync(password, user.password);
 
 export const tokenGenerator = (user, date) =>{
-    const { _id, username, lastname, email, rol } = user;
+    const { id, username, lastname, email, rol } = user;
     const payload = {
-        id: _id,
+        id: id,
         username: username,
         lastname: lastname,
         email: email,

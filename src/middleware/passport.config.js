@@ -34,13 +34,6 @@ const githubOpts = {
   callbackURL: config.callback,
 };
 
-const googleOpts = {
-  clientID: config.clientID,
-  clientSecret: config.clientSecret,
-  callbackURL: config.callback_google,
-  scope: [ 'profile' ],
-  state: true
-};
 
 export const init = () => {
   passport.use(
@@ -167,49 +160,6 @@ export const init = () => {
         } catch (error) {
           console.error("Error en la estrategia GitHub:", error);
           done(error);
-        }
-      }
-    )
-  );
-
-  passport.use(
-    "google",
-    new GoogleStrategy(
-      googleOpts,
-      async (accessToken, refreshToken, profile, done) => {
-        try {
-          /* let email; */
-          console.log(profile);
-         /*  if (profile._json.email) {
-            email = profile._json.email;
-          } else {
-            email = profile.email;
-          }
-          let user = await userModel.findOne({ email });
-          if (user) {
-            return done(null, user);
-          }
-          user = {
-            first_name: profile._json.given_name,
-            last_name: profile._json.given_name,
-            email,
-            age: "",
-            password: "",
-            provider: "Google",
-          };
-          const newUser = await userModel.create(user);
-
-          const cartNew = await cartModel.create({ userId: newUser._id });
-
-          const uid = newUser._id.toString();
-          const cartUser = await userModel.updateOne(
-            { _id: uid },
-            { $set: { cart: cartNew._id } }
-          ); */
-          
-          done(null);
-        } catch (error) {
-          console.log("Google error passport config", error.message);
         }
       }
     )
