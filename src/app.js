@@ -6,6 +6,7 @@ import handlebars from "express-handlebars";
 import MongoStore from "connect-mongo";
 import passport from "passport";
 import path from "path";
+import expressCompression from "express-compression";
 /* import authRouter from "./routers/auth.router.js"; */
 
 import emailRouter from "./routers/email.router.js";
@@ -22,6 +23,7 @@ const app = express();
 
 app.use(cors());
 
+app.use(expressCompression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(config.SERVER_SECRET));
@@ -49,7 +51,6 @@ app.use(passport.session());
 
 app.use("/", indexRouter, emailRouter);
 app.use("/api", productRouter, cartRouter, userRouter, messageRouter);
-
 
 /* app.use((error, req, res, next) => {
   const message = `Ah ocurrido un error inesperado: ${error.message}`;

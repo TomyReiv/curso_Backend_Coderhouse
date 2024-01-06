@@ -63,9 +63,7 @@ router.post(
       const { _id, username, lastname } = req.user;
 
       const userToken = await userController.findUserByEmail(email);
-      console.log('login: ', userToken);
       const token = tokenGenerator(userToken, "24h");
-      console.log('login token: ', token);
       res
         .cookie("accessToken", token, {
           maxAge: 60 * 60 * 24 * 1000,
