@@ -1,6 +1,6 @@
 import { Router } from "express";
 import productController from "../controllers/product.controller.js";
-import { uploader } from "../utils.js";
+import { uploader, generateProduct } from "../utils.js";
 import {deleteProductCart} from "../middleware/daleteCascade.js"
 
 const router = Router();
@@ -68,6 +68,14 @@ router.delete("/products/:pid", deleteProductCart, async (req, res, next) => {
     res.status(error.statusCode || 500).json({ message: error.message });
     next(error);
   }
+});
+
+router.get('/mockingproducts', async (req, res, next) =>{
+  const product = [];
+  for (let index = 0; index < 100; index++) {
+    product.push(generateProduct());
+  }
+  res.status(200).json(product);
 });
 
 export default router;

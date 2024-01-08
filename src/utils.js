@@ -5,6 +5,7 @@ import Jwt from 'jsonwebtoken';
 import multer from 'multer';
 import path from 'path';
 import userModel from "./models/user.model.js";
+import {faker} from "@faker-js/faker"
 
 
 const JWT_SECRET = config.JwtSecret;
@@ -58,4 +59,17 @@ export const jwtAuth = (req, res ,next) =>{
         req.user = await userModel.findById(payload.id);
         next();
     })
+}
+
+
+export const generateProduct = () => {
+    return {
+        title: faker.commerce.productName(),
+        description: faker.commerce.productDescription(),
+        price: faker.commerce.price(),
+        code: faker.number.int({min: 1000000, max: 99999999}),
+        stock: faker.number.int({min: 1000000, max: 99999999}),
+        category: faker.commerce.department(),
+    }
+
 }
