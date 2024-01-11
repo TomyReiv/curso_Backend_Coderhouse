@@ -51,7 +51,6 @@ export default class userService {
       if (!user) throw new Exception("El usuario no existe", 404);
 
       const criterio = { _id: uid };
-      console.log('criterio service: ', criterio);
       const operation = { $set: data };
 
       await userManager.updateById(criterio, operation);

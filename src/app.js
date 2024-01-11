@@ -6,8 +6,10 @@ import handlebars from "express-handlebars";
 import MongoStore from "connect-mongo";
 import passport from "passport";
 import path from "path";
-/* import authRouter from "./routers/auth.router.js"; */
+/* import expressCompression from "express-compression"; */
 
+/* import authRouter from "./routers/auth.router.js"; */
+import errorHandler from "./middleware/ErrorHandler.js"
 import emailRouter from "./routers/email.router.js";
 import cartRouter from "./routers/cartsDb.router.js";
 import { config } from "./config.js";
@@ -22,6 +24,7 @@ const app = express();
 
 app.use(cors());
 
+/* app.use(expressCompression); */
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(config.SERVER_SECRET));
@@ -50,11 +53,6 @@ app.use(passport.session());
 app.use("/", indexRouter, emailRouter);
 app.use("/api", productRouter, cartRouter, userRouter, messageRouter);
 
-
-/* app.use((error, req, res, next) => {
-  const message = `Ah ocurrido un error inesperado: ${error.message}`;
-  console.log(message);
-  res.status(500).json({ status: "error", message });
-}); */
+ app.use(errorHandler);
 
 export default app;
