@@ -1,11 +1,10 @@
 import { Router } from "express";
+import EnumsError from "../utils/EnumsError.js";
+import { CustomError } from "../utils/CustomError.js";
+import { generatorProductError } from "../utils/CauseMessageError.js";
 import productController from "../controllers/product.controller.js";
 import { uploader } from "../utils.js";
 import { deleteProductCart } from "../middleware/daleteCascade.js";
-import ErrorHandler from "../middleware/ErrorHandler.js";
-import { CustomError } from "../utils/CustomError.js";
-import { generatorProductError } from "../utils/CauseMessageError.js";
-import EnumsError from "../utils/EnumsError.js";
 
 const router = Router();
 
@@ -16,7 +15,7 @@ router.get("/products", async (req, res, next) => {
     res.status(200).json(product);
   } catch (error) {
     res.status(error.statusCode || 500).json({ message: error.message });
-    next(error);
+   /*  next(error); */
   }
 });
 
@@ -30,19 +29,17 @@ router.get("/products/:pid", async (req, res, next) => {
     res.status(200).json(product);
   } catch (error) {
     res.status(error.statusCode || 500).json({ message: error.message });
-    next(error);
+   /*  next(error); */
   }
 });
 
 router.post(
   "/products",
-  ErrorHandler,
   uploader.single("file"),
   async (req, res, next) => {
     try {
       const { title, description, price, code, status, stock, category } =
         req.body;
-
       if (
         !title ||
         !description ||
@@ -67,19 +64,18 @@ router.post(
           code: EnumsError.BAD_REQUEST_ERROR,
         });
       }
-      const { body, file } = req;
-
-      if (file) {
+      
+      if (req.file) {
         body.thumbnail = {
           filename: file.filename,
           path: file.path,
         };
       }
-      const result = await productController.createProduct(body);
+      const result = await productController.createProduct(req.body);
       res.status(201).json(result);
     } catch (error) {
       res.status(error.statusCode || 500).json({ message: error.message });
-      next(error);
+      /* next(error); */
     }
   }
 );
@@ -92,7 +88,7 @@ router.put("/products/:pid", async (req, res, next) => {
     res.status(201).json(result);
   } catch (error) {
     res.status(error.statusCode || 500).json({ message: error.message });
-    next(error);
+    /* next(error); */
   }
 });
 
@@ -103,7 +99,7 @@ router.delete("/products/:pid", deleteProductCart, async (req, res, next) => {
     res.status(200).json(result);
   } catch (error) {
     res.status(error.statusCode || 500).json({ message: error.message });
-    next(error);
+    /* next(error); */
   }
 });
 

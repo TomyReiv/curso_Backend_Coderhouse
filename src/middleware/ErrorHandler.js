@@ -11,6 +11,7 @@ export default (error, req, res, next) => {
     case EnumsError.ROUTING_ERROR:
       res.status(500).json({ status: "error", message: error.message });
       break;
+      
     default:
       res.status(500).json({ status: "error", message: "Error desconocido" });
       break;
