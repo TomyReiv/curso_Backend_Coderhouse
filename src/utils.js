@@ -1,5 +1,5 @@
 import bcrypt, { genSaltSync } from "bcrypt";
-import { config } from "./config.js";
+import { config } from "./config/config.js";
 import { fileURLToPath } from 'url';
 import Jwt from 'jsonwebtoken';
 import multer from 'multer';

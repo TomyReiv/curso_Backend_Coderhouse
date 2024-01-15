@@ -1,4 +1,3 @@
-import cartModel from "../models/cart.model.js";
 import cartController from "../controllers/cart.controller.js";
 
 export const deleteProductCart = async (req, res, next) => {
@@ -15,7 +14,8 @@ export const deleteProductCart = async (req, res, next) => {
         { $set: { items: updatedItems } },
         { new: true }
       );
-      console.log(result);
+      /* console.log(result); */
+      req.logger.log(result)
     }
     console.log(`Producto con pid ${pid} eliminado de todos los carritos`);
     next();

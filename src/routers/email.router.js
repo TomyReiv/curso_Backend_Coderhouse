@@ -3,7 +3,7 @@ import { tokenGenerator } from "../utils.js";
 import emailService from "../services/email.service.js";
 import userController from "../controllers/user.controller.js";
 import Jwt from "jsonwebtoken";
-import { config } from "../config.js";
+import { config } from "../config/config.js";
 
 const router = Router();
 

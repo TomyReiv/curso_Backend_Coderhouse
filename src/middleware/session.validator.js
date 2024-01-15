@@ -1,5 +1,3 @@
-import Jwt from "jsonwebtoken";
-import { config } from "../config.js";
 
 export const privateRouter = (req, res, next) => {
   if (!req.signedCookies["accessToken"]) {

@@ -5,7 +5,7 @@ import GithubStrategy from "passport-github2";
 import { createHash, isValidPassword } from "../utils.js";
 import fetch from "node-fetch";
 
-import { config } from "../config.js";
+import { config } from "./config.js";
 
 import userModel from "../models/user.model.js";
 import cartModel from "../models/cart.model.js";

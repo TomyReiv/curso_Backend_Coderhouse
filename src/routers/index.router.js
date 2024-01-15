@@ -5,7 +5,7 @@ import {
   authPolicies
 } from "../middleware/session.validator.js";
 import passport from "passport";
-import { config } from "../config.js";
+import { config } from "../config/config.js";
 import Jwt from 'jsonwebtoken';
 
 

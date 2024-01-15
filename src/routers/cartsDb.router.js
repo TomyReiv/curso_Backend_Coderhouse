@@ -3,7 +3,7 @@ import cartController from "../controllers/cart.controller.js";
 import ticketController from "../controllers/ticket.controller.js";
 import userController from "../controllers/user.controller.js";
 import productController from "../controllers/product.controller.js";
-import { config } from "../config.js";
+import { config } from "../config/config.js";
 import Jwt from "jsonwebtoken";
 
 const router = Router();
@@ -150,7 +150,8 @@ router.post("/cart/:cid/purchase", async (req, res, next) =>{
     const { cid } = req.params;
 
     const result = await ticketController.create(cid, body);
-    console.log('Rsult',result);
+    /* console.log('Rsult',result); */
+    req.logger.log('Rsult cartPost: ', result)
     res.status(201).json(result);
   } catch (error) {
     res.status(error.statusCode || 500).json({ message: error.message });
