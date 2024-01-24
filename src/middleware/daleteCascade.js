@@ -14,8 +14,7 @@ export const deleteProductCart = async (req, res, next) => {
         { $set: { items: updatedItems } },
         { new: true }
       );
-      /* console.log(result); */
-      req.logger.log(result)
+      req.logger.log('info', result)
     }
     console.log(`Producto con pid ${pid} eliminado de todos los carritos`);
     next();

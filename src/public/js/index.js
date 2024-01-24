@@ -26,6 +26,7 @@
     formData.append("code", code);
     formData.append("stock", stock);
     formData.append("category", category);
+    formData.append("owner", uid)
 
     // Obtén el archivo seleccionado
     const fileInput = document.getElementById("file");
@@ -116,7 +117,7 @@ function fetchProduct() {
               .then((response) => response.json())
               .then((data) => {
                 console.log(data);
-                alert("Producto eliminado");
+                alert(data.message);
                 fetchProduct();
               })
               .catch((error) => {

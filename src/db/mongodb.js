@@ -1,9 +1,5 @@
 import mongoose from "mongoose";
-/* import dotenv from "dotenv"; */
 import {config} from "../config/config.js"
-
-/* dotenv.config(); */
-
 
 export const init = async () =>{
     try {

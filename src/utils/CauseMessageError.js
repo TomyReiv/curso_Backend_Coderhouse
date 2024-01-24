@@ -5,7 +5,6 @@ export const generatorProductError = (product) => {
      - description: ${product.description}
      - price: ${product.price}
      - code: ${product.code}
-     - status: ${product.status}
      - stock: ${product.stock}
      - category: ${product.category}
     `;

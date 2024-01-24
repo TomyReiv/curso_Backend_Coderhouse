@@ -64,6 +64,7 @@ export default class userService {
     try {
       const user = await userManager.getById(uid);
       if (!user) throw new Exception("El usuario no existe", 404);
+
       const criterio = { _id: uid };
       const operation = { $set: {'password': data} };
       

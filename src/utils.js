@@ -1,4 +1,4 @@
-import bcrypt, { genSaltSync } from "bcrypt";
+import bcrypt from "bcrypt";
 import { config } from "./config/config.js";
 import { fileURLToPath } from 'url';
 import Jwt from 'jsonwebtoken';
@@ -9,6 +9,7 @@ import {faker} from "@faker-js/faker"
 
 
 const JWT_SECRET = config.JwtSecret;
+const JWT_SECRET_PASS = config.JwtSecret_PASS;
 
 const __filename = fileURLToPath(import.meta.url);
 
@@ -38,7 +39,7 @@ export const createHash = (password) => bcrypt.hashSync(password, bcrypt.genSalt
 
 export const isValidPassword = (password, user) => bcrypt.compareSync(password, user.password);
 
-export const tokenGenerator = (user, date) =>{
+export const tokenGenerator = (user) =>{
     const { id, username, lastname, email, rol } = user;
     const payload = {
         id: id,
@@ -47,12 +48,25 @@ export const tokenGenerator = (user, date) =>{
         email: email,
         rol: rol
     };
-    const token = Jwt.sign(payload, JWT_SECRET, {expiresIn: date});
+    const token = Jwt.sign(payload, JWT_SECRET, {expiresIn: '24h'});
+    return token;
+};
+
+export const tokenGeneratorPass = (user) =>{
+    const { id, username, email, rol } = user;
+    const payload = {
+        id: id,
+        username: username,
+        email: email,
+        rol: rol
+    };
+    const token = Jwt.sign(payload, JWT_SECRET_PASS, {expiresIn: '1h'});
     return token;
 };
 
 export const jwtAuth = (req, res ,next) =>{
-    const {authorization: token} = req.headers;
+    /* const {authorization: token} = req.headers; */
+    const token = req.signedCookies['accessToken'];
     if(!token) res.status(401).json({message:'Unauthorized'});
     Jwt.verify(token, config.JwtSecret, async (error, payload)=>{
         if(error) res.status(403).json({message:'No authorized'});
@@ -60,7 +74,6 @@ export const jwtAuth = (req, res ,next) =>{
         next();
     })
 }
-
 
 export const generateProduct = () => {
     return {

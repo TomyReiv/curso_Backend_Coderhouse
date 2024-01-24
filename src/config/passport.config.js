@@ -88,6 +88,7 @@ export const init = () => {
     new LocalStrategy(opts, async (req, email, password, done) => {
       try {
         const user = await userModel.findOne({ email });
+
         if (!user) {
           return done(new Error("Usuario o contraseña invalidos"));
         }
@@ -96,6 +97,10 @@ export const init = () => {
         if (!passwordMatch) {
           return done(new Error("Usuario o contraseña invalidos"));
         }
+
+/*         if(user.status !== 'active'){
+          return done(new Error("Debe activar el email para ingresar"));
+        } */
 
         done(null, user);
       } catch (error) {

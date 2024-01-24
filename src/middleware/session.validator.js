@@ -14,7 +14,7 @@ export const publicRouter = (req, res, next) => {
 };
 
 
-export const authPolicies = (roles) => (req, res, next) => {
+export const authPolicies = () => (req, res, next) => {
   try {
     
     if (!req.user || !req.user.rol) {
@@ -23,11 +23,27 @@ export const authPolicies = (roles) => (req, res, next) => {
 
     const { rol } = req.user;
 
-    if (roles.includes("admin") && rol !== "admin") {
+
+    if (rol !== 'admin' && rol !== 'premium') {
       return res.status(403).json({ message: "No tienes permiso para acceder a esta página" });
     }
 
-    if (roles.includes("user") && rol !== "user") {
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const authPoliciesUser = () => (req, res, next) => {
+  try {
+    
+    if (!req.user || !req.user.rol) {
+      return res.status(401).redirect('/login');
+    }
+
+    const { rol } = req.user;
+
+    if (rol !== 'user' && rol !== 'premium') {
       return res.status(403).json({ message: "No tienes permiso para acceder a esta página" });
     }
 

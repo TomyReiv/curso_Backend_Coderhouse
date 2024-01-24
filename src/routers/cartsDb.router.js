@@ -11,7 +11,6 @@ const router = Router();
 router.get("/cart", async (req, res, next) => {
   try {
     const { query = {} } = req;
-
     const cart = await cartController.get(query);
     res.status(200).json(cart);
   } catch (error) {

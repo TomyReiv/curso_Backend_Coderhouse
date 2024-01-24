@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { tokenGenerator } from "../utils.js";
+import { tokenGeneratorPass } from "../utils.js";
 import emailService from "../services/email.service.js";
 import userController from "../controllers/user.controller.js";
 import Jwt from "jsonwebtoken";
@@ -13,7 +13,7 @@ router.post("/pass-recover", async (req, res, next) => {
 
     const user = await userController.findUserByEmail(email);
     if (!user) res.status(401).json({ message: "No existe el usuario" });
-    const token = tokenGenerator(user, "1h");
+    const token = tokenGeneratorPass(user);
     const result = await emailService.sendEmail(
       email,
       username,
@@ -83,7 +83,7 @@ router.post("/pass-recover", async (req, res, next) => {
 router.get("/pass-recover/:token", async (req, res, next) => {
   try {
     const { token } = req.params;
-    Jwt.verify(token, config.JwtSecret, async (error, payload) => {
+    Jwt.verify(token, config.JwtSecret_PASS, async (error, payload) => {
       if (error) res.status(403).json({ message: "No authorized" });
       req.user = await userController.findUserByEmail(payload.email);
       res.redirect(`/newPass/${req.user.id}`);
@@ -168,7 +168,7 @@ router.post("/activacion", async (req, res, next) => {
 router.get("/activacion/:uid", async (req, res, next) => {
   try {
     const {uid} = req.params;
-    console.log('uid params', uid);
+    req.logger.log('info',`uid params: ${uid}` );
     const data = { status: "active" };
     const activated = await userController.updateById(uid, data);
     res.status(200).redirect('/');

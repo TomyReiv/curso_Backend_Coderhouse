@@ -8,6 +8,7 @@ export const config = {
   DB_HOST: process.env.DB_HOST,
   SERVER_SECRET: process.env.SERVER_SECRET,
   JwtSecret: process.env.JWT_SECRET,
+  JwtSecret_PASS: process.env.JWT_SECRET_PASS,
   //coneccion con github
   callback: process.env.callback,
   AppID: process.env.AppID,

@@ -11,7 +11,8 @@ const productSchema = new Schema({
     code: { type: String, requiredd: true, unique: true },
     status: { type: String, default: 'active', enum: ['active', 'inactive'] },
     stock: { type: Number, requiredd: true },
-    category: { type: String, required: true }
+    category: { type: String, required: true },
+    owner: {type: String, default: 'admin'}
 }, {timestamps: true});
 
 productSchema.plugin(mongoosePaginate);

@@ -38,14 +38,13 @@ router.post(
   uploader.single("file"),
   async (req, res, next) => {
     try {
-      const { title, description, price, code, status, stock, category } =
+      const { title, description, price, code, stock, category, owner, thumbnail } =
         req.body;
       if (
         !title ||
         !description ||
         !price ||
         !code ||
-        !status ||
         !stock ||
         !category
       ) {
@@ -56,7 +55,6 @@ router.post(
             description,
             price,
             code,
-            status,
             stock,
             category,
           }),
@@ -64,16 +62,19 @@ router.post(
           code: EnumsError.BAD_REQUEST_ERROR,
         });
       }
-      
+
       if (req.file) {
-        body.thumbnail = {
-          filename: file.filename,
-          path: file.path,
+        req.body.thumbnail = {
+          filename: req.file.filename,
+          path: req.file.path,
         };
       }
+      req.body.owner = req.user.email;
       const result = await productController.createProduct(req.body);
+
       res.status(201).json(result);
     } catch (error) {
+      console.log(error);
       res.status(error.statusCode || 500).json({ message: error.message });
       /* next(error); */
     }
@@ -84,19 +85,41 @@ router.put("/products/:pid", async (req, res, next) => {
   try {
     const { pid } = req.params;
     const { body } = req;
+    const {rol } = req.user;
+
+    if(rol === 'premium'){
+      const {email} = req.user;
+      const product = await productController.getById(pid)
+      if(product.owner !== email){
+        return res.status(403).json({message:'Solo el dueño puede modificar este preducto'})
+      }
+    }
+
+
     const result = await productController.updateById(pid, body);
-    res.status(201).json(result);
+    res.status(201).json({message:'Producto modificado correctamente'})
   } catch (error) {
     res.status(error.statusCode || 500).json({ message: error.message });
     /* next(error); */
   }
 });
 
-router.delete("/products/:pid", deleteProductCart, async (req, res, next) => {
+router.delete("/products/:pid", async (req, res, next) => {
   try {
     const { pid } = req.params;
+
+    const {rol } = req.user;
+
+    if(rol === 'premium'){
+      const {email} = req.user;
+      const product = await productController.getById(pid)
+      if(product.owner !== email){
+        return res.status(403).json({message:'Solo el dueño puede borrar este preducto'})
+      }
+    }
     const result = await productController.deleteById(pid);
-    res.status(200).json(result);
+    await deleteProductCart(req, res, next);
+    res.status(200).json({message:'Producto eliminado correctamente'})
   } catch (error) {
     res.status(error.statusCode || 500).json({ message: error.message });
     /* next(error); */

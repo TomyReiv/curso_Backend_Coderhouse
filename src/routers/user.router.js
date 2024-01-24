@@ -18,8 +18,8 @@ router.get("/users", async (req, res, next) => {
     const user = await userController.get(query);
     res.status(200).json(user);
   } catch (error) {
-    res.status(error.statusCode || 500).json({ message: error.message });
-    next(error);
+    req.logger.log('error', error);
+    res.status(error.statusCode || 500).json({ message: error.message })
   }
 });
 
@@ -32,8 +32,8 @@ router.get("/users/:uid", async (req, res, next) => {
     }
     res.status(200).json(users);
   } catch (error) {
-    res.status(error.statusCode || 500).json({ message: error.message });
-    next(error);
+    req.logger.log('error', error);
+    res.status(error.statusCode || 500).json({ message: error.message })
   }
 });
 
@@ -48,8 +48,8 @@ router.post(
     try {
       res.status(200).json({ message: "Usuario creado" });
     } catch (error) {
+      req.logger.log('error', error);
       res.status(error.statusCode || 500).json({ message: error.message });
-      next(error);
     }
   }
 );
@@ -63,7 +63,8 @@ router.post(
       const { _id, username, lastname } = req.user;
 
       const userToken = await userController.findUserByEmail(email);
-      const token = tokenGenerator(userToken, "24h");
+
+      const token = tokenGenerator(userToken);
       res
         .cookie("accessToken", token, {
           maxAge: 60 * 60 * 24 * 1000,
@@ -73,8 +74,8 @@ router.post(
         .status(200)
         .json(userToken);
     } catch (error) {
+      req.logger.log('error', error);
       res.status(error.statusCode || 500).json({ message: error.message });
-      next(error);
     }
   }
 );
@@ -89,18 +90,18 @@ router.get(
   passport.authenticate("github", { failureRedirect: "/login" }),
   async (req, res, next) => {
     try {
-     const { _id, username, lastname, email } = req.user;
-      const token = tokenGenerator(req.user, "24h");
+      const { _id, username, lastname, email } = req.user;
+      const token = tokenGenerator(req.user);
       res
         .cookie("accessToken", token, {
           maxAge: 60 * 60 * 24,
           httpOnly: true,
           signed: true,
         })
-        .redirect("/"); 
+        .redirect("/");
     } catch (error) {
+      req.logger.log('error', error);
       res.status(error.statusCode || 500).json({ message: error.message });
-      next(error);
     }
   }
 );
@@ -111,11 +112,17 @@ router.put("/users/:uid", passwordValidator, async (req, res, next) => {
     const { body } = req;
     const password = createHash(body.password);
 
+    const user = await userController.getById(uid);
+    if (isValidPassword(body.password, user)) {
+      return res
+        .status(404)
+        .json({ message: "No pueden coincidir contraseñas" });
+    } 
     const result = await userController.updatePassword(uid, password);
     res.status(201).json({ message: "Actualizado exitosamente" });
   } catch (error) {
-    res.status(error.statusCode || 500).json({ message: error.message });
-    next(error);
+    req.logger.log('error', error);
+    res.status(error.statusCode || 500).json({ message: error.message })
   }
 });
 
@@ -125,16 +132,28 @@ router.delete("/users/:uid", deleteCartUser, async (req, res, next) => {
     const result = await userController.deleteById(uid);
     res.status(200).json(result);
   } catch (error) {
-    res.status(error.statusCode || 500).json({ message: error.message });
-    next(error);
+    req.logger.log('error', error);
+    res.status(error.statusCode || 500).json({ message: error.message })
   }
 });
 router.get("/logout", (req, res, next) => {
   try {
     res.cookie("accessToken", "", { maxAge: -1 }).redirect("/login");
   } catch (error) {
-    res.status(error.statusCode || 500).json({ message: error.message });
-    next(error);
+    req.logger.log('error', error);
+    res.status(error.statusCode || 500).json({ message: error.message })
   }
 });
+
+router.put("/premium/:uid", async (req, res)=>{
+  try {
+    const { uid } = req.params;
+    const data = {'rol': 'premium'}
+    const user = await userController.updateById(uid, data);
+    res.status(201).json({ message: "Bienvenido al servicio premium" });
+  } catch (error) {
+    req.logger.log('error', error);
+    res.status(error.statusCode || 500).json({ message: error.message })
+  }
+})
 export default router;

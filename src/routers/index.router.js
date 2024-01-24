@@ -2,7 +2,8 @@ import { Router } from "express";
 import {
   privateRouter,
   publicRouter,
-  authPolicies
+  authPolicies,
+  authPoliciesUser
 } from "../middleware/session.validator.js";
 import passport from "passport";
 import { config } from "../config/config.js";
@@ -19,7 +20,7 @@ router.get("/login", publicRouter, (req, res) => {
   res.render("login", { title: "Login" });
 });
 
-router.get("/", privateRouter, authPolicies(['user']), passport.authenticate('jwt', {session:false}),  (req, res) => {
+router.get("/", privateRouter, authPoliciesUser(['user']), passport.authenticate('jwt', {session:false}),  (req, res) => {
  
   const token = req.signedCookies['accessToken']
 

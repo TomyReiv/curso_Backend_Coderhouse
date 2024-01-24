@@ -10,7 +10,6 @@ form.addEventListener("submit", async (e) => {
 
   const password = document.getElementById("password").value;
   const rePassword = document.getElementById("rePassword").value;
-  console.log(password);
   if (password !== rePassword) {
     alert("Las contraseñas deben coincidir");
     return;
@@ -24,17 +23,18 @@ form.addEventListener("submit", async (e) => {
       },
       body: JSON.stringify({ password }),
     });
-
+    
     if (response.ok) {
       const data = await response.json();
-
+      
       if (data.message) {
         alert(data.message);
         window.location.href = "/login"; 
       }
       
     } else {
-      alert("Error al actualizar la contraseña. Por favor, inténtalo de nuevo.");
+      const error = await response.json();
+      alert(error.message);
     }
   } catch (error) {
     console.error("Error al procesar la solicitud:", error);
