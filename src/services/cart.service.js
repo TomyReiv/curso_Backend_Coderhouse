@@ -1,5 +1,7 @@
 // services/cart.service.js
 import cartManager from "../dao/cartManagers.js";
+import productManager from "../dao/productManager.js";
+import userManager from "../dao/userManager.js";
 import Exception from "../utils.js";
 
 export default class cartService {
@@ -38,10 +40,15 @@ export default class cartService {
             items: [{ pid, quantity }],
           } = cartData;
 
+      const user = await userManager.getById(userId);
+      const product = await productManager.getById(pid)
+
+      if(user.email === product.owner) throw new Exception("El usuario no puede comprar sus propios productos", 404);
+
       const cartExist = await cartManager.getOne({ userId });
 
       if (!cartExist) throw new Exception("No existe el Carrito", 404);
-
+          
       if (cartExist) {
         const existingItem = cartExist.items.find((item) => {
           const id = item.pid._id.toString();

@@ -1,7 +1,6 @@
 import cartController from "../controllers/cart.controller.js";
 
-export const deleteProductCart = async (req, res, next) => {
-  const pid = req.params.pid;
+export const deleteProductCart = async (pid) => {
   try {
     const carts = await cartController.get({ "items.pid": pid });
 
@@ -14,12 +13,10 @@ export const deleteProductCart = async (req, res, next) => {
         { $set: { items: updatedItems } },
         { new: true }
       );
-      req.logger.log('info', result)
     }
     console.log(`Producto con pid ${pid} eliminado de todos los carritos`);
-    next();
   } catch (error) {
-    res.status(error.status || 500).send(error.message);
+    console.error(error);
   }
 };
 

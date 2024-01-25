@@ -14,6 +14,7 @@ router.get("/products", async (req, res, next) => {
     const product = await productController.get(query);
     res.status(200).json(product);
   } catch (error) {
+    req.logger.log('error', error)
     res.status(error.statusCode || 500).json({ message: error.message });
    /*  next(error); */
   }
@@ -28,6 +29,7 @@ router.get("/products/:pid", async (req, res, next) => {
     }
     res.status(200).json(product);
   } catch (error) {
+    req.logger.log('error', error)
     res.status(error.statusCode || 500).json({ message: error.message });
    /*  next(error); */
   }
@@ -74,7 +76,7 @@ router.post(
 
       res.status(201).json(result);
     } catch (error) {
-      console.log(error);
+      req.logger.log('error', error)
       res.status(error.statusCode || 500).json({ message: error.message });
       /* next(error); */
     }
@@ -99,6 +101,7 @@ router.put("/products/:pid", async (req, res, next) => {
     const result = await productController.updateById(pid, body);
     res.status(201).json({message:'Producto modificado correctamente'})
   } catch (error) {
+    req.logger.log('error', error)
     res.status(error.statusCode || 500).json({ message: error.message });
     /* next(error); */
   }
@@ -117,10 +120,13 @@ router.delete("/products/:pid", async (req, res, next) => {
         return res.status(403).json({message:'Solo el dueño puede borrar este preducto'})
       }
     }
-    const result = await productController.deleteById(pid);
-    await deleteProductCart(req, res, next);
+ 
+    await productController.deleteById(pid);
+    await deleteProductCart(pid);
     res.status(200).json({message:'Producto eliminado correctamente'})
   } catch (error) {
+    console.log(error);
+    req.logger.log('error', error)
     res.status(error.statusCode || 500).json({ message: error.message });
     /* next(error); */
   }

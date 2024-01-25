@@ -75,8 +75,8 @@ router.post("/pass-recover", async (req, res, next) => {
 
     res.status(200).json({ message: "Correo enviado exitosamente" });
   } catch (error) {
+    req.logger.log('error', error)
     res.status(error.statusCode || 500).json({ message: error.message });
-    next(error);
   }
 });
 
@@ -89,8 +89,8 @@ router.get("/pass-recover/:token", async (req, res, next) => {
       res.redirect(`/newPass/${req.user.id}`);
     });
   } catch (error) {
+    req.logger.log('error', error)
     res.status(error.statusCode || 500).json({ message: error.message });
-    next(error);
   }
 });
 
@@ -160,8 +160,8 @@ router.post("/activacion", async (req, res, next) => {
     );
     res.status(200).json({ message: "Correo enviado exitosamente" });
   } catch (error) {
+    req.logger.log('error', error)
     res.status(error.statusCode || 500).json({ message: error.message });
-    next(error);
   }
 });
 
@@ -173,8 +173,8 @@ router.get("/activacion/:uid", async (req, res, next) => {
     const activated = await userController.updateById(uid, data);
     res.status(200).redirect('/');
   } catch (error) {
+    req.logger.log('error', error)
     res.status(error.statusCode || 500).json({ message: error.message });
-    next(error);
   }
 });
 

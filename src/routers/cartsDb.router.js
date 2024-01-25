@@ -14,8 +14,8 @@ router.get("/cart", async (req, res, next) => {
     const cart = await cartController.get(query);
     res.status(200).json(cart);
   } catch (error) {
+    req.logger.log('error', error);
     res.status(error.statusCode || 500).json({ message: error.message });
-    next(error);
   }
 });
 
@@ -31,8 +31,8 @@ router.get("/cartUser", async (req, res, next) => {
     const cart = await cartController.get({ userId });
     res.status(200).json(cart);
   } catch (error) {
+    req.logger.log('error', error);
     res.status(error.statusCode || 500).json({ message: error.message });
-    next(error);
   }
 });
 
@@ -45,8 +45,8 @@ router.get("/cart/:cid", async (req, res, next) => {
     }
     res.status(200).json(cart);
   } catch (error) {
+    req.logger.log('error', error);
     res.status(error.statusCode || 500).json({ message: error.message });
-    next(error)
   }
 });
 
@@ -56,8 +56,9 @@ router.post("/cart", async (req, res, next) => {
     const result = await cartController.create(body);
     res.status(201).json(result);
   } catch (error) {
+    console.log(error);
+    req.logger.log('error', error);
     res.status(error.statusCode || 500).json({ message: error.message });
-    next(error)
   }
 });
 
@@ -68,8 +69,8 @@ router.put("/cart/:cid", async (req, res, next) => {
     const result = await cartController.updateById(cid, body);
     res.status(201).json(result);
   } catch (error) {
+    req.logger.log('error', error);
     res.status(error.statusCode || 500).json({ message: error.message });
-    next(error)
   }
 });
 
@@ -100,8 +101,8 @@ router.put("/carts/:cid/products/:pid", async (req, res, next) => {
       .status(200)
       .json({ message: "Cantidad del producto actualizada en el carrito" });
   } catch (error) {
+    req.logger.log('error', error);
     res.status(error.statusCode || 500).json({ message: error.message });
-    next(error)
   }
 });
 
@@ -111,8 +112,8 @@ router.delete("/cart/:cid", async (req, res, next) => {
     const result = await cartController.deleteById(cid);
     res.status(200).json(result);
   } catch (error) {
+    req.logger.log('error', error);
     res.status(error.statusCode || 500).json({ message: error.message });
-    next(error)
   }
 });
 
@@ -138,8 +139,8 @@ router.delete("/cart/:cid/product/:pid", async (req, res, next) => {
 
     return res.status(200).json({ message: "Producto eliminado del carrito" });
   } catch (error) {
+    req.logger.log('error', error);
     res.status(error.statusCode || 500).json({ message: error.message });
-    next(error)
   }
 });
 
@@ -149,12 +150,11 @@ router.post("/cart/:cid/purchase", async (req, res, next) =>{
     const { cid } = req.params;
 
     const result = await ticketController.create(cid, body);
-    /* console.log('Rsult',result); */
     req.logger.log('Rsult cartPost: ', result)
     res.status(201).json(result);
   } catch (error) {
+    req.logger.log('error', error);
     res.status(error.statusCode || 500).json({ message: error.message });
-    next(error)
   }
 })
 
