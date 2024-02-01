@@ -67,7 +67,7 @@ router.post(
       const token = tokenGenerator(userToken);
       res
         .cookie("accessToken", token, {
-          maxAge: 60 * 60 * 24 * 1000,
+          maxAge: (60 * 60 * 24 * 1000),
           httpOnly: true,
           signed: true,
         })
@@ -94,7 +94,7 @@ router.get(
       const token = tokenGenerator(req.user);
       res
         .cookie("accessToken", token, {
-          maxAge: 60 * 60 * 24,
+          maxAge: (60 * 60 * 24),
           httpOnly: true,
           signed: true,
         })

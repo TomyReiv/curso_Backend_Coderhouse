@@ -26,6 +26,9 @@ export default class productService {
 
   static async createProduct(product) {
     try {
+      if(product.stock < 0) throw new Exception("Debe agregar stock del producto", 404);
+      if(product.price < 0) throw new Exception("Debe agregar el precio del producto", 404);
+
       return await productManager.createProduct(product);
     } catch (error) {
       throw new Exception(error.message, error.status);
@@ -36,6 +39,9 @@ export default class productService {
     try {
       const product = await productManager.getById(pid);
       if (!product) throw new Exception("El producto no existe", 404);
+
+      if(data.stock < 0) throw new Exception("Debe agregar stock del producto", 404);
+      if(data.price < 0) throw new Exception("Debe agregar el precio del producto", 404);
 
       const criterio = { _id: pid };
       const operation = { $set: data };

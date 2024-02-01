@@ -8,6 +8,9 @@ class emailService{
             auth:{
                 user: config.GMAIL_USER,
                 pass: config.GMAIL_PASS
+            },
+            tls:{
+                rejectUnauthorized: false
             }
         })
     }

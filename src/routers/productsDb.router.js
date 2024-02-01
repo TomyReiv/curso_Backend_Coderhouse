@@ -5,6 +5,7 @@ import { generatorProductError } from "../utils/CauseMessageError.js";
 import productController from "../controllers/product.controller.js";
 import { uploader } from "../utils.js";
 import {deleteProductCart} from "../middleware/daleteCascade.js"
+import { productValidator, validationErrorProduct } from "../middleware/product.validators.js"
 
 const router = Router();
 
@@ -38,6 +39,8 @@ router.get("/products/:pid", async (req, res, next) => {
 router.post(
   "/products",
   uploader.single("file"),
+  productValidator,
+  validationErrorProduct,
   async (req, res, next) => {
     try {
       const { title, description, price, code, stock, category, owner, thumbnail } =

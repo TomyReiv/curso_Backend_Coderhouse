@@ -1,0 +1,115 @@
+openapi: 3.0.0
+info:
+  title: ecommerce
+  version: 1.0.0
+  description: Documentación de la API de mi ecommerce
+servers:
+  - url: http://localhost:8080
+    description: Servidor local
+paths:
+  /api/products:
+    get:
+      summary: Obtener todos los productos
+      description: Obtiene una lista de todos los productos.
+      responses:
+        '200':
+          description: Éxito. Devuelve una lista de productos.
+        '500':
+          description: Error del servidor.
+    post:
+      summary: Agregar un producto al ecommerce.
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          description: Éxito. Producto agregado correctamente.
+        '500':
+          description: Error del servidor.
+  /api/cart:
+    get:
+      summary: Obtener carrito de compras
+      description: Obtiene el carrito de compras del usuario.
+      responses:
+        '200':
+          description: Éxito. Devuelve el carrito de compras.
+        '401':
+          description: No autorizado. El usuario no está autenticado.
+        '404':
+          description: No encontrado. El carrito de compras no existe.
+    post:
+      summary: Agregar producto al carrito
+      description: Agrega un producto al carrito de compras del usuario.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                  description: ID del usuario.
+                items:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Product'
+              required:
+                - userId
+                - items
+      responses:
+        '200':
+          description: Éxito. Producto agregado al carrito correctamente.
+        '401':
+          description: No autorizado. El usuario no está autenticado.
+        '404':
+          description: No encontrado. El producto no existe.
+        '500':
+          description: Error del servidor.
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Id del producto generado por MongoDB.
+        title:
+          type: string
+          description: Nombre del producto.
+        description:
+          type: string
+          description: Descripción del producto.
+        price:
+          type: number
+          description: Precio del producto.
+        thumbnail:
+          type: array
+          description: Imágenes del producto.
+        code:
+          type: string
+          description: Código del producto.
+        stock:
+          type: number
+          description: Stock del producto.
+        category:
+          type: string
+          description: Categoría del producto.
+        owner:
+          type: string
+          description: Dueño del producto.
+      example:
+        _id: "617e8d9b342fafaae"
+        title: "Camisa de cuadros azules y rojos"
+        description: "Camiseta para el día a día, con diseños de cuadros azules y rojos."
+        price: 50.00
+        thumbnail: []
+        code: "CAM-AZULROJO"
+        stock: 10
+        category: "Camisetas"
+        owner: "usuario_prueba"

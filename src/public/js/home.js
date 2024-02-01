@@ -1,4 +1,4 @@
- const uidStor = document.getElementById("uid").textContent;
+const uidStor = document.getElementById("uid").textContent;
 localStorage.setItem("uid", uidStor);
 const user = document.getElementById("user").textContent;
 localStorage.setItem("user", user); 

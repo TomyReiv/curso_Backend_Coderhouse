@@ -7,6 +7,8 @@ import expressSession from "express-session";
 import passport from "passport";
 import path from "path";
 import compression from "express-compression";
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUi from  "swagger-ui-express";
 /* import authRouter from "./routers/auth.router.js"; */
 import { addLogger } from "./config/logger.js";
 import { config } from "./config/config.js";
@@ -42,6 +44,19 @@ app.use(
     }),
   })
 );
+
+const swaggerOption ={
+  definition:{
+    openapi: '3.0.1',
+    info:{
+      title:'E-commerce API',
+      description: 'La descripción  de la api del ecommerce',
+    },
+  },
+  apis:[path.join(__dirname, 'docs', '**', '*.yaml')]
+};
+const spects = swaggerJSDoc(swaggerOption);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(spects));
 
 app.engine("handlebars", handlebars.engine());
 app.set("views", path.join(__dirname, "views"));
