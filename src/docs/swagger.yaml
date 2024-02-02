@@ -50,18 +50,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                userId:
-                  type: string
-                  description: ID del usuario.
-                items:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/Product'
-              required:
-                - userId
-                - items
+              $ref: '#/components/schemas/Carts'
       responses:
         '200':
           description: Éxito. Producto agregado al carrito correctamente.
@@ -113,3 +102,25 @@ components:
         stock: 10
         category: "Camisetas"
         owner: "usuario_prueba"
+    Carts:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Id del carrito generado por MongoDB.
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              pid:
+                type: string
+                description: ID del producto.
+              quantity:
+                type: integer
+                description: Cantidad del producto en el carrito.
+      example:
+        _id: "617e8d9b342fafaae2313a"
+        items:
+          - pid: "6124e8d9b342fafaae23"
+            quantity: 2
