@@ -6,6 +6,7 @@ export const config = {
   NODE_ENV: process.env.NODE_ENV,
   PORT: process.env.PORT || 8080,
   DB_HOST: process.env.DB_HOST,
+  DB_HOST_TEST: process.env.DB_HOST_TEST,
   SERVER_SECRET: process.env.SERVER_SECRET,
   JwtSecret: process.env.JWT_SECRET,
   JwtSecret_PASS: process.env.JWT_SECRET_PASS,

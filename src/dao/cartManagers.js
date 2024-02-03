@@ -39,6 +39,7 @@ export default class cartManager {
     try {
       await cartModel.updateOne(cid, data);
       console.log("Carrito actualizado");
+      return {message: 'Carrito actualizado'};
     } catch (error) {
       throw new Exception(error.message, error.status);
     }
