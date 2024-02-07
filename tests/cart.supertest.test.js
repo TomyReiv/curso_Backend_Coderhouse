@@ -6,7 +6,7 @@ const requester = supertest('http://localhost:8080');
 
 describe('Testing products', ()=>{
     describe('test of users', ()=>{
-        it.only("Debe crear un carrito",async function(){
+        it("Debe crear un carrito",async function(){
             const cart ={
                 userId: '65c3f573b3d86528c769bc44',
                 items: [
