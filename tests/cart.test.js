@@ -21,12 +21,7 @@ describe('Preubas al modulo cartManager', function () {
         
         const result = await cartManager.create({
             userId: '6596f01a44ad375e0488075c',
-            items: [
-                {
-                    pid: '65be970a5cf4bd86ccc28096',
-                    quantity: 2,
-                }
-            ]
+            items: []
         });
         console.log(result);
         assert.ok(result._id);

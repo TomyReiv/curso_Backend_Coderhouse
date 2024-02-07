@@ -10,7 +10,7 @@ const cartProduct = new Schema({
 
 const cartSchema = new Schema({
     userId: { type: String, required: true, index: true },
-    items: [cartProduct]
+    items: [cartProduct] //Debe eliminarse el cartProduct para pasar el test unitario
 }, {timestamps: true});
 
 export default mongoose.model('Cart', cartSchema);

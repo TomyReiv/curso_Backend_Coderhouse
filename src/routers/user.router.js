@@ -110,15 +110,20 @@ router.put("/users/:uid", passwordValidator, async (req, res, next) => {
   try {
     const { uid } = req.params;
     const { body } = req;
-    const password = createHash(body.password);
+    if(body.password){
+      const password = createHash(body.password);
 
-    const user = await userController.getById(uid);
-    if (isValidPassword(body.password, user)) {
-      return res
-        .status(404)
-        .json({ message: "No pueden coincidir contraseñas" });
-    } 
-    const result = await userController.updatePassword(uid, password);
+      const user = await userController.getById(uid);
+      if (isValidPassword(body.password, user)) {
+        return res
+          .status(404)
+          .json({ message: "No pueden coincidir contraseñas" });
+      } 
+      const result = await userController.updatePassword(uid, password);
+    }else{
+      const result = await userController.updateById(uid, body);
+    }
+    
     res.status(201).json({ message: "Actualizado exitosamente" });
   } catch (error) {
     req.logger.log('error', error);
