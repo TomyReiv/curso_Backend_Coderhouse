@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import Assert from "assert";
-import userManager from "../src/dao/userManager.js";
-import { config } from "../src/config/config.js";
+import userManager from "../../src/dao/userManager.js";
+import { config } from "../../src/config/config.js";
 
 const assert = Assert.strict;
 

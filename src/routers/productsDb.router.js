@@ -17,7 +17,6 @@ router.get("/products", async (req, res, next) => {
   } catch (error) {
     req.logger.log('error', error)
     res.status(error.statusCode || 500).json({ message: error.message });
-   /*  next(error); */
   }
 });
 
@@ -32,7 +31,6 @@ router.get("/products/:pid", async (req, res, next) => {
   } catch (error) {
     req.logger.log('error', error)
     res.status(error.statusCode || 500).json({ message: error.message });
-   /*  next(error); */
   }
 });
 
@@ -75,7 +73,7 @@ router.post(
         };
       }
       //Comentar para pasar los test de product
-      /*  req.body.owner = req.user.email || 'admin';  */
+      req.body.owner = req.user.email || 'admin'; 
       //fin
       const result = await productController.createProduct(req.body);
 
@@ -83,7 +81,6 @@ router.post(
     } catch (error) {
       req.logger.log('error', error)
       res.status(error.statusCode || 500).json({ message: error.message });
-      /* next(error); */
     }
   }
 );
@@ -94,7 +91,8 @@ router.put("/products/:pid", async (req, res, next) => {
     const { body } = req;
 
     //Comentar para pasar los test de product
-/*    const {rol } = req.user;
+
+    const {rol } = req.user;
 
     if(rol === 'premium'){
       const {email} = req.user;
@@ -102,7 +100,7 @@ router.put("/products/:pid", async (req, res, next) => {
       if(product.owner !== email){
         return res.status(403).json({message:'Solo el dueño puede modificar este preducto'})
       }
-    }  */
+    }
     //fin
 
     const result = await productController.updateById(pid, body);
@@ -110,15 +108,15 @@ router.put("/products/:pid", async (req, res, next) => {
   } catch (error) {
     req.logger.log('error', error)
     res.status(error.statusCode || 500).json({ message: error.message });
-    /* next(error); */
   }
 });
 
 router.delete("/products/:pid", async (req, res, next) => {
   try {
     const { pid } = req.params;
-//Comentar para pasar los test de product
-   /*  const {rol } = req.user;
+  //Comentar para pasar los test de product
+
+   const {rol } = req.user;
 
     if(rol === 'premium'){
       const {email} = req.user;
@@ -126,7 +124,8 @@ router.delete("/products/:pid", async (req, res, next) => {
       if(product.owner !== email){
         return res.status(403).json({message:'Solo el dueño puede borrar este preducto'})
       }
-    } */
+    } 
+
      //fin
     await productController.deleteById(pid);
     await deleteProductCart(pid);
@@ -135,7 +134,7 @@ router.delete("/products/:pid", async (req, res, next) => {
     console.log(error);
     req.logger.log('error', error)
     res.status(error.statusCode || 500).json({ message: error.message });
-    /* next(error); */
+
   }
 });
 

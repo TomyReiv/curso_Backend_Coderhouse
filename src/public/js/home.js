@@ -15,6 +15,7 @@ function fetchProduct() {
     fetch(`http://localhost:8080/api/products?limit=6&page=${pageNumber}`)
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         const productList = document.getElementById("productList");
         const imgCont = document.getElementById("cart-list");
         productList.innerHTML = "";

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import Assert from "assert";
-import productManager from "../src/dao/productManager.js";
-import { config } from "../src/config/config.js";
+import productManager from "../../src/dao/productManager.js";
+import { config } from "../../src/config/config.js";
 
 const assert = Assert.strict;
 

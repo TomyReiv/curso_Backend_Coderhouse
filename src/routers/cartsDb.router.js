@@ -1,8 +1,8 @@
 import { Router } from "express";
 import cartController from "../controllers/cart.controller.js";
 import ticketController from "../controllers/ticket.controller.js";
-import userController from "../controllers/user.controller.js";
-import productController from "../controllers/product.controller.js";
+/* import userController from "../controllers/user.controller.js";
+import productController from "../controllers/product.controller.js"; */
 import { config } from "../config/config.js";
 import Jwt from "jsonwebtoken";
 

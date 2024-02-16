@@ -14,6 +14,7 @@ const loggerProd = winston.createLogger({
     ]
 })
 
+
 export const addLogger = (req, res, next) =>{
     let logger = loggerDev;
     if(config.NODE_ENV === 'production'){
