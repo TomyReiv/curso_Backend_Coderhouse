@@ -9,6 +9,7 @@ import passport from "passport";
 import { tokenGenerator } from "../utils.js";
 import { deleteCartUser } from "../middleware/daleteCascade.js";
 import { createHash, isValidPassword } from "../utils.js";
+import { uploader } from "../utils.js";
 
 const router = Router();
 
@@ -65,6 +66,7 @@ router.post(
       const userToken = await userController.findUserByEmail(email);
 
       const token = tokenGenerator(userToken);
+      await userController.updateById(_id, { last_connection: new Date() })
       res
         .cookie("accessToken", token, {
           maxAge: (60 * 60 * 24 * 1000),
@@ -92,6 +94,7 @@ router.get(
     try {
       const { _id, username, lastname, email } = req.user;
       const token = tokenGenerator(req.user);
+      await userController.updateById(_id, { last_connection: new Date() })
       res
         .cookie("accessToken", token, {
           maxAge: (60 * 60 * 24),
@@ -141,8 +144,10 @@ router.delete("/users/:uid", deleteCartUser, async (req, res, next) => {
     res.status(error.statusCode || 500).json({ message: error.message })
   }
 });
-router.get("/logout", (req, res, next) => {
+router.get("/logout", async (req, res, next) => {
   try {
+    const { _id, username, lastname, email } = req.user;
+    await userController.updateById(_id, { last_connection: new Date() })
     res.cookie("accessToken", "", { maxAge: -1 }).redirect("/login");
   } catch (error) {
     req.logger.log('error', error);
@@ -150,14 +155,31 @@ router.get("/logout", (req, res, next) => {
   }
 });
 
-router.put("/premium/:uid", async (req, res)=>{
+router.put("/users/premium/:uid", async (req, res)=>{
   try {
     const { uid } = req.params;
     const data = {'rol': 'premium'}
-    const user = await userController.updateById(uid, data);
-    res.status(201).json({ message: "Bienvenido al servicio premium" });
+    const docs = await userController.getById(uid);
+    const documento = docs.documents.includes('documento');
+    const domicilio = docs.documents.includes('domicilio');
+    const cuenta = docs.documents.includes('cuenta');
+    if(documento && domicilio && cuenta){
+      const user = await userController.updateById(uid, data);
+      res.status(201).json({ message: "Bienvenido al servicio premium" });
+    }
+    res.status(406).json({ message: "Faltan documentos para ser un usuario premium" });
   } catch (error) {
     req.logger.log('error', error);
+    res.status(error.statusCode || 500).json({ message: error.message })
+  }
+})
+
+router.post("/users/:uid/documents/:typeFile", uploader.single("file"), async (req, res)=>{
+  try {
+    const { file, params: {uid, typeFile } } = req
+    const user = userController.uploadFile(uid, typeFile, file)
+    res.status(204).end()
+  } catch (error) {
     res.status(error.statusCode || 500).json({ message: error.message })
   }
 })

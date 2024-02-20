@@ -62,4 +62,32 @@ export default class userController {
       throw new Exception(error.message, error.status);
     }
   }
+
+  static async uploadFile(uid, typeFile, file) {
+    try {
+      const data = {}
+      switch (typeFile) {
+        case 'Identificacion':
+            Object.assign(data, {documento: file.filename})
+            break;
+        case 'Domicilio':
+          Object.assign(data, {domicilio: file.filename})
+            break;
+        case 'Estado de cuenta':
+          Object.assign(data, {cuenta: file.filename})
+            break;
+        case 'avatar':
+          Object.assign(data, {avatar: file.filename})
+            break;
+        default:
+          throw new Exception('Documento invalido');
+    }
+      const user = await userService.getUserById(uid);
+      const documents = user.documents;
+      documents.push(data)
+      await userService.updateById(uid, {'documents':documents});
+    } catch (error) {
+      throw new Exception(error.message, error.status);
+    }
+  }
 }

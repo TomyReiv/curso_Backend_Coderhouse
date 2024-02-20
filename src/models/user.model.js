@@ -24,6 +24,8 @@ const userSchema = new Schema({
     rol: { type: String, default: 'user', enum: ['admin', 'user', 'premium']  },
     cart: { type: mongoose.Schema.Types.ObjectId, default: null},
     provider: {type: String},
+    documents: {type: Array},
+    last_connection: {type: Date, default: Date.now()}
 }, {timestamps: true});
 
 

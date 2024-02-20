@@ -35,7 +35,7 @@ router.get("/products/:pid", async (req, res, next) => {
 });
 
 router.post(
-  "/products",
+  "/products/:typeFile",
   uploader.single("file"),
   productValidator,
   validationErrorProduct,

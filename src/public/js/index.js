@@ -36,14 +36,14 @@
       formData.append("file", file);
     }
 
-    fetch("http://localhost:8080/api/products", {
+    fetch("http://localhost:8080/api/products/products", {
       method: "POST",
       body: formData,
     })
       .then((response) => response.json())
       .then((data) => {
         if (data.title) alert("Producto creado exitosamente");
-        location.reload();
+         location.reload();
       })
       .catch((error) => {
         console.error("Error al procesar la solicitud:", error);
