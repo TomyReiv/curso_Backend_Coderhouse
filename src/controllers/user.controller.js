@@ -1,5 +1,6 @@
 import userService from "../services/user.service.js";
 import Exception from "../utils.js";
+import { config } from "../config/config.js";
 
 export default class userController {
   static async get(query = {}) {
@@ -68,16 +69,16 @@ export default class userController {
       const data = {}
       switch (typeFile) {
         case 'Identificacion':
-            Object.assign(data, {documento: file.filename})
+            Object.assign(data, {documento: `${config.BASE_URL}/documents/${file.filename}`})
             break;
         case 'Domicilio':
-          Object.assign(data, {domicilio: file.filename})
+          Object.assign(data, {domicilio: `${config.BASE_URL}/documents/${file.filename}`})
             break;
         case 'Estado de cuenta':
-          Object.assign(data, {cuenta: file.filename})
+          Object.assign(data, {cuenta: `${config.BASE_URL}/documents/${file.filename}`})
             break;
         case 'avatar':
-          Object.assign(data, {avatar: file.filename})
+          Object.assign(data, {avatar: `${config.BASE_URL}/documents/${file.filename}`})
             break;
         default:
           throw new Exception('Documento invalido');

@@ -1,0 +1,67 @@
+03:07:49	Ignacio Coletta:	no no
+03:13:24	[Tutor]Estanislao Valdez:	https://github.com/CoderContenidos/RecursosBackend-Adoptme
+03:16:38	[Tutor]Estanislao Valdez:	paquete npm de mocha:https://www.npmjs.com/package/mocha
+03:17:21	Profesor Coderhouse:	https://mochajs.org/
+03:21:29	Matias Giachello:	profe
+03:21:33	Matias Giachello:	una consulta
+03:21:44	Matias Giachello:	como le aparece el .env ?
+03:22:06	Matias Giachello:	porque a mi no me aparece y no se porque
+03:22:20	Matias Giachello:	no entiendo y me esta perjudicando mucho
+03:22:36	Matias Giachello:	porfa!
+03:22:59	Profesor Coderhouse:	PORT="8080"MONGODB_URI=""
+03:23:24	Matias Giachello:	ahí pruebo gracias
+03:24:08	Ignacio Coletta:	npm i
+03:27:50	Cesar Gaston Petit Martin:	una consulta directamente vas a la capa de dao para el test , no se testea services o controller
+03:28:39	Cesar Gaston Petit Martin:	perfecto gracias
+03:40:50	Nehuen Franco:	object id?
+03:40:51	Ignacio Coletta:	el id?
+03:40:58	[Tutor]Estanislao Valdez:	Reacted to "object id?" with 👌
+03:45:04	Christian Toppetti:	por que no hacer un if?
+03:52:13	Cesar Gaston Petit Martin:	medio se corto
+03:52:14	Christian Toppetti:	si, se corto un segundito cuando explicabas el deepequal
+03:52:15	[Tutor]Estanislao Valdez:	siisis se trabo un poco pero ahora todo bien
+03:52:23	Ignacio Coletta:	si, se escucha
+03:54:07	Cesar Gaston Petit Martin:	va bien
+03:54:13	Ignacio Coletta:	profe
+03:54:18	Ignacio Coletta:	podria subir el repo hasta ahora
+03:54:37	Tomas Rave:	no se puede medir el ok con el tiempo que tarda?
+03:54:40	Ignacio Coletta:	porque lo estaba siguiendo pero me falla
+03:55:26	Tomas Rave:	Si se puede decir si salió ok o no dependiendo a cuanto trde en responder?
+03:55:45	Tomas Rave:	Ahí tira cuanto tardo en ms
+03:56:25	Tomas Rave:	AH gracias
+03:58:38	Profesor Coderhouse:	npx mocha tests/User.test.js
+04:14:02	Ignacio Coletta:	y si usa get y se veririca que sea un array que la longitud sea 1?
+04:16:51	Ignacio Coletta:	tendra que ver que estas cerradno la cnexion?
+04:17:00	Ignacio Coletta:	no dije nada
+04:18:56	[Tutor]Estanislao Valdez:	https://www.npmjs.com/package/chai
+04:21:20	Profesor Coderhouse:	https://www.chaijs.com/
+04:22:57	Luca Rojas Massey:	expect es mas parecido a jest
+04:24:14	Profesor Coderhouse:	https://www.chaijs.com/api/bdd/#method_equal
+04:46:16	Nehuen Franco:	capaz estoy en cualquiera, pero lo que no entiendo es para que hacemos todas estas pruebas por acá, cuando ya las hicimos a mano y durante el desarrollo?No entiendo el fin de probar de nuevo todo, perdón si estoy en cualquiera jaja
+04:47:59	Nehuen Franco:	claro
+05:04:50	Ignacio Coletta:	no no
+05:05:18	[Tutor]Estanislao Valdez:	Buenas noches a todos, nos vemos el jueves!!!!
+05:06:07	Cesar Gaston Petit Martin:	yo también
+05:06:37	Ignacio Coletta:	si si
+05:06:39	Ignacio Coletta:	se escucha
+05:15:28	Ignacio Coletta:	yo no
+05:15:29	Cesar Gaston Petit Martin:	https://github.com/CesarPetit21480/coder_47330.git
+05:15:37	Ignacio Coletta:	tengo otro problema...
+05:26:27	Ignacio Coletta:	pregunto algo
+05:26:30	Ignacio Coletta:	no abrio nunca?
+05:26:36	Ignacio Coletta:	porque yo tuve que cambiar algo en el app
+05:26:45	Ignacio Coletta:	app.js
+05:27:14	Ignacio Coletta:	apis: [path.join(__dirname, '.', 'docs', '**', '*.yaml')],};
+05:27:27	Ignacio Coletta:	las swaggerOptions
+05:27:40	Ignacio Coletta:	porque esta en otra otra carpeta
+05:27:46	Ignacio Coletta:	el dirname
+05:35:46	Cesar Gaston Petit Martin:	nop
+05:36:47	Cesar Gaston Petit Martin:	yo también tengo ese complemento
+05:36:52	Cesar Gaston Petit Martin:	y no me pasa
+05:37:50	Cesar Gaston Petit Martin:	te vas a llenar de repos jajaja
+05:37:55	Cesar Gaston Petit Martin:	te tiramos dos muertos
+05:38:43	Ignacio Coletta:	pohttps://github.com/nachocoletta/CoderHouseClase39-DocumentacionDeApi
+05:38:48	Ignacio Coletta:	https://github.com/nachocoletta/CoderHouseClase39-DocumentacionDeApi
+05:39:55	Diego Chavez:	buenas
+05:40:02	Diego Chavez:	no pasaron asistencia aun ??
+05:44:01	Cesar Gaston Petit Martin:	después te quiero hacer una consulta si podes

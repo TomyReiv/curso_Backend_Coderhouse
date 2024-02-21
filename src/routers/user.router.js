@@ -6,10 +6,8 @@ import {
   passwordValidator,
 } from "../middleware/users.validators.js";
 import passport from "passport";
-import { tokenGenerator } from "../utils.js";
 import { deleteCartUser } from "../middleware/daleteCascade.js";
-import { createHash, isValidPassword } from "../utils.js";
-import { uploader } from "../utils.js";
+import { uploader, jwtAuth, tokenGenerator, createHash, isValidPassword } from "../utils.js";
 
 const router = Router();
 
@@ -159,22 +157,26 @@ router.put("/users/premium/:uid", async (req, res)=>{
   try {
     const { uid } = req.params;
     const data = {'rol': 'premium'}
+
     const docs = await userController.getById(uid);
-    const documento = docs.documents.includes('documento');
-    const domicilio = docs.documents.includes('domicilio');
-    const cuenta = docs.documents.includes('cuenta');
-    if(documento && domicilio && cuenta){
+    const requiredDocs = ['documento', 'domicilio', 'cuenta'];
+    const documents = docs.documents.map(doc => Object.keys(doc)[0]);
+    
+    const allDocumentsExist = requiredDocs.every(doc => documents.includes(doc));
+    
+    if (allDocumentsExist) {
       const user = await userController.updateById(uid, data);
       res.status(201).json({ message: "Bienvenido al servicio premium" });
+    } else {
+      res.status(406).json({ message: "Faltan documentos para ser un usuario premium" });
     }
-    res.status(406).json({ message: "Faltan documentos para ser un usuario premium" });
   } catch (error) {
     req.logger.log('error', error);
     res.status(error.statusCode || 500).json({ message: error.message })
   }
 })
 
-router.post("/users/:uid/documents/:typeFile", uploader.single("file"), async (req, res)=>{
+router.post("/users/:uid/documents/:typeFile",jwtAuth, uploader.single("file"), async (req, res)=>{
   try {
     const { file, params: {uid, typeFile } } = req
     const user = userController.uploadFile(uid, typeFile, file)

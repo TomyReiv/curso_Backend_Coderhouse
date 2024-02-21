@@ -88,9 +88,9 @@ export const tokenGeneratorPass = (user) =>{
 export const jwtAuth = (req, res ,next) =>{
     /* const {authorization: token} = req.headers; */
     const token = req.signedCookies['accessToken'];
-    if(!token) res.status(401).json({message:'Unauthorized'});
+    if(!token) throw new Exception('Unauthorized');
     Jwt.verify(token, config.JwtSecret, async (error, payload)=>{
-        if(error) res.status(403).json({message:'No authorized'});
+        if(error) throw new Exception('No authorized');
         req.user = await userModel.findById(payload.id);
         next();
     })

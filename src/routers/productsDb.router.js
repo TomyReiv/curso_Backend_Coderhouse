@@ -1,11 +1,12 @@
 import { Router } from "express";
+import { uploader } from "../utils.js";
+import productController from "../controllers/product.controller.js";
 import EnumsError from "../utils/EnumsError.js";
 import { CustomError } from "../utils/CustomError.js";
 import { generatorProductError } from "../utils/CauseMessageError.js";
-import productController from "../controllers/product.controller.js";
-import { uploader } from "../utils.js";
 import {deleteProductCart} from "../middleware/daleteCascade.js"
 import { productValidator, validationErrorProduct } from "../middleware/product.validators.js"
+import { config } from "../config/config.js";
 
 const router = Router();
 
@@ -69,7 +70,7 @@ router.post(
       if (req.file) {
         req.body.thumbnail = {
           filename: req.file.filename,
-          path: req.file.path,
+          path:`${config.BASE_URL}/img/${req.file.filename}`,
         };
       }
       //Comentar para pasar los test de product
