@@ -3,6 +3,8 @@ import dotenv from "dotenv";
  dotenv.config();
 
 export const config = {
+  URL:"http://localhost:8080",
+
   NODE_ENV: process.env.NODE_ENV,
   BASE_URL: process.env.BASE_URL,
   PORT: process.env.PORT || 8080,

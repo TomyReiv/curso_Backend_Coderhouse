@@ -6,6 +6,7 @@ import Jwt from "jsonwebtoken";
 import { config } from "../config/config.js";
 
 const router = Router();
+const BASE_URL = config.BASE_URL ||  'http://localhost:8080';
 
 router.post("/pass-recover", async (req, res, next) => {
   try {
@@ -65,7 +66,7 @@ router.post("/pass-recover", async (req, res, next) => {
             <div class="container">
               <h1>Recuperación de Contraseña</h1>
               <p>Haz clic en el siguiente enlace para restablecer tu contraseña:</p>
-              <a class="btn" href="http://localhost:8080/pass-recover/${token}">Restablecer Contraseña</a>
+              <a class="btn" href="${BASE_URL}/pass-recover/${token}">Restablecer Contraseña</a>
               <p>Este enlace expirará en 1 hora.</p>
             </div>
           </body>
@@ -152,7 +153,7 @@ router.post("/activacion", async (req, res, next) => {
             <div class="container">
               <h1>Activacion de cuenta</h1>
               <p>Haz clic en el siguiente enlace para activar su cuenta:</p>
-              <a class="btn" href="http://localhost:8080/activacion/${user.id}">Activar cuenta</a>
+              <a class="btn" href="${BASE_URL}/activacion/${user.id}">Activar cuenta</a>
             </div>
           </body>
           </html>        

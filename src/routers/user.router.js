@@ -13,6 +13,10 @@ const router = Router();
 
 router.get("/users", async (req, res, next) => {
   try {
+    /* const {rol} = req.user
+    if(rol != 'admin'){
+     return res.status(401).json({message:"Unauthorized"});
+    } */
     const { query = {} } = req;
     const user = await userController.get(query);
     res.status(200).json(user);
@@ -74,7 +78,7 @@ router.post(
         .status(200)
         .json(userToken);
     } catch (error) {
-      req.logger.log('error', error);
+      console.log(error);
       res.status(error.statusCode || 500).json({ message: error.message });
     }
   }
@@ -132,10 +136,15 @@ router.put("/users/:uid", passwordValidator, async (req, res, next) => {
   }
 });
 
-router.delete("/users/:uid", deleteCartUser, async (req, res, next) => {
+router.delete("/users/:uid", jwtAuth, deleteCartUser, async (req, res, next) => {
   try {
+    const {rol} = req.user;
+    if(rol != 'admin'){
+      return res.status(401).json({message:"Unauthorized"});
+     }
     const { uid } = req.params;
     const result = await userController.deleteById(uid);
+    
     res.status(200).json(result);
   } catch (error) {
     req.logger.log('error', error);
@@ -153,7 +162,7 @@ router.get("/logout", async (req, res, next) => {
   }
 });
 
-router.put("/users/premium/:uid", async (req, res)=>{
+router.put("/users/premium/:uid", jwtAuth, async (req, res)=>{
   try {
     const { uid } = req.params;
     const data = {'rol': 'premium'}
@@ -176,11 +185,11 @@ router.put("/users/premium/:uid", async (req, res)=>{
   }
 })
 
-router.post("/users/:uid/documents/:typeFile",jwtAuth, uploader.single("file"), async (req, res)=>{
+router.post("/users/:uid/documents/:typeFile", jwtAuth, uploader.single("file"), async (req, res)=>{
   try {
     const { file, params: {uid, typeFile } } = req
     const user = userController.uploadFile(uid, typeFile, file)
-    res.status(204).end()
+    res.status(204).json({ message: "Documento cargado correctamente" });
   } catch (error) {
     res.status(error.statusCode || 500).json({ message: error.message })
   }

@@ -3,7 +3,7 @@ import MongoStore from "connect-mongo";
 import cors from "cors";
 import express from "express";
 import handlebars from "express-handlebars";
-import expressSession from "express-session";
+ import expressSession from "express-session"; 
 import passport from "passport";
 import path from "path";
 import compression from "express-compression";
@@ -21,6 +21,7 @@ import messageRouter from "./routers/message.router.js";
 import productRouter from "./routers/productsDb.router.js";
 import userRouter from "./routers/user.router.js";
 import { __dirname } from "./utils.js";
+import { UserInactiveProcess } from "./utils/daletnactives.js";
 
 const app = express();
 
@@ -43,7 +44,11 @@ app.use(
       ttl: 172800,
     }),
   })
-);
+); 
+
+const userInactiveProcess = new UserInactiveProcess();
+userInactiveProcess.run();
+
 
 const swaggerOption ={
   definition:{

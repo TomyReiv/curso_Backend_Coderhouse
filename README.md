@@ -42,6 +42,6 @@ Puedes interactuar con la API utilizando herramientas como Postman o CURL. La do
 ## Notas Importantes
 
 - **Pruebas Integrales**: Para realizar las pruebas integrales, asegúrate de comentar las líneas señaladas en el código que pueden interferir con las pruebas.
-
+    `//jwtAuth en cada router`
     `//Comentar para pasar los test de product`
     `//fin`
