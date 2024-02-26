@@ -51,7 +51,7 @@ router.post(
     try {
       res.status(200).json({ message: "Usuario creado" });
     } catch (error) {
-      req.logger.log('error', error);
+      console.log(error);
       res.status(error.statusCode || 500).json({ message: error.message });
     }
   }

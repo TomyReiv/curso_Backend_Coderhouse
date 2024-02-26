@@ -45,3 +45,6 @@ Puedes interactuar con la API utilizando herramientas como Postman o CURL. La do
     `//jwtAuth en cada router`
     `//Comentar para pasar los test de product`
     `//fin`
+
+- **Eliminacion de usuarios inactivos**: Los usuarios inactivos se eliminan con la clase UserInactiveProcess que usar la funcion cron de node-cron. Esta programada para activarse cada 5min y elimina los usuarios inactivos despues de dos dias y cuanta con la opcin de prueba para inactivos luego de 5 minutos.
+    `//utils/deleteInactives.js`

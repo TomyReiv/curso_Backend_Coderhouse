@@ -9,7 +9,6 @@ import path from "path";
 import compression from "express-compression";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from  "swagger-ui-express";
-/* import authRouter from "./routers/auth.router.js"; */
 import { addLogger } from "./config/logger.js";
 import { config } from "./config/config.js";
 import { init as initPassport } from "./config/passport.config.js";
@@ -17,7 +16,7 @@ import errorHandler from "./middleware/ErrorHandler.js"
 import emailRouter from "./routers/email.router.js";
 import cartRouter from "./routers/cartsDb.router.js";
 import indexRouter from "./routers/index.router.js";
-import messageRouter from "./routers/message.router.js";
+
 import productRouter from "./routers/productsDb.router.js";
 import userRouter from "./routers/user.router.js";
 import { __dirname } from "./utils.js";
@@ -72,7 +71,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use("/", indexRouter, emailRouter);
-app.use("/api", productRouter, cartRouter, userRouter, messageRouter);
+app.use("/api", productRouter, cartRouter, userRouter);
 
 app.use('/loggerTest', (req, res) => {
   req.logger.log('info', 'Este es un mensaje de información.');
