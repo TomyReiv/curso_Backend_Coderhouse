@@ -69,12 +69,12 @@ export default class ticketController {
       const ticketBody = {
         code,
         purchase_datetime,
-        amoun: totalAmount,
+        amount: totalAmount,
         purchaser,
       };
 
       const ticket = await ticketService.create(ticketBody);
-      return { message: "Compra realizada" };
+      return ticketBody;
     } catch (error) {
       throw new Exception(error.message, error.status);
     }
