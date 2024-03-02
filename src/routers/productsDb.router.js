@@ -12,13 +12,13 @@ import emailService from "../services/email.service.js";
 
 const router = Router();
 
-router.get("/products", jwtAuth, async (req, res, next) => {
+router.get("/products", /* jwtAuth, */ async (req, res, next) => {
   try {
     const { query = {} } = req;
     const product = await productController.get(query);
     res.status(200).json(product);
   } catch (error) {
-    req.logger.log('error', error)
+    console.log(error);
     res.status(error.statusCode || 500).json({ message: error.message });
   }
 });
