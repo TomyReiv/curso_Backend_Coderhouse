@@ -43,7 +43,7 @@
       .then((response) => response.json())
       .then((data) => {
         if (data.title) alert("Producto creado exitosamente");
-         location.reload();
+         /* location.reload(); */
       })
       .catch((error) => {
         console.error("Error al procesar la solicitud:", error);
