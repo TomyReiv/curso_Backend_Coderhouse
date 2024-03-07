@@ -33,6 +33,7 @@ export default class userController {
     try {
       return await userService.findUserByEmail({ email });
     } catch (error) {
+      console.log(error);
       throw new Exception(error.message, error.status);
     }
   }

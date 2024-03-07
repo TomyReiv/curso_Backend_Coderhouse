@@ -115,6 +115,7 @@ router.put("/users/:uid", passwordValidator, async (req, res, next) => {
   try {
     const { uid } = req.params;
     const { body } = req;
+    
     if(body.password){
       const password = createHash(body.password);
 

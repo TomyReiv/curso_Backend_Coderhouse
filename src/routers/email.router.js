@@ -7,6 +7,7 @@ import { config } from "../config/config.js";
 
 const router = Router();
 const BASE_URL = config.BASE_URL ||  'http://localhost:8080';
+const FRONT_URL = config.URLFRONT;
 
 router.post("/pass-recover", async (req, res, next) => {
   try {
@@ -87,7 +88,7 @@ router.get("/pass-recover/:token", async (req, res, next) => {
     Jwt.verify(token, config.JwtSecret_PASS, async (error, payload) => {
       if (error) res.status(403).json({ message: "No authorized" });
       req.user = await userController.findUserByEmail(payload.email);
-      res.redirect(`/newPass/${req.user.id}`);
+      res.redirect(`${FRONT_URL}/pages/newPass/${req.user.id}`);
     });
   } catch (error) {
     req.logger.log('error', error)

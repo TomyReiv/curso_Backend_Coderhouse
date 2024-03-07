@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { uploader, jwtAuth } from "../utils.js";
+import { uploader, jwtAuth, jwtAuthBear } from "../utils.js";
 import productController from "../controllers/product.controller.js";
 import EnumsError from "../utils/EnumsError.js";
 import { CustomError } from "../utils/CustomError.js";
@@ -13,7 +13,7 @@ import { config } from "../config/config.js";
 import userController from "../controllers/user.controller.js";
 import emailService from "../services/email.service.js";
 import Jwt from 'jsonwebtoken';
-import Exception from "../utils.js";
+
 
 const router = Router();
 
@@ -31,8 +31,9 @@ router.get(
   }
 );
 
-router.get("/products/:pid", jwtAuth, async (req, res, next) => {
+router.get("/products/:pid",  async (req, res, next) => {
   try {
+
     const { pid } = req.params;
     const product = await productController.getById({ _id: pid });
     if (!product) {
@@ -204,12 +205,10 @@ router.delete("/products/:pid", /* jwtAuth, */ async (req, res, next) => {
 
     //Envio de email
 
-    const user = await userController.get({ email: product.owner });
-
-    if (user[0].rol === "premium") {
+    if (userData.rol === "premium") {
       const result = await emailService.sendEmail(
-        user[0].email,
-        user[0].username,
+        userData.email,
+        userData.username,
         `
                       <!DOCTYPE html>
                       <html lang="en">

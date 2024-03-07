@@ -4,7 +4,7 @@ import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 import GithubStrategy from "passport-github2";
 import { createHash, isValidPassword } from "../utils.js";
 import fetch from "node-fetch";
-
+import Exception from "../utils.js";
 import { config } from "./config.js";
 
 import userModel from "../models/user.model.js";
@@ -87,15 +87,16 @@ export const init = () => {
     "login",
     new LocalStrategy(opts, async (req, email, password, done) => {
       try {
+        
         const user = await userModel.findOne({ email });
-
+        
         if (!user) {
-          return done(new Error("Usuario o contraseña invalidos"));
+          return done(new Exception("Usuario o contraseña invalidos"));
         }
         const passwordMatch = isValidPassword(password, user);
 
         if (!passwordMatch) {
-          return done(new Error("Usuario o contraseña invalidos"));
+          return done(new Exception("Usuario o contraseña invalidos"));
         }
 
 /*         if(user.status !== 'active'){
@@ -104,7 +105,7 @@ export const init = () => {
 
         done(null, user);
       } catch (error) {
-        console.log(error);
+        return done(new Exception("Usuario o contraseña invalidos"));
       }
     })
   );

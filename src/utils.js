@@ -96,6 +96,34 @@ export const jwtAuth = (req, res ,next) =>{
     })
 }
 
+export const jwtAuthBear = (req, res, next) => {
+    const token = req.headers.authorization && req.headers.authorization.split(' ')[1]; 
+    
+    if (!token) {
+        return res.status(401).json({ error: 'Unauthorized' }); 
+    }
+
+    Jwt.verify(token, config.JwtSecret, async (error, payload) => {
+        if (error) {
+            console.log(error);
+            return res.status(401).json({ error: 'No authorized' });
+        }
+        
+        try {
+            console.log(payload);
+            const user = await userModel.findById(payload.id);
+            if (!user) {
+                return res.status(401).json({ error: 'User not found' });
+            }
+            req.user = user;
+            next();
+        } catch (err) {
+            console.error('Error fetching user:', err);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+    });
+};
+
 export const generateProduct = () => {
     return {
         title: faker.commerce.productName(),

@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 
 export const config = {
   URL:"http://localhost:8080",
-
+  URLFRONT:"http://localhost:4200",
   NODE_ENV: process.env.NODE_ENV,
   BASE_URL: process.env.BASE_URL,
   PORT: process.env.PORT || 8080,
