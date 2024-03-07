@@ -84,32 +84,6 @@ router.post(
   }
 );
 
-router.get(
-  "/users/github",
-  passport.authenticate("github", { scope: ["user:email"] })
-);
-
-router.get(
-  "/users/github/cb",
-  passport.authenticate("github", { failureRedirect: "/login" }),
-  async (req, res, next) => {
-    try {
-      const { _id, username, lastname, email } = req.user;
-      const token = tokenGenerator(req.user);
-      await userController.updateById(_id, { last_connection: new Date() })
-      res
-        .cookie("accessToken", token, {
-          maxAge: (60 * 60 * 24),
-          httpOnly: true,
-          signed: true,
-        })
-        .redirect("/");
-    } catch (error) {
-      req.logger.log('error', error);
-      res.status(error.statusCode || 500).json({ message: error.message });
-    }
-  }
-);
 
 router.put("/users/:uid", passwordValidator, async (req, res, next) => {
   try {
