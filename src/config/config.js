@@ -20,5 +20,9 @@ export const config = {
   clientSecret: process.env.clientSecret,
   //coneccion con gmail
   GMAIL_USER: process.env.GMAIL_USER,
-  GMAIL_PASS: process.env.GMAIL_PASS
+  GMAIL_PASS: process.env.GMAIL_PASS,
+  //cloudinary
+  CLOUD_API_KEY: process.env.cloud_api_key,
+  CLOUD_API_SECRET: process.env.cloud_secret,
+  CLOUD_NAME: process.env.cloud_name
 };

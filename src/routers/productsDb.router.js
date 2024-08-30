@@ -12,8 +12,8 @@ import {
 import { config } from "../config/config.js";
 import userController from "../controllers/user.controller.js";
 import emailService from "../services/email.service.js";
-import Jwt from 'jsonwebtoken';
-
+import Jwt from "jsonwebtoken";
+import { cloudinary } from "../config/cloudinary.js"
 
 const router = Router();
 
@@ -31,9 +31,8 @@ router.get(
   }
 );
 
-router.get("/products/:pid",  async (req, res, next) => {
+router.get("/products/:pid", async (req, res, next) => {
   try {
-
     const { pid } = req.params;
     const product = await productController.getById({ _id: pid });
     if (!product) {
@@ -53,15 +52,14 @@ router.post(
   validationErrorProduct,
   async (req, res, next) => {
     try {
-      
-      if(req.user){
+      if (req.user) {
         const { rol } = req.user;
-      
-      if (rol === "user") {
-        return res.status(401).json({ message: "Unauthorized" });
+
+        if (rol === "user") {
+          return res.status(401).json({ message: "Unauthorized" });
+        }
       }
-      }
-      
+
       const {
         title,
         description,
@@ -88,24 +86,30 @@ router.post(
         });
       }
 
-      if (req.file) {
-        req.body.thumbnail = {
-          filename: req.file.filename,
-          path: `${config.BASE_URL}/img/${req.file.filename}`,
-        };
+      const image = req.file;
+      if (image) {
+        const res = await cloudinary.uploader.upload(image.path);
+        if (res) {
+          const local = `${image.destination}/${image.filename}`;
+          req.body.thumbnail =  {
+            filename: `${image.destination}/${image.filename}`,
+            path: res.secure_url,
+          };
+          await unlink(local);
+        }
       }
 
-      if (req.body.file) {
+/*       if (req.body.file) {
         req.body.thumbnail = {
           filename: req.body.file,
           path: `${config.BASE_URL}/img/${req.body.file}`,
         };
-      }
+      } */
       //Comentar para pasar los test de product
-      if(req.user){
+      if (req.user) {
         req.body.owner = req.user.email || "admin";
       }
-      
+
       //fin
       const result = await productController.createProduct(req.body);
 
@@ -117,99 +121,115 @@ router.post(
   }
 );
 
-router.put("/products/:pid", uploader.single("file"),/* jwtAuth, */ async (req, res, next) => {
-  try {
-    const { pid } = req.params;
-    const { body } = req;
-    let rolUser;
-    //Comentar para pasar los test de product
-    if(req.user){
-      const { rol } = req.user;
-      rolUser = rol;
-    }else{
-      const userOwner = await productController.getById(pid);
-      const userData = await userController.findUserByEmail(userOwner.owner);
-      rolUser = userData.rol;
-    }
-   
-    
-    if (rolUser === "premium") {
-      const { email } = req.user;
-      const product = await productController.getById(pid);
-      if (product.owner !== email) {
-        return res
-          .status(403)
-          .json({ message: "Solo el dueño puede modificar este preducto" });
+router.put(
+  "/products/:pid",
+  uploader.single("file"),
+  /* jwtAuth, */ async (req, res, next) => {
+    try {
+      const { pid } = req.params;
+      const { body } = req;
+      let rolUser;
+      //Comentar para pasar los test de product
+      if (req.user) {
+        const { rol } = req.user;
+        rolUser = rol;
+      } else {
+        const userOwner = await productController.getById(pid);
+        const userData = await userController.findUserByEmail(userOwner.owner);
+        rolUser = userData.rol;
       }
-    }
-    //fin
 
-    if (req.file) {
-      req.body.thumbnail = {
-        filename: req.file.filename,
-        path: `${config.BASE_URL}/img/${req.file.filename}`,
-      };
-    }
+      if (rolUser === "premium") {
+        const { email } = req.user;
+        const product = await productController.getById(pid);
+        if (product.owner !== email) {
+          return res
+            .status(403)
+            .json({ message: "Solo el dueño puede modificar este preducto" });
+        }
+      }
+      //fin
+      const image = req.file;
+      if (image) {
+        const res = await cloudinary.uploader.upload(image.path);
+        if (res) {
+          const local = `${image.destination}/${image.filename}`;
+          req.body.thumbnail =  {
+            filename: `${image.destination}/${image.filename}`,
+            path: res.secure_url,
+          };
+          await unlink(local);
+        }
+      }
+      /* if (req.file) {
+        req.body.thumbnail = {
+          filename: req.file.filename,
+          path: `${config.BASE_URL}/img/${req.file.filename}`,
+        };
+      }
 
-    if (req.body.file) {
-      req.body.thumbnail = {
-        filename: req.body.file,
-        path: `${config.BASE_URL}/img/${req.body.file}`,
-      };
-    }
+      if (req.body.file) {
+        req.body.thumbnail = {
+          filename: req.body.file,
+          path: `${config.BASE_URL}/img/${req.body.file}`,
+        };
+      } */
 
-    const result = await productController.updateById(pid, body);
-    res.status(201).json({ message: "Producto modificado correctamente" });
-  } catch (error) {
-    console.log(error);
-    res.status(error.statusCode || 500).json({ message: error.message });
+      const result = await productController.updateById(pid, body);
+      res.status(201).json({ message: "Producto modificado correctamente" });
+    } catch (error) {
+      console.log(error);
+      res.status(error.statusCode || 500).json({ message: error.message });
+    }
   }
-});
+);
 
-router.delete("/products/:pid", /* jwtAuth, */ async (req, res, next) => {
-  try {
-    const { pid } = req.params;
-    //Comentar para pasar los test de product
+router.delete(
+  "/products/:pid",
+  /* jwtAuth, */ async (req, res, next) => {
+    try {
+      const { pid } = req.params;
+      //Comentar para pasar los test de product
 
-    let rolUser;
-    let emailUser;
+      let rolUser;
+      let emailUser;
 
-    if(req.user){
-      const { rol, email } = req.user;
-      rolUser = rol;
-      emailUser = email;
-    }else{
-      const userOwner = await productController.getById(pid);
-      const userData = await userController.findUserByEmail(userOwner.owner);
-      rolUser = userData.rol;
-      emailUser = userData.email;
-    }
-   
-    const product = await productController.getById(pid);
-
-    if (rolUser === "user") {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
-
-    if (rolUser === "premium") {
-      if (product.owner != emailUser) {
-        return res
-          .status(403)
-          .json({ message: "Solo el dueño puede borrar este preducto" });
+      if (req.user) {
+        const { rol, email } = req.user;
+        rolUser = rol;
+        emailUser = email;
+      } else {
+        const userOwner = await productController.getById(pid);
+        const userData = await userController.findUserByEmail(userOwner.owner);
+        rolUser = userData.rol;
+        emailUser = userData.email;
       }
-    }
 
-    //fin
-    await productController.deleteById(pid);
-    await deleteProductCart(pid);
+      const product = await productController.getById(pid);
 
-    //Envio de email
+      if (rolUser === "user") {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
 
-    if (userData.rol === "premium") {
-      const result = await emailService.sendEmail(
-        userData.email,
-        userData.username,
-        `
+      if (rolUser === "premium") {
+        if (product.owner != emailUser) {
+          return res
+            .status(403)
+            .json({ message: "Solo el dueño puede borrar este preducto" });
+        }
+      }
+
+      //fin
+      await productController.deleteById(pid);
+      await deleteProductCart(pid);
+
+      //Envio de email
+
+      if (userData.rol === "premium") {
+        const result = await emailService.sendEmail(
+          userData.email,
+          userData.username,
+          `
                       <!DOCTYPE html>
                       <html lang="en">
                       <head>
@@ -261,15 +281,16 @@ router.delete("/products/:pid", /* jwtAuth, */ async (req, res, next) => {
                       </body>
                       </html>        
                       `
-      );
+        );
+      }
+      res.status(200).json({ message: "Producto eliminado correctamente" });
+    } catch (error) {
+      console.log(error);
+      req.logger.log("error", error);
+      res.status(error.statusCode || 500).json({ message: error.message });
     }
-    res.status(200).json({ message: "Producto eliminado correctamente" });
-  } catch (error) {
-    console.log(error);
-    req.logger.log("error", error);
-    res.status(error.statusCode || 500).json({ message: error.message });
   }
-});
+);
 
 router.get("/mockingproducts", jwtAuth, async (req, res, next) => {
   const product = [];
