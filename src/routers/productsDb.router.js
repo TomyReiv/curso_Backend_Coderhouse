@@ -13,7 +13,7 @@ import { config } from "../config/config.js";
 import userController from "../controllers/user.controller.js";
 import emailService from "../services/email.service.js";
 import Jwt from "jsonwebtoken";
-import { cloudinary } from "../config/cloudinary.js"
+import cloudinary  from "../config/cloudinary.js"
 
 const router = Router();
 
